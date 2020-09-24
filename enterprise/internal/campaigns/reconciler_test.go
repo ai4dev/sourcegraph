@@ -184,11 +184,10 @@ func TestReconcilerProcess(t *testing.T) {
 				body:  "old body",
 			},
 			changeset: testChangesetOpts{
-				publicationState:  campaigns.ChangesetPublicationStatePublished,
-				externalID:        "12345",
-				externalBranch:    "head-ref-on-github",
-				createdByCampaign: true,
-				ownedByCampaign:   campaign.ID,
+				publicationState: campaigns.ChangesetPublicationStatePublished,
+				externalID:       "12345",
+				externalBranch:   "head-ref-on-github",
+				ownedByCampaign:  campaign.ID,
 			},
 			sourcerMetadata: githubPR,
 
@@ -223,12 +222,11 @@ func TestReconcilerProcess(t *testing.T) {
 				body:  "old body",
 			},
 			changeset: testChangesetOpts{
-				publicationState:  campaigns.ChangesetPublicationStatePublished,
-				externalID:        githubPR.ID,
-				externalBranch:    githubPR.HeadRefName,
-				externalState:     campaigns.ChangesetExternalStateOpen,
-				createdByCampaign: true,
-				ownedByCampaign:   campaign.ID,
+				publicationState: campaigns.ChangesetPublicationStatePublished,
+				externalID:       githubPR.ID,
+				externalBranch:   githubPR.HeadRefName,
+				externalState:    campaigns.ChangesetExternalStateOpen,
+				ownedByCampaign:  campaign.ID,
 				// Previous update failed:
 				failureMessage: "failed to update changeset metadata",
 			},
@@ -265,12 +263,11 @@ func TestReconcilerProcess(t *testing.T) {
 				commitMessage: "old message",
 			},
 			changeset: testChangesetOpts{
-				publicationState:  campaigns.ChangesetPublicationStatePublished,
-				externalID:        "12345",
-				externalBranch:    "head-ref-on-github",
-				externalState:     campaigns.ChangesetExternalStateOpen,
-				createdByCampaign: true,
-				ownedByCampaign:   campaign.ID,
+				publicationState: campaigns.ChangesetPublicationStatePublished,
+				externalID:       "12345",
+				externalBranch:   "head-ref-on-github",
+				externalState:    campaigns.ChangesetExternalStateOpen,
+				ownedByCampaign:  campaign.ID,
 			},
 			sourcerMetadata: githubPR,
 
@@ -303,12 +300,11 @@ func TestReconcilerProcess(t *testing.T) {
 				commitMessage: "old message",
 			},
 			changeset: testChangesetOpts{
-				publicationState:  campaigns.ChangesetPublicationStatePublished,
-				externalID:        "12345",
-				externalBranch:    "head-ref-on-github",
-				externalState:     campaigns.ChangesetExternalStateOpen,
-				createdByCampaign: true,
-				ownedByCampaign:   campaign.ID,
+				publicationState: campaigns.ChangesetPublicationStatePublished,
+				externalID:       "12345",
+				externalBranch:   "head-ref-on-github",
+				externalState:    campaigns.ChangesetExternalStateOpen,
+				ownedByCampaign:  campaign.ID,
 
 				// Previous update failed:
 				failureMessage: "failed to update changeset commit",
@@ -346,12 +342,11 @@ func TestReconcilerProcess(t *testing.T) {
 				commitAuthorEmail: "larry@winamp.com",
 			},
 			changeset: testChangesetOpts{
-				publicationState:  campaigns.ChangesetPublicationStatePublished,
-				externalID:        "12345",
-				externalBranch:    "head-ref-on-github",
-				externalState:     campaigns.ChangesetExternalStateOpen,
-				createdByCampaign: true,
-				ownedByCampaign:   campaign.ID,
+				publicationState: campaigns.ChangesetPublicationStatePublished,
+				externalID:       "12345",
+				externalBranch:   "head-ref-on-github",
+				externalState:    campaigns.ChangesetExternalStateOpen,
+				ownedByCampaign:  campaign.ID,
 			},
 			sourcerMetadata: githubPR,
 
@@ -380,11 +375,10 @@ func TestReconcilerProcess(t *testing.T) {
 				body:  "body",
 			},
 			changeset: testChangesetOpts{
-				publicationState:  campaigns.ChangesetPublicationStatePublished,
-				externalID:        githubPR.ID,
-				externalBranch:    githubPR.HeadRefName,
-				externalState:     campaigns.ChangesetExternalStateOpen,
-				createdByCampaign: true,
+				publicationState: campaigns.ChangesetPublicationStatePublished,
+				externalID:       githubPR.ID,
+				externalBranch:   githubPR.HeadRefName,
+				externalState:    campaigns.ChangesetExternalStateOpen,
 			},
 			sourcerMetadata: githubPR,
 
@@ -710,8 +704,7 @@ type testChangesetOpts struct {
 	failureMessage  string
 	numFailures     int64
 
-	createdByCampaign bool
-	ownedByCampaign   int64
+	ownedByCampaign int64
 
 	unsynced bool
 	closing  bool
@@ -741,7 +734,6 @@ func createChangeset(
 
 		PublicationState: opts.publicationState,
 
-		CreatedByCampaign: opts.createdByCampaign,
 		OwnedByCampaignID: opts.ownedByCampaign,
 
 		Unsynced: opts.unsynced,

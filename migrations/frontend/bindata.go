@@ -74,6 +74,8 @@
 // 1528395719_migration_sql.up.sql (53B)
 // 1528395720_drop_repo_sources_column.down.sql (574B)
 // 1528395720_drop_repo_sources_column.up.sql (196B)
+// 1528395721_merge_created_owned_by_campaign.down.sql (117B)
+// 1528395721_merge_created_owned_by_campaign.up.sql (83B)
 
 package migrations
 
@@ -1622,6 +1624,46 @@ func _1528395720_drop_repo_sources_columnUpSql() (*asset, error) {
 	return a, nil
 }
 
+var __1528395721_merge_created_owned_by_campaignDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x1c\xcb\x41\xaa\x83\x30\x10\x06\xe0\x7d\x4e\xf1\xdf\xc3\x55\xd4\xf8\x08\x4c\x12\x78\x4e\xa0\x3b\x19\xd3\xa9\x2d\xd8\x58\x1a\x37\xbd\x7d\xa1\x07\xf8\x7a\xf7\xe7\x63\x67\x8c\x25\x76\xff\x60\xdb\x93\x43\xb9\x4b\xdd\xb4\xe9\xd9\x60\xc7\x11\x43\xa2\x1c\x22\xfc\x84\x98\x18\xee\xe2\x67\x9e\x51\xde\x2a\xa7\x5e\x97\xf5\xb3\x14\x79\xbe\xe4\xb1\x55\xac\xc7\xb1\xab\x54\x8c\x6e\xb2\x99\x18\x37\xd9\x9b\xfe\x50\xcc\x44\x9d\x31\x43\x0a\xc1\x73\x67\xbe\x01\x00\x00\xff\xff\x12\x20\xe1\xcf\x75\x00\x00\x00")
+
+func _1528395721_merge_created_owned_by_campaignDownSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__1528395721_merge_created_owned_by_campaignDownSql,
+		"1528395721_merge_created_owned_by_campaign.down.sql",
+	)
+}
+
+func _1528395721_merge_created_owned_by_campaignDownSql() (*asset, error) {
+	bytes, err := _1528395721_merge_created_owned_by_campaignDownSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "1528395721_merge_created_owned_by_campaign.down.sql", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x44, 0xbf, 0x9d, 0xc4, 0xba, 0x8e, 0xa9, 0x10, 0xa1, 0x65, 0x2, 0x92, 0xfa, 0xae, 0xd0, 0xa7, 0x38, 0xbe, 0x55, 0x75, 0xa7, 0x8f, 0x3f, 0x65, 0x35, 0x9d, 0xb0, 0x12, 0xb6, 0x2, 0x8d, 0x1f}}
+	return a, nil
+}
+
+var __1528395721_merge_created_owned_by_campaignUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\x72\x75\xf7\xf4\xb3\xe6\xe2\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x48\xce\x48\xcc\x4b\x4f\x2d\x4e\x2d\x29\x56\x70\x09\xf2\x0f\x50\x70\xf6\xf7\x09\xf5\xf5\x53\xf0\x74\x53\x70\x8d\xf0\x0c\x0e\x09\x56\x48\x2e\x4a\x4d\x2c\x49\x4d\x89\x4f\xaa\x8c\x4f\x4e\xcc\x2d\x48\xcc\x4c\xcf\xb3\xe6\xe2\x72\xf6\xf7\xf5\xf5\x0c\xb1\xe6\x02\x04\x00\x00\xff\xff\x6b\x45\x9b\x81\x53\x00\x00\x00")
+
+func _1528395721_merge_created_owned_by_campaignUpSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__1528395721_merge_created_owned_by_campaignUpSql,
+		"1528395721_merge_created_owned_by_campaign.up.sql",
+	)
+}
+
+func _1528395721_merge_created_owned_by_campaignUpSql() (*asset, error) {
+	bytes, err := _1528395721_merge_created_owned_by_campaignUpSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "1528395721_merge_created_owned_by_campaign.up.sql", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xf, 0xd3, 0x48, 0x98, 0x65, 0x91, 0xa8, 0x61, 0x81, 0xbb, 0x8a, 0x7a, 0xe9, 0xcd, 0xf1, 0x62, 0xd1, 0xf2, 0x8, 0xa5, 0x9c, 0x43, 0x2, 0xc6, 0x14, 0x97, 0x7a, 0x41, 0x5e, 0x58, 0xfe, 0xd8}}
+	return a, nil
+}
+
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -1787,6 +1829,8 @@ var _bindata = map[string]func() (*asset, error){
 	"1528395719_migration_sql.up.sql":                                              _1528395719_migration_sqlUpSql,
 	"1528395720_drop_repo_sources_column.down.sql":                                 _1528395720_drop_repo_sources_columnDownSql,
 	"1528395720_drop_repo_sources_column.up.sql":                                   _1528395720_drop_repo_sources_columnUpSql,
+	"1528395721_merge_created_owned_by_campaign.down.sql":                          _1528395721_merge_created_owned_by_campaignDownSql,
+	"1528395721_merge_created_owned_by_campaign.up.sql":                            _1528395721_merge_created_owned_by_campaignUpSql,
 }
 
 // AssetDebug is true if the assets were built with the debug flag enabled.
@@ -1907,6 +1951,8 @@ var _bintree = &bintree{nil, map[string]*bintree{
 	"1528395719_migration_sql.up.sql":                                              {_1528395719_migration_sqlUpSql, map[string]*bintree{}},
 	"1528395720_drop_repo_sources_column.down.sql":                                 {_1528395720_drop_repo_sources_columnDownSql, map[string]*bintree{}},
 	"1528395720_drop_repo_sources_column.up.sql":                                   {_1528395720_drop_repo_sources_columnUpSql, map[string]*bintree{}},
+	"1528395721_merge_created_owned_by_campaign.down.sql":                          {_1528395721_merge_created_owned_by_campaignDownSql, map[string]*bintree{}},
+	"1528395721_merge_created_owned_by_campaign.up.sql":                            {_1528395721_merge_created_owned_by_campaignUpSql, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory.
