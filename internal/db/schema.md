@@ -434,6 +434,8 @@ Triggers:
  num_failures        | integer                  | not null default 0
 Foreign-key constraints:
     "external_services_id_fk" FOREIGN KEY (external_service_id) REFERENCES external_services(id)
+Triggers:
+    trig_delete_completed_external_service_sync_jobs AFTER UPDATE OF state ON external_service_sync_jobs FOR EACH ROW EXECUTE PROCEDURE delete_completed_external_service_sync_jobs()
 
 ```
 
