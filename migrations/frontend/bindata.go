@@ -74,8 +74,8 @@
 // 1528395719_migration_sql.up.sql (53B)
 // 1528395720_drop_repo_sources_column.down.sql (574B)
 // 1528395720_drop_repo_sources_column.up.sql (196B)
-// 1528395721_add_trigger_to_delete_completed_external_service_sync_jobs.down.sql (192B)
-// 1528395721_add_trigger_to_delete_completed_external_service_sync_jobs.up.sql (1.348kB)
+// 1528395721_add_function_delete_old_external_service_sync_jobs.down.sql (96B)
+// 1528395721_add_function_delete_old_external_service_sync_jobs.up.sql (974B)
 
 package migrations
 
@@ -1624,43 +1624,43 @@ func _1528395720_drop_repo_sources_columnUpSql() (*asset, error) {
 	return a, nil
 }
 
-var __1528395721_add_trigger_to_delete_completed_external_service_sync_jobsDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\x72\x75\xf7\xf4\xb3\xe6\xe2\x72\x09\xf2\x0f\x50\x08\x09\xf2\x74\x77\x77\x0d\x52\xf0\x74\x53\x70\x8d\xf0\x0c\x0e\x09\x56\x28\x29\xca\x4c\x8f\x4f\x49\xcd\x49\x2d\x49\x8d\x4f\xce\xcf\x2d\x00\x31\x52\xe2\x53\x2b\x4a\x52\x8b\xf2\x12\x73\xe2\x8b\x53\x8b\xca\x32\x93\x53\xe3\x8b\x2b\xf3\x92\xe3\xb3\xf2\x93\x8a\x15\xfc\xfd\x14\x70\xcb\xc2\xec\x71\x0b\xf5\x73\x0e\xf1\xf4\xf7\x43\xb2\x88\x04\x3b\x34\x34\xad\xb9\xb8\x9c\xfd\x7d\x7d\x3d\x43\xac\xb9\x00\x01\x00\x00\xff\xff\xf7\x17\x87\x58\xc0\x00\x00\x00")
+var __1528395721_add_function_delete_old_external_service_sync_jobsDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x04\xc0\xbd\x0a\xc2\x30\x10\x07\xf0\xfd\x9e\xe2\x46\x7d\x86\x6c\xd6\x54\x6e\x68\x22\xf6\x84\x6e\x47\x3f\xfe\x83\x25\x34\x90\x04\xd1\xb7\xef\xef\xe6\x1f\x12\x1c\xd1\xfd\x15\x9f\xdc\xbf\x43\xa7\x12\x03\x4b\xcf\x7e\x92\x51\x47\xde\x90\xd0\x60\x39\x6d\x86\x5f\x43\x39\xe6\x64\x15\xe5\xfb\x59\x61\xf5\x7f\xac\xb6\xe7\xa5\x5e\xf6\xbc\x58\x6d\x73\x03\xab\x9f\xf4\xea\x88\xba\x38\x0c\xa2\x8e\xce\x00\x00\x00\xff\xff\xd3\xce\xf1\xa9\x60\x00\x00\x00")
 
-func _1528395721_add_trigger_to_delete_completed_external_service_sync_jobsDownSqlBytes() ([]byte, error) {
+func _1528395721_add_function_delete_old_external_service_sync_jobsDownSqlBytes() ([]byte, error) {
 	return bindataRead(
-		__1528395721_add_trigger_to_delete_completed_external_service_sync_jobsDownSql,
-		"1528395721_add_trigger_to_delete_completed_external_service_sync_jobs.down.sql",
+		__1528395721_add_function_delete_old_external_service_sync_jobsDownSql,
+		"1528395721_add_function_delete_old_external_service_sync_jobs.down.sql",
 	)
 }
 
-func _1528395721_add_trigger_to_delete_completed_external_service_sync_jobsDownSql() (*asset, error) {
-	bytes, err := _1528395721_add_trigger_to_delete_completed_external_service_sync_jobsDownSqlBytes()
+func _1528395721_add_function_delete_old_external_service_sync_jobsDownSql() (*asset, error) {
+	bytes, err := _1528395721_add_function_delete_old_external_service_sync_jobsDownSqlBytes()
 	if err != nil {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "1528395721_add_trigger_to_delete_completed_external_service_sync_jobs.down.sql", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
-	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x9b, 0xbd, 0xdf, 0x56, 0xdd, 0xf0, 0x85, 0xf7, 0x4b, 0xb5, 0x69, 0xe4, 0x1c, 0xe, 0x2b, 0xfb, 0x17, 0x3, 0xc3, 0xa6, 0x54, 0x64, 0xb4, 0x17, 0xf8, 0x94, 0x25, 0x2c, 0x22, 0x15, 0x29, 0x58}}
+	info := bindataFileInfo{name: "1528395721_add_function_delete_old_external_service_sync_jobs.down.sql", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xd, 0x39, 0x34, 0x85, 0xdf, 0x81, 0x5d, 0xd4, 0x6, 0xbb, 0xfd, 0x28, 0x5c, 0x97, 0xca, 0x59, 0x3f, 0xb2, 0xef, 0xb1, 0xff, 0x67, 0x8b, 0xcb, 0x14, 0x79, 0xdb, 0x8e, 0x5d, 0x3d, 0x14, 0x8a}}
 	return a, nil
 }
 
-var __1528395721_add_trigger_to_delete_completed_external_service_sync_jobsUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x94\x54\x51\x6f\xda\x3c\x14\x7d\xcf\xaf\x38\x0f\x48\x85\x4f\x1f\x95\xfa\x8c\x36\x29\x4d\x2e\x34\x1a\x4d\x2a\x93\xac\xdb\x53\x14\x92\x0b\x64\x0d\x71\x6a\x9b\xb5\xfd\xf7\x93\x4d\xcb\xda\x12\xb6\xd5\x4f\xe6\xe2\x73\xce\x3d\x37\xc7\xbe\xa4\x59\x14\x4f\x3c\x6f\x3c\x46\xc8\x0d\x1b\x46\x29\xb7\x9d\xdd\x54\x28\xda\x0a\xac\x94\x54\x5c\x41\x3f\xb5\x25\x7e\xc8\xa5\x06\x3f\x96\xdc\x19\x98\x0d\x63\x2b\xb5\x81\xe2\x92\x5b\x03\xd9\xb2\x25\x59\x49\x05\x2e\xca\x0d\xf8\xd1\xb0\x6a\x8b\x06\x9a\xd5\xcf\xba\xe4\x73\x2f\x10\xe4\xa7\x84\x69\x16\x07\x69\x94\xc4\xa8\x9c\x5e\x7e\xd0\xcb\x5f\x20\xf9\x33\x24\xb7\xa2\xb9\x15\x1d\x8e\x20\x28\xcd\x44\xbc\x80\x51\xf5\x7a\xcd\xca\x03\x80\xb9\x1f\xcf\x32\x7f\x46\xe8\x9a\x6e\xad\xef\x1b\x57\xf4\x17\x18\x0c\xdc\xce\x79\x73\x3b\xbb\xa2\x29\x86\x31\xdd\x9e\x6b\x53\x18\xc6\x27\x9c\x1d\x84\xcf\x90\x08\xbc\xf9\xeb\xd9\xf5\xd9\x08\xe9\x15\xfd\xa6\x00\x10\xd2\x9c\xac\x09\x91\x5c\xe3\x74\xbf\xb8\xbd\x22\x41\xa8\x2b\x44\x31\x86\xaf\xf1\x6e\x8d\xc7\x30\x9b\x5a\x43\xef\x96\xf7\x3b\x56\x4f\xd0\xdc\x70\x69\x34\x8a\xa6\x81\x92\x0f\x6f\x86\x6c\x64\x87\x8b\x3e\x8a\xc3\xa8\xd7\x4a\xee\x3a\xc8\xd5\xd1\xcc\xf5\x79\x1f\x2e\x32\x7b\xc4\x2b\xb9\xe5\xd3\xb1\x99\xba\xfa\xbf\x0f\xad\x8a\xf6\x4e\xdb\xc6\xb6\x58\x29\xb9\xc5\x05\x8c\x74\x7d\xb6\xbb\xed\x92\x95\x6d\xc3\x51\x3e\xd4\x66\xe3\xea\xba\xd8\xf2\x3f\xb3\x9b\x0d\xb7\xd0\x77\x75\xe7\x24\xb0\xaa\x95\x76\xd1\x7a\x67\xf6\x08\xba\xa0\x39\x05\xa9\x1d\xb8\xfb\x32\xc7\x23\x7f\x75\xe8\xbf\x63\x65\xbb\xac\xb1\xe1\x08\xc9\x57\x12\x27\xf0\x76\xdd\xf8\x22\x8d\x5c\x7c\x2f\xbf\xf7\xb9\x3a\x09\x4c\x44\x48\xc2\x82\x56\x75\x5b\xeb\x0d\x57\x79\x61\x10\xd2\x22\xe8\x45\x8c\x7a\xab\x7f\x49\x5d\x2f\x66\x9f\xc4\x97\x64\x1f\x52\x7e\x74\x76\xe4\x06\xc0\x55\x3f\xd3\x9e\x45\xf8\xf1\x17\x7c\x7e\x97\xc6\xd1\xe4\xf0\x93\xe2\x10\xd1\x74\xe2\x1d\x0a\xfb\x4b\x8b\x38\x9b\xcf\xf7\xa7\x28\x0e\x27\xde\x60\x30\xf1\x5e\x5e\x83\x54\x44\xb3\x19\x09\x77\xad\xf3\x0f\xbc\x08\xf0\xa7\x29\x09\x64\x37\xa1\x65\x49\xa6\xcf\x0e\x93\xf8\x4f\xb7\x72\x9a\x08\x90\x1f\x5c\x41\x24\xb7\xa0\x6f\x14\x64\x29\xe1\x46\x24\x01\x85\x99\xa0\x8f\x3d\x48\xd6\x42\x72\x7d\x1d\xa5\x13\xef\x57\x00\x00\x00\xff\xff\x02\x1f\x1c\x2a\x44\x05\x00\x00")
+var __1528395721_add_function_delete_old_external_service_sync_jobsUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x8c\x53\x4d\x6f\x9b\x40\x10\xbd\xf3\x2b\xde\xc1\x07\xbb\x8a\x23\xe5\x8c\x5a\x89\xc0\xd6\x45\xb5\xa1\x5a\x70\xda\x9e\x10\x1f\x43\x20\x01\x96\xec\xae\x9b\xf8\xdf\x57\xbb\x6e\x2d\xdb\xb8\x6a\xe6\x34\x1a\xde\x9b\x8f\xc7\xdb\x7b\xb6\x0a\x23\xd7\x71\x96\x4b\x04\xd4\x91\x26\x88\xae\x82\xda\x0f\x25\x9e\x44\xa1\x40\x6f\x25\x8d\x1a\xba\x21\xf4\x42\x69\x48\x2a\x69\xd0\x10\x03\xa1\x16\x12\x94\x97\x0d\xe8\x4d\x93\x1c\xf2\x0e\x8a\xe4\xaf\xb6\xa4\x5b\xc7\xe7\xcc\x4b\x19\x3e\x6f\x23\x3f\x0d\xe3\x08\x95\x6d\x9d\x89\xae\xca\xfe\x82\xb3\x3f\xe0\xcc\xcc\xca\xcc\xac\xf9\x93\x28\x32\xa5\x73\x4d\x48\xd9\x8f\x74\x01\xce\xd2\x2d\x8f\x12\x3c\xc4\x61\xe0\x00\xc0\xda\x8b\x56\x5b\x6f\xc5\x30\x76\xe3\xa3\x7a\xe9\x6c\xd1\x4b\x30\x9b\xd9\xcc\xde\x62\x33\x13\x01\x5b\x33\xb3\x03\x8f\x37\xf8\xf7\x50\x7c\xff\xc2\x38\x43\x5b\x21\x8c\x30\x3f\x92\x4d\x2c\x97\xd0\x4d\xab\xa0\x76\xc5\xcb\x8e\xe4\x1e\x8a\x3a\x2a\xb5\x42\xde\x75\x90\xe2\xf5\x4c\x1c\x2d\x46\xdc\x5d\xd2\x8f\x0a\x3d\x4a\xb1\x1b\x21\xea\x89\x54\xea\xf6\x92\x13\xea\x03\xfa\x64\x4c\xb1\x9f\x1e\xd0\x56\x37\x97\x4c\x99\x0f\xcf\xca\x2c\xd3\xa3\x96\xa2\xc7\x1d\xb4\xb0\xbb\x0d\xbb\xbe\x20\x69\xc6\xdb\x76\xaf\xad\x6e\x6c\x5d\xe5\x3d\xbd\xab\xb3\x6e\x68\x80\x7a\x6e\x47\xdb\x1e\x75\x2b\xd5\x85\x05\xec\xca\x67\xb4\x84\xad\x99\x9f\x1a\x61\xed\x1f\x38\x97\xf6\x04\xf0\xe1\x66\xf2\xc5\x1c\x32\x5f\x20\x7e\x60\xfc\x0a\xcf\xc4\x37\x8f\xa7\xa1\x75\xd6\xfd\xcf\x6b\x17\x5c\x25\xc5\x3c\x60\xdc\x10\xea\x76\x68\x55\x43\x55\x96\x6b\x04\x2c\xf1\x27\xe8\xc5\xa4\xf2\x3f\x17\x79\x89\x7d\x2e\x13\xde\xc1\x5d\x07\x53\x7f\xc4\xd1\xe0\x67\xb8\x85\x3d\x98\xaa\x6c\xd2\xe1\xc0\xe6\x5e\xf4\x15\x9f\x4e\xdc\xb5\x70\x1d\x9b\xb3\x28\x70\x9d\xd9\xcc\x75\x1c\x3f\xde\x6c\xc2\xd4\x75\x7e\x07\x00\x00\xff\xff\xe4\xca\x52\xc4\xce\x03\x00\x00")
 
-func _1528395721_add_trigger_to_delete_completed_external_service_sync_jobsUpSqlBytes() ([]byte, error) {
+func _1528395721_add_function_delete_old_external_service_sync_jobsUpSqlBytes() ([]byte, error) {
 	return bindataRead(
-		__1528395721_add_trigger_to_delete_completed_external_service_sync_jobsUpSql,
-		"1528395721_add_trigger_to_delete_completed_external_service_sync_jobs.up.sql",
+		__1528395721_add_function_delete_old_external_service_sync_jobsUpSql,
+		"1528395721_add_function_delete_old_external_service_sync_jobs.up.sql",
 	)
 }
 
-func _1528395721_add_trigger_to_delete_completed_external_service_sync_jobsUpSql() (*asset, error) {
-	bytes, err := _1528395721_add_trigger_to_delete_completed_external_service_sync_jobsUpSqlBytes()
+func _1528395721_add_function_delete_old_external_service_sync_jobsUpSql() (*asset, error) {
+	bytes, err := _1528395721_add_function_delete_old_external_service_sync_jobsUpSqlBytes()
 	if err != nil {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "1528395721_add_trigger_to_delete_completed_external_service_sync_jobs.up.sql", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
-	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x19, 0xb4, 0x49, 0xf4, 0xf6, 0xe2, 0x5b, 0xbb, 0x54, 0xdd, 0x17, 0xfb, 0xaf, 0x67, 0x48, 0xed, 0x14, 0x7d, 0x20, 0x9f, 0x3, 0x77, 0xd3, 0xc9, 0x54, 0xdc, 0x2a, 0x3c, 0x9c, 0x60, 0xf8, 0x72}}
+	info := bindataFileInfo{name: "1528395721_add_function_delete_old_external_service_sync_jobs.up.sql", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x7e, 0x45, 0xd5, 0x6c, 0x1a, 0xd5, 0x4c, 0x23, 0xe9, 0xa2, 0xf8, 0xd0, 0x32, 0xf8, 0xdf, 0xa7, 0xe3, 0xeb, 0x6f, 0x5, 0xfe, 0xd6, 0xe4, 0x4b, 0x24, 0x52, 0xeb, 0x7e, 0x47, 0x1d, 0xc1, 0x79}}
 	return a, nil
 }
 
@@ -1755,82 +1755,82 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() (*asset, error){
-	"1528395684_squashed_migrations.down.sql":                                        _1528395684_squashed_migrationsDownSql,
-	"1528395684_squashed_migrations.up.sql":                                          _1528395684_squashed_migrationsUpSql,
-	"1528395685_add_diffstat_fields_to_changesets.down.sql":                          _1528395685_add_diffstat_fields_to_changesetsDownSql,
-	"1528395685_add_diffstat_fields_to_changesets.up.sql":                            _1528395685_add_diffstat_fields_to_changesetsUpSql,
-	"1528395686_lsif_repository.down.sql":                                            _1528395686_lsif_repositoryDownSql,
-	"1528395686_lsif_repository.up.sql":                                              _1528395686_lsif_repositoryUpSql,
-	"1528395687_lsif_indexable_repositories_last_updated.down.sql":                   _1528395687_lsif_indexable_repositories_last_updatedDownSql,
-	"1528395687_lsif_indexable_repositories_last_updated.up.sql":                     _1528395687_lsif_indexable_repositories_last_updatedUpSql,
-	"1528395688_add_cloned_column_to_repo.down.sql":                                  _1528395688_add_cloned_column_to_repoDownSql,
-	"1528395688_add_cloned_column_to_repo.up.sql":                                    _1528395688_add_cloned_column_to_repoUpSql,
-	"1528395689_lsif_indexable_repositories_enable.down.sql":                         _1528395689_lsif_indexable_repositories_enableDownSql,
-	"1528395689_lsif_indexable_repositories_enable.up.sql":                           _1528395689_lsif_indexable_repositories_enableUpSql,
-	"1528395690_lsif_upload_size.down.sql":                                           _1528395690_lsif_upload_sizeDownSql,
-	"1528395690_lsif_upload_size.up.sql":                                             _1528395690_lsif_upload_sizeUpSql,
-	"1528395691_encrypt_tokens.down.sql":                                             _1528395691_encrypt_tokensDownSql,
-	"1528395691_encrypt_tokens.up.sql":                                               _1528395691_encrypt_tokensUpSql,
-	"1528395692_add_campaign_specs_and_changeset_specs.down.sql":                     _1528395692_add_campaign_specs_and_changeset_specsDownSql,
-	"1528395692_add_campaign_specs_and_changeset_specs.up.sql":                       _1528395692_add_campaign_specs_and_changeset_specsUpSql,
-	"1528395693_remove_old_campaigns_workflow_tables.down.sql":                       _1528395693_remove_old_campaigns_workflow_tablesDownSql,
-	"1528395693_remove_old_campaigns_workflow_tables.up.sql":                         _1528395693_remove_old_campaigns_workflow_tablesUpSql,
-	"1528395694_lsif_nearest_uploads.down.sql":                                       _1528395694_lsif_nearest_uploadsDownSql,
-	"1528395694_lsif_nearest_uploads.up.sql":                                         _1528395694_lsif_nearest_uploadsUpSql,
-	"1528395695_lsif_remove_commits.down.sql":                                        _1528395695_lsif_remove_commitsDownSql,
-	"1528395695_lsif_remove_commits.up.sql":                                          _1528395695_lsif_remove_commitsUpSql,
-	"1528395696_repo_name_index.down.sql":                                            _1528395696_repo_name_indexDownSql,
-	"1528395696_repo_name_index.up.sql":                                              _1528395696_repo_name_indexUpSql,
-	"1528395697_add_changeset_state_machine.down.sql":                                _1528395697_add_changeset_state_machineDownSql,
-	"1528395697_add_changeset_state_machine.up.sql":                                  _1528395697_add_changeset_state_machineUpSql,
-	"1528395698_add_sync_time_and_user_id_to_external_services.down.sql":             _1528395698_add_sync_time_and_user_id_to_external_servicesDownSql,
-	"1528395698_add_sync_time_and_user_id_to_external_services.up.sql":               _1528395698_add_sync_time_and_user_id_to_external_servicesUpSql,
-	"1528395699_campaign_remove_branch.down.sql":                                     _1528395699_campaign_remove_branchDownSql,
-	"1528395699_campaign_remove_branch.up.sql":                                       _1528395699_campaign_remove_branchUpSql,
-	"1528395700_add_apply_data_to_campaign.down.sql":                                 _1528395700_add_apply_data_to_campaignDownSql,
-	"1528395700_add_apply_data_to_campaign.up.sql":                                   _1528395700_add_apply_data_to_campaignUpSql,
-	"1528395701_burn_the_campaigns_boats.down.sql":                                   _1528395701_burn_the_campaigns_boatsDownSql,
-	"1528395701_burn_the_campaigns_boats.up.sql":                                     _1528395701_burn_the_campaigns_boatsUpSql,
-	"1528395702_changeset_user_fk.down.sql":                                          _1528395702_changeset_user_fkDownSql,
-	"1528395702_changeset_user_fk.up.sql":                                            _1528395702_changeset_user_fkUpSql,
-	"1528395703_soft_delete_external_service_upon_user_deletion.down.sql":            _1528395703_soft_delete_external_service_upon_user_deletionDownSql,
-	"1528395703_soft_delete_external_service_upon_user_deletion.up.sql":              _1528395703_soft_delete_external_service_upon_user_deletionUpSql,
-	"1528395704_remove_owner_on_campaign_delete.down.sql":                            _1528395704_remove_owner_on_campaign_deleteDownSql,
-	"1528395704_remove_owner_on_campaign_delete.up.sql":                              _1528395704_remove_owner_on_campaign_deleteUpSql,
-	"1528395705_remove_bad_migration.down.sql":                                       _1528395705_remove_bad_migrationDownSql,
-	"1528395705_remove_bad_migration.up.sql":                                         _1528395705_remove_bad_migrationUpSql,
-	"1528395706_add_table_external_services_repos.down.sql":                          _1528395706_add_table_external_services_reposDownSql,
-	"1528395706_add_table_external_services_repos.up.sql":                            _1528395706_add_table_external_services_reposUpSql,
-	"1528395707_add_index_to_external_services_repos_repo_id.down.sql":               _1528395707_add_index_to_external_services_repos_repo_idDownSql,
-	"1528395707_add_index_to_external_services_repos_repo_id.up.sql":                 _1528395707_add_index_to_external_services_repos_repo_idUpSql,
-	"1528395708_add_index_to_external_services_repos_external_service_id.down.sql":   _1528395708_add_index_to_external_services_repos_external_service_idDownSql,
-	"1528395708_add_index_to_external_services_repos_external_service_id.up.sql":     _1528395708_add_index_to_external_services_repos_external_service_idUpSql,
-	"1528395709_create_external_service_sync_jobs_table.down.sql":                    _1528395709_create_external_service_sync_jobs_tableDownSql,
-	"1528395709_create_external_service_sync_jobs_table.up.sql":                      _1528395709_create_external_service_sync_jobs_tableUpSql,
-	"1528395710_add_unsynced_flag_to_changesets.down.sql":                            _1528395710_add_unsynced_flag_to_changesetsDownSql,
-	"1528395710_add_unsynced_flag_to_changesets.up.sql":                              _1528395710_add_unsynced_flag_to_changesetsUpSql,
-	"1528395711_add_soft_deleted_repository_name_func.down.sql":                      _1528395711_add_soft_deleted_repository_name_funcDownSql,
-	"1528395711_add_soft_deleted_repository_name_func.up.sql":                        _1528395711_add_soft_deleted_repository_name_funcUpSql,
-	"1528395712_add_closing_flag_to_changesets.down.sql":                             _1528395712_add_closing_flag_to_changesetsDownSql,
-	"1528395712_add_closing_flag_to_changesets.up.sql":                               _1528395712_add_closing_flag_to_changesetsUpSql,
-	"1528395713_add_trigger_to_delete_orphan_repos.down.sql":                         _1528395713_add_trigger_to_delete_orphan_reposDownSql,
-	"1528395713_add_trigger_to_delete_orphan_repos.up.sql":                           _1528395713_add_trigger_to_delete_orphan_reposUpSql,
-	"1528395714_worker_num_failures.down.sql":                                        _1528395714_worker_num_failuresDownSql,
-	"1528395714_worker_num_failures.up.sql":                                          _1528395714_worker_num_failuresUpSql,
-	"1528395715_repo_name_index_take_2.down.sql":                                     _1528395715_repo_name_index_take_2DownSql,
-	"1528395715_repo_name_index_take_2.up.sql":                                       _1528395715_repo_name_index_take_2UpSql,
-	"1528395716_add_git_commit_author.down.sql":                                      _1528395716_add_git_commit_authorDownSql,
-	"1528395716_add_git_commit_author.up.sql":                                        _1528395716_add_git_commit_authorUpSql,
-	"1528395717_replicate_permissions_object_ids_to_intarray.down.sql":               _1528395717_replicate_permissions_object_ids_to_intarrayDownSql,
-	"1528395717_replicate_permissions_object_ids_to_intarray.up.sql":                 _1528395717_replicate_permissions_object_ids_to_intarrayUpSql,
-	"1528395718_user_invalidate_session.down.sql":                                    _1528395718_user_invalidate_sessionDownSql,
-	"1528395718_user_invalidate_session.up.sql":                                      _1528395718_user_invalidate_sessionUpSql,
-	"1528395719_migration_sql.down.sql":                                              _1528395719_migration_sqlDownSql,
-	"1528395719_migration_sql.up.sql":                                                _1528395719_migration_sqlUpSql,
-	"1528395720_drop_repo_sources_column.down.sql":                                   _1528395720_drop_repo_sources_columnDownSql,
-	"1528395720_drop_repo_sources_column.up.sql":                                     _1528395720_drop_repo_sources_columnUpSql,
-	"1528395721_add_trigger_to_delete_completed_external_service_sync_jobs.down.sql": _1528395721_add_trigger_to_delete_completed_external_service_sync_jobsDownSql,
-	"1528395721_add_trigger_to_delete_completed_external_service_sync_jobs.up.sql":   _1528395721_add_trigger_to_delete_completed_external_service_sync_jobsUpSql,
+	"1528395684_squashed_migrations.down.sql":                                      _1528395684_squashed_migrationsDownSql,
+	"1528395684_squashed_migrations.up.sql":                                        _1528395684_squashed_migrationsUpSql,
+	"1528395685_add_diffstat_fields_to_changesets.down.sql":                        _1528395685_add_diffstat_fields_to_changesetsDownSql,
+	"1528395685_add_diffstat_fields_to_changesets.up.sql":                          _1528395685_add_diffstat_fields_to_changesetsUpSql,
+	"1528395686_lsif_repository.down.sql":                                          _1528395686_lsif_repositoryDownSql,
+	"1528395686_lsif_repository.up.sql":                                            _1528395686_lsif_repositoryUpSql,
+	"1528395687_lsif_indexable_repositories_last_updated.down.sql":                 _1528395687_lsif_indexable_repositories_last_updatedDownSql,
+	"1528395687_lsif_indexable_repositories_last_updated.up.sql":                   _1528395687_lsif_indexable_repositories_last_updatedUpSql,
+	"1528395688_add_cloned_column_to_repo.down.sql":                                _1528395688_add_cloned_column_to_repoDownSql,
+	"1528395688_add_cloned_column_to_repo.up.sql":                                  _1528395688_add_cloned_column_to_repoUpSql,
+	"1528395689_lsif_indexable_repositories_enable.down.sql":                       _1528395689_lsif_indexable_repositories_enableDownSql,
+	"1528395689_lsif_indexable_repositories_enable.up.sql":                         _1528395689_lsif_indexable_repositories_enableUpSql,
+	"1528395690_lsif_upload_size.down.sql":                                         _1528395690_lsif_upload_sizeDownSql,
+	"1528395690_lsif_upload_size.up.sql":                                           _1528395690_lsif_upload_sizeUpSql,
+	"1528395691_encrypt_tokens.down.sql":                                           _1528395691_encrypt_tokensDownSql,
+	"1528395691_encrypt_tokens.up.sql":                                             _1528395691_encrypt_tokensUpSql,
+	"1528395692_add_campaign_specs_and_changeset_specs.down.sql":                   _1528395692_add_campaign_specs_and_changeset_specsDownSql,
+	"1528395692_add_campaign_specs_and_changeset_specs.up.sql":                     _1528395692_add_campaign_specs_and_changeset_specsUpSql,
+	"1528395693_remove_old_campaigns_workflow_tables.down.sql":                     _1528395693_remove_old_campaigns_workflow_tablesDownSql,
+	"1528395693_remove_old_campaigns_workflow_tables.up.sql":                       _1528395693_remove_old_campaigns_workflow_tablesUpSql,
+	"1528395694_lsif_nearest_uploads.down.sql":                                     _1528395694_lsif_nearest_uploadsDownSql,
+	"1528395694_lsif_nearest_uploads.up.sql":                                       _1528395694_lsif_nearest_uploadsUpSql,
+	"1528395695_lsif_remove_commits.down.sql":                                      _1528395695_lsif_remove_commitsDownSql,
+	"1528395695_lsif_remove_commits.up.sql":                                        _1528395695_lsif_remove_commitsUpSql,
+	"1528395696_repo_name_index.down.sql":                                          _1528395696_repo_name_indexDownSql,
+	"1528395696_repo_name_index.up.sql":                                            _1528395696_repo_name_indexUpSql,
+	"1528395697_add_changeset_state_machine.down.sql":                              _1528395697_add_changeset_state_machineDownSql,
+	"1528395697_add_changeset_state_machine.up.sql":                                _1528395697_add_changeset_state_machineUpSql,
+	"1528395698_add_sync_time_and_user_id_to_external_services.down.sql":           _1528395698_add_sync_time_and_user_id_to_external_servicesDownSql,
+	"1528395698_add_sync_time_and_user_id_to_external_services.up.sql":             _1528395698_add_sync_time_and_user_id_to_external_servicesUpSql,
+	"1528395699_campaign_remove_branch.down.sql":                                   _1528395699_campaign_remove_branchDownSql,
+	"1528395699_campaign_remove_branch.up.sql":                                     _1528395699_campaign_remove_branchUpSql,
+	"1528395700_add_apply_data_to_campaign.down.sql":                               _1528395700_add_apply_data_to_campaignDownSql,
+	"1528395700_add_apply_data_to_campaign.up.sql":                                 _1528395700_add_apply_data_to_campaignUpSql,
+	"1528395701_burn_the_campaigns_boats.down.sql":                                 _1528395701_burn_the_campaigns_boatsDownSql,
+	"1528395701_burn_the_campaigns_boats.up.sql":                                   _1528395701_burn_the_campaigns_boatsUpSql,
+	"1528395702_changeset_user_fk.down.sql":                                        _1528395702_changeset_user_fkDownSql,
+	"1528395702_changeset_user_fk.up.sql":                                          _1528395702_changeset_user_fkUpSql,
+	"1528395703_soft_delete_external_service_upon_user_deletion.down.sql":          _1528395703_soft_delete_external_service_upon_user_deletionDownSql,
+	"1528395703_soft_delete_external_service_upon_user_deletion.up.sql":            _1528395703_soft_delete_external_service_upon_user_deletionUpSql,
+	"1528395704_remove_owner_on_campaign_delete.down.sql":                          _1528395704_remove_owner_on_campaign_deleteDownSql,
+	"1528395704_remove_owner_on_campaign_delete.up.sql":                            _1528395704_remove_owner_on_campaign_deleteUpSql,
+	"1528395705_remove_bad_migration.down.sql":                                     _1528395705_remove_bad_migrationDownSql,
+	"1528395705_remove_bad_migration.up.sql":                                       _1528395705_remove_bad_migrationUpSql,
+	"1528395706_add_table_external_services_repos.down.sql":                        _1528395706_add_table_external_services_reposDownSql,
+	"1528395706_add_table_external_services_repos.up.sql":                          _1528395706_add_table_external_services_reposUpSql,
+	"1528395707_add_index_to_external_services_repos_repo_id.down.sql":             _1528395707_add_index_to_external_services_repos_repo_idDownSql,
+	"1528395707_add_index_to_external_services_repos_repo_id.up.sql":               _1528395707_add_index_to_external_services_repos_repo_idUpSql,
+	"1528395708_add_index_to_external_services_repos_external_service_id.down.sql": _1528395708_add_index_to_external_services_repos_external_service_idDownSql,
+	"1528395708_add_index_to_external_services_repos_external_service_id.up.sql":   _1528395708_add_index_to_external_services_repos_external_service_idUpSql,
+	"1528395709_create_external_service_sync_jobs_table.down.sql":                  _1528395709_create_external_service_sync_jobs_tableDownSql,
+	"1528395709_create_external_service_sync_jobs_table.up.sql":                    _1528395709_create_external_service_sync_jobs_tableUpSql,
+	"1528395710_add_unsynced_flag_to_changesets.down.sql":                          _1528395710_add_unsynced_flag_to_changesetsDownSql,
+	"1528395710_add_unsynced_flag_to_changesets.up.sql":                            _1528395710_add_unsynced_flag_to_changesetsUpSql,
+	"1528395711_add_soft_deleted_repository_name_func.down.sql":                    _1528395711_add_soft_deleted_repository_name_funcDownSql,
+	"1528395711_add_soft_deleted_repository_name_func.up.sql":                      _1528395711_add_soft_deleted_repository_name_funcUpSql,
+	"1528395712_add_closing_flag_to_changesets.down.sql":                           _1528395712_add_closing_flag_to_changesetsDownSql,
+	"1528395712_add_closing_flag_to_changesets.up.sql":                             _1528395712_add_closing_flag_to_changesetsUpSql,
+	"1528395713_add_trigger_to_delete_orphan_repos.down.sql":                       _1528395713_add_trigger_to_delete_orphan_reposDownSql,
+	"1528395713_add_trigger_to_delete_orphan_repos.up.sql":                         _1528395713_add_trigger_to_delete_orphan_reposUpSql,
+	"1528395714_worker_num_failures.down.sql":                                      _1528395714_worker_num_failuresDownSql,
+	"1528395714_worker_num_failures.up.sql":                                        _1528395714_worker_num_failuresUpSql,
+	"1528395715_repo_name_index_take_2.down.sql":                                   _1528395715_repo_name_index_take_2DownSql,
+	"1528395715_repo_name_index_take_2.up.sql":                                     _1528395715_repo_name_index_take_2UpSql,
+	"1528395716_add_git_commit_author.down.sql":                                    _1528395716_add_git_commit_authorDownSql,
+	"1528395716_add_git_commit_author.up.sql":                                      _1528395716_add_git_commit_authorUpSql,
+	"1528395717_replicate_permissions_object_ids_to_intarray.down.sql":             _1528395717_replicate_permissions_object_ids_to_intarrayDownSql,
+	"1528395717_replicate_permissions_object_ids_to_intarray.up.sql":               _1528395717_replicate_permissions_object_ids_to_intarrayUpSql,
+	"1528395718_user_invalidate_session.down.sql":                                  _1528395718_user_invalidate_sessionDownSql,
+	"1528395718_user_invalidate_session.up.sql":                                    _1528395718_user_invalidate_sessionUpSql,
+	"1528395719_migration_sql.down.sql":                                            _1528395719_migration_sqlDownSql,
+	"1528395719_migration_sql.up.sql":                                              _1528395719_migration_sqlUpSql,
+	"1528395720_drop_repo_sources_column.down.sql":                                 _1528395720_drop_repo_sources_columnDownSql,
+	"1528395720_drop_repo_sources_column.up.sql":                                   _1528395720_drop_repo_sources_columnUpSql,
+	"1528395721_add_function_delete_old_external_service_sync_jobs.down.sql":       _1528395721_add_function_delete_old_external_service_sync_jobsDownSql,
+	"1528395721_add_function_delete_old_external_service_sync_jobs.up.sql":         _1528395721_add_function_delete_old_external_service_sync_jobsUpSql,
 }
 
 // AssetDebug is true if the assets were built with the debug flag enabled.
@@ -1877,82 +1877,82 @@ type bintree struct {
 }
 
 var _bintree = &bintree{nil, map[string]*bintree{
-	"1528395684_squashed_migrations.down.sql":                                        {_1528395684_squashed_migrationsDownSql, map[string]*bintree{}},
-	"1528395684_squashed_migrations.up.sql":                                          {_1528395684_squashed_migrationsUpSql, map[string]*bintree{}},
-	"1528395685_add_diffstat_fields_to_changesets.down.sql":                          {_1528395685_add_diffstat_fields_to_changesetsDownSql, map[string]*bintree{}},
-	"1528395685_add_diffstat_fields_to_changesets.up.sql":                            {_1528395685_add_diffstat_fields_to_changesetsUpSql, map[string]*bintree{}},
-	"1528395686_lsif_repository.down.sql":                                            {_1528395686_lsif_repositoryDownSql, map[string]*bintree{}},
-	"1528395686_lsif_repository.up.sql":                                              {_1528395686_lsif_repositoryUpSql, map[string]*bintree{}},
-	"1528395687_lsif_indexable_repositories_last_updated.down.sql":                   {_1528395687_lsif_indexable_repositories_last_updatedDownSql, map[string]*bintree{}},
-	"1528395687_lsif_indexable_repositories_last_updated.up.sql":                     {_1528395687_lsif_indexable_repositories_last_updatedUpSql, map[string]*bintree{}},
-	"1528395688_add_cloned_column_to_repo.down.sql":                                  {_1528395688_add_cloned_column_to_repoDownSql, map[string]*bintree{}},
-	"1528395688_add_cloned_column_to_repo.up.sql":                                    {_1528395688_add_cloned_column_to_repoUpSql, map[string]*bintree{}},
-	"1528395689_lsif_indexable_repositories_enable.down.sql":                         {_1528395689_lsif_indexable_repositories_enableDownSql, map[string]*bintree{}},
-	"1528395689_lsif_indexable_repositories_enable.up.sql":                           {_1528395689_lsif_indexable_repositories_enableUpSql, map[string]*bintree{}},
-	"1528395690_lsif_upload_size.down.sql":                                           {_1528395690_lsif_upload_sizeDownSql, map[string]*bintree{}},
-	"1528395690_lsif_upload_size.up.sql":                                             {_1528395690_lsif_upload_sizeUpSql, map[string]*bintree{}},
-	"1528395691_encrypt_tokens.down.sql":                                             {_1528395691_encrypt_tokensDownSql, map[string]*bintree{}},
-	"1528395691_encrypt_tokens.up.sql":                                               {_1528395691_encrypt_tokensUpSql, map[string]*bintree{}},
-	"1528395692_add_campaign_specs_and_changeset_specs.down.sql":                     {_1528395692_add_campaign_specs_and_changeset_specsDownSql, map[string]*bintree{}},
-	"1528395692_add_campaign_specs_and_changeset_specs.up.sql":                       {_1528395692_add_campaign_specs_and_changeset_specsUpSql, map[string]*bintree{}},
-	"1528395693_remove_old_campaigns_workflow_tables.down.sql":                       {_1528395693_remove_old_campaigns_workflow_tablesDownSql, map[string]*bintree{}},
-	"1528395693_remove_old_campaigns_workflow_tables.up.sql":                         {_1528395693_remove_old_campaigns_workflow_tablesUpSql, map[string]*bintree{}},
-	"1528395694_lsif_nearest_uploads.down.sql":                                       {_1528395694_lsif_nearest_uploadsDownSql, map[string]*bintree{}},
-	"1528395694_lsif_nearest_uploads.up.sql":                                         {_1528395694_lsif_nearest_uploadsUpSql, map[string]*bintree{}},
-	"1528395695_lsif_remove_commits.down.sql":                                        {_1528395695_lsif_remove_commitsDownSql, map[string]*bintree{}},
-	"1528395695_lsif_remove_commits.up.sql":                                          {_1528395695_lsif_remove_commitsUpSql, map[string]*bintree{}},
-	"1528395696_repo_name_index.down.sql":                                            {_1528395696_repo_name_indexDownSql, map[string]*bintree{}},
-	"1528395696_repo_name_index.up.sql":                                              {_1528395696_repo_name_indexUpSql, map[string]*bintree{}},
-	"1528395697_add_changeset_state_machine.down.sql":                                {_1528395697_add_changeset_state_machineDownSql, map[string]*bintree{}},
-	"1528395697_add_changeset_state_machine.up.sql":                                  {_1528395697_add_changeset_state_machineUpSql, map[string]*bintree{}},
-	"1528395698_add_sync_time_and_user_id_to_external_services.down.sql":             {_1528395698_add_sync_time_and_user_id_to_external_servicesDownSql, map[string]*bintree{}},
-	"1528395698_add_sync_time_and_user_id_to_external_services.up.sql":               {_1528395698_add_sync_time_and_user_id_to_external_servicesUpSql, map[string]*bintree{}},
-	"1528395699_campaign_remove_branch.down.sql":                                     {_1528395699_campaign_remove_branchDownSql, map[string]*bintree{}},
-	"1528395699_campaign_remove_branch.up.sql":                                       {_1528395699_campaign_remove_branchUpSql, map[string]*bintree{}},
-	"1528395700_add_apply_data_to_campaign.down.sql":                                 {_1528395700_add_apply_data_to_campaignDownSql, map[string]*bintree{}},
-	"1528395700_add_apply_data_to_campaign.up.sql":                                   {_1528395700_add_apply_data_to_campaignUpSql, map[string]*bintree{}},
-	"1528395701_burn_the_campaigns_boats.down.sql":                                   {_1528395701_burn_the_campaigns_boatsDownSql, map[string]*bintree{}},
-	"1528395701_burn_the_campaigns_boats.up.sql":                                     {_1528395701_burn_the_campaigns_boatsUpSql, map[string]*bintree{}},
-	"1528395702_changeset_user_fk.down.sql":                                          {_1528395702_changeset_user_fkDownSql, map[string]*bintree{}},
-	"1528395702_changeset_user_fk.up.sql":                                            {_1528395702_changeset_user_fkUpSql, map[string]*bintree{}},
-	"1528395703_soft_delete_external_service_upon_user_deletion.down.sql":            {_1528395703_soft_delete_external_service_upon_user_deletionDownSql, map[string]*bintree{}},
-	"1528395703_soft_delete_external_service_upon_user_deletion.up.sql":              {_1528395703_soft_delete_external_service_upon_user_deletionUpSql, map[string]*bintree{}},
-	"1528395704_remove_owner_on_campaign_delete.down.sql":                            {_1528395704_remove_owner_on_campaign_deleteDownSql, map[string]*bintree{}},
-	"1528395704_remove_owner_on_campaign_delete.up.sql":                              {_1528395704_remove_owner_on_campaign_deleteUpSql, map[string]*bintree{}},
-	"1528395705_remove_bad_migration.down.sql":                                       {_1528395705_remove_bad_migrationDownSql, map[string]*bintree{}},
-	"1528395705_remove_bad_migration.up.sql":                                         {_1528395705_remove_bad_migrationUpSql, map[string]*bintree{}},
-	"1528395706_add_table_external_services_repos.down.sql":                          {_1528395706_add_table_external_services_reposDownSql, map[string]*bintree{}},
-	"1528395706_add_table_external_services_repos.up.sql":                            {_1528395706_add_table_external_services_reposUpSql, map[string]*bintree{}},
-	"1528395707_add_index_to_external_services_repos_repo_id.down.sql":               {_1528395707_add_index_to_external_services_repos_repo_idDownSql, map[string]*bintree{}},
-	"1528395707_add_index_to_external_services_repos_repo_id.up.sql":                 {_1528395707_add_index_to_external_services_repos_repo_idUpSql, map[string]*bintree{}},
-	"1528395708_add_index_to_external_services_repos_external_service_id.down.sql":   {_1528395708_add_index_to_external_services_repos_external_service_idDownSql, map[string]*bintree{}},
-	"1528395708_add_index_to_external_services_repos_external_service_id.up.sql":     {_1528395708_add_index_to_external_services_repos_external_service_idUpSql, map[string]*bintree{}},
-	"1528395709_create_external_service_sync_jobs_table.down.sql":                    {_1528395709_create_external_service_sync_jobs_tableDownSql, map[string]*bintree{}},
-	"1528395709_create_external_service_sync_jobs_table.up.sql":                      {_1528395709_create_external_service_sync_jobs_tableUpSql, map[string]*bintree{}},
-	"1528395710_add_unsynced_flag_to_changesets.down.sql":                            {_1528395710_add_unsynced_flag_to_changesetsDownSql, map[string]*bintree{}},
-	"1528395710_add_unsynced_flag_to_changesets.up.sql":                              {_1528395710_add_unsynced_flag_to_changesetsUpSql, map[string]*bintree{}},
-	"1528395711_add_soft_deleted_repository_name_func.down.sql":                      {_1528395711_add_soft_deleted_repository_name_funcDownSql, map[string]*bintree{}},
-	"1528395711_add_soft_deleted_repository_name_func.up.sql":                        {_1528395711_add_soft_deleted_repository_name_funcUpSql, map[string]*bintree{}},
-	"1528395712_add_closing_flag_to_changesets.down.sql":                             {_1528395712_add_closing_flag_to_changesetsDownSql, map[string]*bintree{}},
-	"1528395712_add_closing_flag_to_changesets.up.sql":                               {_1528395712_add_closing_flag_to_changesetsUpSql, map[string]*bintree{}},
-	"1528395713_add_trigger_to_delete_orphan_repos.down.sql":                         {_1528395713_add_trigger_to_delete_orphan_reposDownSql, map[string]*bintree{}},
-	"1528395713_add_trigger_to_delete_orphan_repos.up.sql":                           {_1528395713_add_trigger_to_delete_orphan_reposUpSql, map[string]*bintree{}},
-	"1528395714_worker_num_failures.down.sql":                                        {_1528395714_worker_num_failuresDownSql, map[string]*bintree{}},
-	"1528395714_worker_num_failures.up.sql":                                          {_1528395714_worker_num_failuresUpSql, map[string]*bintree{}},
-	"1528395715_repo_name_index_take_2.down.sql":                                     {_1528395715_repo_name_index_take_2DownSql, map[string]*bintree{}},
-	"1528395715_repo_name_index_take_2.up.sql":                                       {_1528395715_repo_name_index_take_2UpSql, map[string]*bintree{}},
-	"1528395716_add_git_commit_author.down.sql":                                      {_1528395716_add_git_commit_authorDownSql, map[string]*bintree{}},
-	"1528395716_add_git_commit_author.up.sql":                                        {_1528395716_add_git_commit_authorUpSql, map[string]*bintree{}},
-	"1528395717_replicate_permissions_object_ids_to_intarray.down.sql":               {_1528395717_replicate_permissions_object_ids_to_intarrayDownSql, map[string]*bintree{}},
-	"1528395717_replicate_permissions_object_ids_to_intarray.up.sql":                 {_1528395717_replicate_permissions_object_ids_to_intarrayUpSql, map[string]*bintree{}},
-	"1528395718_user_invalidate_session.down.sql":                                    {_1528395718_user_invalidate_sessionDownSql, map[string]*bintree{}},
-	"1528395718_user_invalidate_session.up.sql":                                      {_1528395718_user_invalidate_sessionUpSql, map[string]*bintree{}},
-	"1528395719_migration_sql.down.sql":                                              {_1528395719_migration_sqlDownSql, map[string]*bintree{}},
-	"1528395719_migration_sql.up.sql":                                                {_1528395719_migration_sqlUpSql, map[string]*bintree{}},
-	"1528395720_drop_repo_sources_column.down.sql":                                   {_1528395720_drop_repo_sources_columnDownSql, map[string]*bintree{}},
-	"1528395720_drop_repo_sources_column.up.sql":                                     {_1528395720_drop_repo_sources_columnUpSql, map[string]*bintree{}},
-	"1528395721_add_trigger_to_delete_completed_external_service_sync_jobs.down.sql": {_1528395721_add_trigger_to_delete_completed_external_service_sync_jobsDownSql, map[string]*bintree{}},
-	"1528395721_add_trigger_to_delete_completed_external_service_sync_jobs.up.sql":   {_1528395721_add_trigger_to_delete_completed_external_service_sync_jobsUpSql, map[string]*bintree{}},
+	"1528395684_squashed_migrations.down.sql":                                      {_1528395684_squashed_migrationsDownSql, map[string]*bintree{}},
+	"1528395684_squashed_migrations.up.sql":                                        {_1528395684_squashed_migrationsUpSql, map[string]*bintree{}},
+	"1528395685_add_diffstat_fields_to_changesets.down.sql":                        {_1528395685_add_diffstat_fields_to_changesetsDownSql, map[string]*bintree{}},
+	"1528395685_add_diffstat_fields_to_changesets.up.sql":                          {_1528395685_add_diffstat_fields_to_changesetsUpSql, map[string]*bintree{}},
+	"1528395686_lsif_repository.down.sql":                                          {_1528395686_lsif_repositoryDownSql, map[string]*bintree{}},
+	"1528395686_lsif_repository.up.sql":                                            {_1528395686_lsif_repositoryUpSql, map[string]*bintree{}},
+	"1528395687_lsif_indexable_repositories_last_updated.down.sql":                 {_1528395687_lsif_indexable_repositories_last_updatedDownSql, map[string]*bintree{}},
+	"1528395687_lsif_indexable_repositories_last_updated.up.sql":                   {_1528395687_lsif_indexable_repositories_last_updatedUpSql, map[string]*bintree{}},
+	"1528395688_add_cloned_column_to_repo.down.sql":                                {_1528395688_add_cloned_column_to_repoDownSql, map[string]*bintree{}},
+	"1528395688_add_cloned_column_to_repo.up.sql":                                  {_1528395688_add_cloned_column_to_repoUpSql, map[string]*bintree{}},
+	"1528395689_lsif_indexable_repositories_enable.down.sql":                       {_1528395689_lsif_indexable_repositories_enableDownSql, map[string]*bintree{}},
+	"1528395689_lsif_indexable_repositories_enable.up.sql":                         {_1528395689_lsif_indexable_repositories_enableUpSql, map[string]*bintree{}},
+	"1528395690_lsif_upload_size.down.sql":                                         {_1528395690_lsif_upload_sizeDownSql, map[string]*bintree{}},
+	"1528395690_lsif_upload_size.up.sql":                                           {_1528395690_lsif_upload_sizeUpSql, map[string]*bintree{}},
+	"1528395691_encrypt_tokens.down.sql":                                           {_1528395691_encrypt_tokensDownSql, map[string]*bintree{}},
+	"1528395691_encrypt_tokens.up.sql":                                             {_1528395691_encrypt_tokensUpSql, map[string]*bintree{}},
+	"1528395692_add_campaign_specs_and_changeset_specs.down.sql":                   {_1528395692_add_campaign_specs_and_changeset_specsDownSql, map[string]*bintree{}},
+	"1528395692_add_campaign_specs_and_changeset_specs.up.sql":                     {_1528395692_add_campaign_specs_and_changeset_specsUpSql, map[string]*bintree{}},
+	"1528395693_remove_old_campaigns_workflow_tables.down.sql":                     {_1528395693_remove_old_campaigns_workflow_tablesDownSql, map[string]*bintree{}},
+	"1528395693_remove_old_campaigns_workflow_tables.up.sql":                       {_1528395693_remove_old_campaigns_workflow_tablesUpSql, map[string]*bintree{}},
+	"1528395694_lsif_nearest_uploads.down.sql":                                     {_1528395694_lsif_nearest_uploadsDownSql, map[string]*bintree{}},
+	"1528395694_lsif_nearest_uploads.up.sql":                                       {_1528395694_lsif_nearest_uploadsUpSql, map[string]*bintree{}},
+	"1528395695_lsif_remove_commits.down.sql":                                      {_1528395695_lsif_remove_commitsDownSql, map[string]*bintree{}},
+	"1528395695_lsif_remove_commits.up.sql":                                        {_1528395695_lsif_remove_commitsUpSql, map[string]*bintree{}},
+	"1528395696_repo_name_index.down.sql":                                          {_1528395696_repo_name_indexDownSql, map[string]*bintree{}},
+	"1528395696_repo_name_index.up.sql":                                            {_1528395696_repo_name_indexUpSql, map[string]*bintree{}},
+	"1528395697_add_changeset_state_machine.down.sql":                              {_1528395697_add_changeset_state_machineDownSql, map[string]*bintree{}},
+	"1528395697_add_changeset_state_machine.up.sql":                                {_1528395697_add_changeset_state_machineUpSql, map[string]*bintree{}},
+	"1528395698_add_sync_time_and_user_id_to_external_services.down.sql":           {_1528395698_add_sync_time_and_user_id_to_external_servicesDownSql, map[string]*bintree{}},
+	"1528395698_add_sync_time_and_user_id_to_external_services.up.sql":             {_1528395698_add_sync_time_and_user_id_to_external_servicesUpSql, map[string]*bintree{}},
+	"1528395699_campaign_remove_branch.down.sql":                                   {_1528395699_campaign_remove_branchDownSql, map[string]*bintree{}},
+	"1528395699_campaign_remove_branch.up.sql":                                     {_1528395699_campaign_remove_branchUpSql, map[string]*bintree{}},
+	"1528395700_add_apply_data_to_campaign.down.sql":                               {_1528395700_add_apply_data_to_campaignDownSql, map[string]*bintree{}},
+	"1528395700_add_apply_data_to_campaign.up.sql":                                 {_1528395700_add_apply_data_to_campaignUpSql, map[string]*bintree{}},
+	"1528395701_burn_the_campaigns_boats.down.sql":                                 {_1528395701_burn_the_campaigns_boatsDownSql, map[string]*bintree{}},
+	"1528395701_burn_the_campaigns_boats.up.sql":                                   {_1528395701_burn_the_campaigns_boatsUpSql, map[string]*bintree{}},
+	"1528395702_changeset_user_fk.down.sql":                                        {_1528395702_changeset_user_fkDownSql, map[string]*bintree{}},
+	"1528395702_changeset_user_fk.up.sql":                                          {_1528395702_changeset_user_fkUpSql, map[string]*bintree{}},
+	"1528395703_soft_delete_external_service_upon_user_deletion.down.sql":          {_1528395703_soft_delete_external_service_upon_user_deletionDownSql, map[string]*bintree{}},
+	"1528395703_soft_delete_external_service_upon_user_deletion.up.sql":            {_1528395703_soft_delete_external_service_upon_user_deletionUpSql, map[string]*bintree{}},
+	"1528395704_remove_owner_on_campaign_delete.down.sql":                          {_1528395704_remove_owner_on_campaign_deleteDownSql, map[string]*bintree{}},
+	"1528395704_remove_owner_on_campaign_delete.up.sql":                            {_1528395704_remove_owner_on_campaign_deleteUpSql, map[string]*bintree{}},
+	"1528395705_remove_bad_migration.down.sql":                                     {_1528395705_remove_bad_migrationDownSql, map[string]*bintree{}},
+	"1528395705_remove_bad_migration.up.sql":                                       {_1528395705_remove_bad_migrationUpSql, map[string]*bintree{}},
+	"1528395706_add_table_external_services_repos.down.sql":                        {_1528395706_add_table_external_services_reposDownSql, map[string]*bintree{}},
+	"1528395706_add_table_external_services_repos.up.sql":                          {_1528395706_add_table_external_services_reposUpSql, map[string]*bintree{}},
+	"1528395707_add_index_to_external_services_repos_repo_id.down.sql":             {_1528395707_add_index_to_external_services_repos_repo_idDownSql, map[string]*bintree{}},
+	"1528395707_add_index_to_external_services_repos_repo_id.up.sql":               {_1528395707_add_index_to_external_services_repos_repo_idUpSql, map[string]*bintree{}},
+	"1528395708_add_index_to_external_services_repos_external_service_id.down.sql": {_1528395708_add_index_to_external_services_repos_external_service_idDownSql, map[string]*bintree{}},
+	"1528395708_add_index_to_external_services_repos_external_service_id.up.sql":   {_1528395708_add_index_to_external_services_repos_external_service_idUpSql, map[string]*bintree{}},
+	"1528395709_create_external_service_sync_jobs_table.down.sql":                  {_1528395709_create_external_service_sync_jobs_tableDownSql, map[string]*bintree{}},
+	"1528395709_create_external_service_sync_jobs_table.up.sql":                    {_1528395709_create_external_service_sync_jobs_tableUpSql, map[string]*bintree{}},
+	"1528395710_add_unsynced_flag_to_changesets.down.sql":                          {_1528395710_add_unsynced_flag_to_changesetsDownSql, map[string]*bintree{}},
+	"1528395710_add_unsynced_flag_to_changesets.up.sql":                            {_1528395710_add_unsynced_flag_to_changesetsUpSql, map[string]*bintree{}},
+	"1528395711_add_soft_deleted_repository_name_func.down.sql":                    {_1528395711_add_soft_deleted_repository_name_funcDownSql, map[string]*bintree{}},
+	"1528395711_add_soft_deleted_repository_name_func.up.sql":                      {_1528395711_add_soft_deleted_repository_name_funcUpSql, map[string]*bintree{}},
+	"1528395712_add_closing_flag_to_changesets.down.sql":                           {_1528395712_add_closing_flag_to_changesetsDownSql, map[string]*bintree{}},
+	"1528395712_add_closing_flag_to_changesets.up.sql":                             {_1528395712_add_closing_flag_to_changesetsUpSql, map[string]*bintree{}},
+	"1528395713_add_trigger_to_delete_orphan_repos.down.sql":                       {_1528395713_add_trigger_to_delete_orphan_reposDownSql, map[string]*bintree{}},
+	"1528395713_add_trigger_to_delete_orphan_repos.up.sql":                         {_1528395713_add_trigger_to_delete_orphan_reposUpSql, map[string]*bintree{}},
+	"1528395714_worker_num_failures.down.sql":                                      {_1528395714_worker_num_failuresDownSql, map[string]*bintree{}},
+	"1528395714_worker_num_failures.up.sql":                                        {_1528395714_worker_num_failuresUpSql, map[string]*bintree{}},
+	"1528395715_repo_name_index_take_2.down.sql":                                   {_1528395715_repo_name_index_take_2DownSql, map[string]*bintree{}},
+	"1528395715_repo_name_index_take_2.up.sql":                                     {_1528395715_repo_name_index_take_2UpSql, map[string]*bintree{}},
+	"1528395716_add_git_commit_author.down.sql":                                    {_1528395716_add_git_commit_authorDownSql, map[string]*bintree{}},
+	"1528395716_add_git_commit_author.up.sql":                                      {_1528395716_add_git_commit_authorUpSql, map[string]*bintree{}},
+	"1528395717_replicate_permissions_object_ids_to_intarray.down.sql":             {_1528395717_replicate_permissions_object_ids_to_intarrayDownSql, map[string]*bintree{}},
+	"1528395717_replicate_permissions_object_ids_to_intarray.up.sql":               {_1528395717_replicate_permissions_object_ids_to_intarrayUpSql, map[string]*bintree{}},
+	"1528395718_user_invalidate_session.down.sql":                                  {_1528395718_user_invalidate_sessionDownSql, map[string]*bintree{}},
+	"1528395718_user_invalidate_session.up.sql":                                    {_1528395718_user_invalidate_sessionUpSql, map[string]*bintree{}},
+	"1528395719_migration_sql.down.sql":                                            {_1528395719_migration_sqlDownSql, map[string]*bintree{}},
+	"1528395719_migration_sql.up.sql":                                              {_1528395719_migration_sqlUpSql, map[string]*bintree{}},
+	"1528395720_drop_repo_sources_column.down.sql":                                 {_1528395720_drop_repo_sources_columnDownSql, map[string]*bintree{}},
+	"1528395720_drop_repo_sources_column.up.sql":                                   {_1528395720_drop_repo_sources_columnUpSql, map[string]*bintree{}},
+	"1528395721_add_function_delete_old_external_service_sync_jobs.down.sql":       {_1528395721_add_function_delete_old_external_service_sync_jobsDownSql, map[string]*bintree{}},
+	"1528395721_add_function_delete_old_external_service_sync_jobs.up.sql":         {_1528395721_add_function_delete_old_external_service_sync_jobsUpSql, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory.

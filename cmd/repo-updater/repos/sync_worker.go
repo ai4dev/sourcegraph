@@ -23,9 +23,11 @@ import (
 )
 
 type SyncWorkerOptions struct {
-	NumHandlers          int                   // defaults to 3
-	WorkerInterval       time.Duration         // defaults to 10s
-	PrometheusRegisterer prometheus.Registerer // if non-nil, metrics will be collected
+	NumHandlers            int                   // defaults to 3
+	WorkerInterval         time.Duration         // defaults to 10s
+	PrometheusRegisterer   prometheus.Registerer // if non-nil, metrics will be collected
+	CleanupOldJobs         bool                  // run a background process to cleanup old jobs
+	CleanupOldJobsInterval time.Duration         // defaults to 1h
 }
 
 // NewSyncWorker creates a new external service sync worker.
@@ -35,6 +37,10 @@ func NewSyncWorker(ctx context.Context, db dbutil.DB, handler dbworker.Handler, 
 	}
 	if opts.WorkerInterval == 0 {
 		opts.WorkerInterval = 10 * time.Second
+	}
+
+	if opts.CleanupOldJobsInterval == 0 {
+		opts.CleanupOldJobsInterval = time.Hour
 	}
 
 	dbHandle := basestore.NewHandleWithDB(db, sql.TxOptions{
@@ -74,6 +80,10 @@ func NewSyncWorker(ctx context.Context, db dbutil.DB, handler dbworker.Handler, 
 		Interval: 5 * time.Minute,
 		Metrics:  newResetterMetrics(opts.PrometheusRegisterer),
 	})
+
+	if opts.CleanupOldJobs {
+		runJobCleaner(ctx, db, opts.CleanupOldJobsInterval)
+	}
 
 	return worker, resetter
 }
@@ -120,6 +130,35 @@ func newResetterMetrics(r prometheus.Registerer) dbworker.ResetterMetrics {
 			Help: "Total number of errors when running the external service resetter",
 		}),
 	}
+}
+
+func runJobCleaner(ctx context.Context, db dbutil.DB, interval time.Duration) {
+	go func() {
+		t := time.NewTicker(interval)
+		defer t.Stop()
+
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case <-t.C:
+				_, err := db.ExecContext(ctx, `
+-- source: cmd/repo-updater/repos/sync_worker.go:runJobCleaner
+-- This statement calls a cleanup function that removes every old job row except the most recent completed
+-- one and the most recent errored one for each external service.
+SELECT
+	delete_old_external_service_sync_jobs('errored'),
+	delete_old_external_service_sync_jobs('completed');
+				`)
+				if err == context.Canceled {
+					return
+				}
+				if err != nil {
+					log15.Error("error while running job cleaner", "err", err)
+				}
+			}
+		}
+	}()
 }
 
 func scanSingleJob(rows *sql.Rows, err error) (workerutil.Record, bool, error) {
