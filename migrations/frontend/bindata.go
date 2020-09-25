@@ -74,8 +74,6 @@
 // 1528395719_migration_sql.up.sql (53B)
 // 1528395720_drop_repo_sources_column.down.sql (574B)
 // 1528395720_drop_repo_sources_column.up.sql (196B)
-// 1528395721_add_function_delete_old_external_service_sync_jobs.down.sql (96B)
-// 1528395721_add_function_delete_old_external_service_sync_jobs.up.sql (974B)
 
 package migrations
 
@@ -1624,46 +1622,6 @@ func _1528395720_drop_repo_sources_columnUpSql() (*asset, error) {
 	return a, nil
 }
 
-var __1528395721_add_function_delete_old_external_service_sync_jobsDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x04\xc0\xbd\x0a\xc2\x30\x10\x07\xf0\xfd\x9e\xe2\x46\x7d\x86\x6c\xd6\x54\x6e\x68\x22\xf6\x84\x6e\x47\x3f\xfe\x83\x25\x34\x90\x04\xd1\xb7\xef\xef\xe6\x1f\x12\x1c\xd1\xfd\x15\x9f\xdc\xbf\x43\xa7\x12\x03\x4b\xcf\x7e\x92\x51\x47\xde\x90\xd0\x60\x39\x6d\x86\x5f\x43\x39\xe6\x64\x15\xe5\xfb\x59\x61\xf5\x7f\xac\xb6\xe7\xa5\x5e\xf6\xbc\x58\x6d\x73\x03\xab\x9f\xf4\xea\x88\xba\x38\x0c\xa2\x8e\xce\x00\x00\x00\xff\xff\xd3\xce\xf1\xa9\x60\x00\x00\x00")
-
-func _1528395721_add_function_delete_old_external_service_sync_jobsDownSqlBytes() ([]byte, error) {
-	return bindataRead(
-		__1528395721_add_function_delete_old_external_service_sync_jobsDownSql,
-		"1528395721_add_function_delete_old_external_service_sync_jobs.down.sql",
-	)
-}
-
-func _1528395721_add_function_delete_old_external_service_sync_jobsDownSql() (*asset, error) {
-	bytes, err := _1528395721_add_function_delete_old_external_service_sync_jobsDownSqlBytes()
-	if err != nil {
-		return nil, err
-	}
-
-	info := bindataFileInfo{name: "1528395721_add_function_delete_old_external_service_sync_jobs.down.sql", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
-	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xd, 0x39, 0x34, 0x85, 0xdf, 0x81, 0x5d, 0xd4, 0x6, 0xbb, 0xfd, 0x28, 0x5c, 0x97, 0xca, 0x59, 0x3f, 0xb2, 0xef, 0xb1, 0xff, 0x67, 0x8b, 0xcb, 0x14, 0x79, 0xdb, 0x8e, 0x5d, 0x3d, 0x14, 0x8a}}
-	return a, nil
-}
-
-var __1528395721_add_function_delete_old_external_service_sync_jobsUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x8c\x53\x4d\x6f\x9b\x40\x10\xbd\xf3\x2b\xde\xc1\x07\xbb\x8a\x23\xe5\x8c\x5a\x89\xc0\xd6\x45\xb5\xa1\x5a\x70\xda\x9e\x10\x1f\x43\x20\x01\x96\xec\xae\x9b\xf8\xdf\x57\xbb\x6e\x2d\xdb\xb8\x6a\xe6\x34\x1a\xde\x9b\x8f\xc7\xdb\x7b\xb6\x0a\x23\xd7\x71\x96\x4b\x04\xd4\x91\x26\x88\xae\x82\xda\x0f\x25\x9e\x44\xa1\x40\x6f\x25\x8d\x1a\xba\x21\xf4\x42\x69\x48\x2a\x69\xd0\x10\x03\xa1\x16\x12\x94\x97\x0d\xe8\x4d\x93\x1c\xf2\x0e\x8a\xe4\xaf\xb6\xa4\x5b\xc7\xe7\xcc\x4b\x19\x3e\x6f\x23\x3f\x0d\xe3\x08\x95\x6d\x9d\x89\xae\xca\xfe\x82\xb3\x3f\xe0\xcc\xcc\xca\xcc\xac\xf9\x93\x28\x32\xa5\x73\x4d\x48\xd9\x8f\x74\x01\xce\xd2\x2d\x8f\x12\x3c\xc4\x61\xe0\x00\xc0\xda\x8b\x56\x5b\x6f\xc5\x30\x76\xe3\xa3\x7a\xe9\x6c\xd1\x4b\x30\x9b\xd9\xcc\xde\x62\x33\x13\x01\x5b\x33\xb3\x03\x8f\x37\xf8\xf7\x50\x7c\xff\xc2\x38\x43\x5b\x21\x8c\x30\x3f\x92\x4d\x2c\x97\xd0\x4d\xab\xa0\x76\xc5\xcb\x8e\xe4\x1e\x8a\x3a\x2a\xb5\x42\xde\x75\x90\xe2\xf5\x4c\x1c\x2d\x46\xdc\x5d\xd2\x8f\x0a\x3d\x4a\xb1\x1b\x21\xea\x89\x54\xea\xf6\x92\x13\xea\x03\xfa\x64\x4c\xb1\x9f\x1e\xd0\x56\x37\x97\x4c\x99\x0f\xcf\xca\x2c\xd3\xa3\x96\xa2\xc7\x1d\xb4\xb0\xbb\x0d\xbb\xbe\x20\x69\xc6\xdb\x76\xaf\xad\x6e\x6c\x5d\xe5\x3d\xbd\xab\xb3\x6e\x68\x80\x7a\x6e\x47\xdb\x1e\x75\x2b\xd5\x85\x05\xec\xca\x67\xb4\x84\xad\x99\x9f\x1a\x61\xed\x1f\x38\x97\xf6\x04\xf0\xe1\x66\xf2\xc5\x1c\x32\x5f\x20\x7e\x60\xfc\x0a\xcf\xc4\x37\x8f\xa7\xa1\x75\xd6\xfd\xcf\x6b\x17\x5c\x25\xc5\x3c\x60\xdc\x10\xea\x76\x68\x55\x43\x55\x96\x6b\x04\x2c\xf1\x27\xe8\xc5\xa4\xf2\x3f\x17\x79\x89\x7d\x2e\x13\xde\xc1\x5d\x07\x53\x7f\xc4\xd1\xe0\x67\xb8\x85\x3d\x98\xaa\x6c\xd2\xe1\xc0\xe6\x5e\xf4\x15\x9f\x4e\xdc\xb5\x70\x1d\x9b\xb3\x28\x70\x9d\xd9\xcc\x75\x1c\x3f\xde\x6c\xc2\xd4\x75\x7e\x07\x00\x00\xff\xff\xe4\xca\x52\xc4\xce\x03\x00\x00")
-
-func _1528395721_add_function_delete_old_external_service_sync_jobsUpSqlBytes() ([]byte, error) {
-	return bindataRead(
-		__1528395721_add_function_delete_old_external_service_sync_jobsUpSql,
-		"1528395721_add_function_delete_old_external_service_sync_jobs.up.sql",
-	)
-}
-
-func _1528395721_add_function_delete_old_external_service_sync_jobsUpSql() (*asset, error) {
-	bytes, err := _1528395721_add_function_delete_old_external_service_sync_jobsUpSqlBytes()
-	if err != nil {
-		return nil, err
-	}
-
-	info := bindataFileInfo{name: "1528395721_add_function_delete_old_external_service_sync_jobs.up.sql", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
-	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x7e, 0x45, 0xd5, 0x6c, 0x1a, 0xd5, 0x4c, 0x23, 0xe9, 0xa2, 0xf8, 0xd0, 0x32, 0xf8, 0xdf, 0xa7, 0xe3, 0xeb, 0x6f, 0x5, 0xfe, 0xd6, 0xe4, 0x4b, 0x24, 0x52, 0xeb, 0x7e, 0x47, 0x1d, 0xc1, 0x79}}
-	return a, nil
-}
-
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -1829,8 +1787,6 @@ var _bindata = map[string]func() (*asset, error){
 	"1528395719_migration_sql.up.sql":                                              _1528395719_migration_sqlUpSql,
 	"1528395720_drop_repo_sources_column.down.sql":                                 _1528395720_drop_repo_sources_columnDownSql,
 	"1528395720_drop_repo_sources_column.up.sql":                                   _1528395720_drop_repo_sources_columnUpSql,
-	"1528395721_add_function_delete_old_external_service_sync_jobs.down.sql":       _1528395721_add_function_delete_old_external_service_sync_jobsDownSql,
-	"1528395721_add_function_delete_old_external_service_sync_jobs.up.sql":         _1528395721_add_function_delete_old_external_service_sync_jobsUpSql,
 }
 
 // AssetDebug is true if the assets were built with the debug flag enabled.
@@ -1951,8 +1907,6 @@ var _bintree = &bintree{nil, map[string]*bintree{
 	"1528395719_migration_sql.up.sql":                                              {_1528395719_migration_sqlUpSql, map[string]*bintree{}},
 	"1528395720_drop_repo_sources_column.down.sql":                                 {_1528395720_drop_repo_sources_columnDownSql, map[string]*bintree{}},
 	"1528395720_drop_repo_sources_column.up.sql":                                   {_1528395720_drop_repo_sources_columnUpSql, map[string]*bintree{}},
-	"1528395721_add_function_delete_old_external_service_sync_jobs.down.sql":       {_1528395721_add_function_delete_old_external_service_sync_jobsDownSql, map[string]*bintree{}},
-	"1528395721_add_function_delete_old_external_service_sync_jobs.up.sql":         {_1528395721_add_function_delete_old_external_service_sync_jobsUpSql, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory.
