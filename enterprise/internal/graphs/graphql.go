@@ -78,6 +78,9 @@ func (r *Resolver) UpdateGraph(ctx context.Context, args *graphqlbackend.UpdateG
 	if err != nil {
 		return nil, err
 	}
+	if graphID == 0 {
+		return nil, ErrIDIsZero
+	}
 	graph := graphs.Graph{
 		ID:          graphID,
 		Name:        args.Input.Name,

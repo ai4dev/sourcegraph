@@ -19,20 +19,20 @@ func testStoreGraphs(t *testing.T, ctx context.Context, s *Store, clock clock) {
 	t.Run("Create", func(t *testing.T) {
 		for i := 0; i < cap(graphs); i++ {
 			description := "my description"
-			c := &graphspkg.Graph{
+			g := &graphspkg.Graph{
 				Name:        fmt.Sprintf("test-graph-%d", i),
 				Description: &description,
 				Spec:        "repo1\nrepo2",
 			}
 
 			if i%2 == 0 {
-				c.OwnerUserID = int32(i) + 7
+				g.OwnerUserID = int32(i) + 7
 			} else {
-				c.OwnerOrgID = int32(i) + 23
+				g.OwnerOrgID = int32(i) + 23
 			}
 
-			want := c.Clone()
-			have := c
+			want := g.Clone()
+			have := g
 
 			err := s.CreateGraph(ctx, have)
 			if err != nil {
@@ -51,7 +51,7 @@ func testStoreGraphs(t *testing.T, ctx context.Context, s *Store, clock clock) {
 				t.Fatal(diff)
 			}
 
-			graphs = append(graphs, c)
+			graphs = append(graphs, g)
 		}
 	})
 
@@ -76,11 +76,11 @@ func testStoreGraphs(t *testing.T, ctx context.Context, s *Store, clock clock) {
 
 		t.Run("OwnerUserID", func(t *testing.T) {
 			wantCounts := map[int32]int{}
-			for _, c := range graphs {
-				if c.OwnerUserID == 0 {
+			for _, g := range graphs {
+				if g.OwnerUserID == 0 {
 					continue
 				}
-				wantCounts[c.OwnerUserID] += 1
+				wantCounts[g.OwnerUserID] += 1
 			}
 			if len(wantCounts) == 0 {
 				t.Fatalf("No graphs with OwnerUserID")
@@ -100,11 +100,11 @@ func testStoreGraphs(t *testing.T, ctx context.Context, s *Store, clock clock) {
 
 		t.Run("OwnerOrgID", func(t *testing.T) {
 			wantCounts := map[int32]int{}
-			for _, c := range graphs {
-				if c.OwnerOrgID == 0 {
+			for _, g := range graphs {
+				if g.OwnerOrgID == 0 {
 					continue
 				}
-				wantCounts[c.OwnerOrgID] += 1
+				wantCounts[g.OwnerOrgID] += 1
 			}
 			if len(wantCounts) == 0 {
 				t.Fatalf("No graphs with OwnerOrgID")
@@ -126,13 +126,13 @@ func testStoreGraphs(t *testing.T, ctx context.Context, s *Store, clock clock) {
 	t.Run("List", func(t *testing.T) {
 		// The graphs store returns the graphs in reversed order.
 		reversedGraphs := make([]*graphspkg.Graph, len(graphs))
-		for i, c := range graphs {
-			reversedGraphs[len(graphs)-i-1] = c
+		for i, g := range graphs {
+			reversedGraphs[len(graphs)-i-1] = g
 		}
 
 		t.Run("With Limit", func(t *testing.T) {
 			for i := 1; i <= len(reversedGraphs); i++ {
-				cs, next, err := s.ListGraphs(ctx, ListGraphsOpts{LimitOpts: LimitOpts{Limit: i}})
+				gs, next, err := s.ListGraphs(ctx, ListGraphsOpts{LimitOpts: LimitOpts{Limit: i}})
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -149,7 +149,7 @@ func testStoreGraphs(t *testing.T, ctx context.Context, s *Store, clock clock) {
 				}
 
 				{
-					have, want := cs, reversedGraphs[:i]
+					have, want := gs, reversedGraphs[:i]
 					if len(have) != len(want) {
 						t.Fatalf("listed %d graphs, want: %d", len(have), len(want))
 					}
@@ -180,11 +180,11 @@ func testStoreGraphs(t *testing.T, ctx context.Context, s *Store, clock clock) {
 		})
 
 		t.Run("ListGraphs by OwnerUserID", func(t *testing.T) {
-			for _, c := range graphs {
-				if c.OwnerUserID == 0 {
+			for _, g := range graphs {
+				if g.OwnerUserID == 0 {
 					continue
 				}
-				opts := ListGraphsOpts{OwnerUserID: c.OwnerUserID}
+				opts := ListGraphsOpts{OwnerUserID: g.OwnerUserID}
 				have, _, err := s.ListGraphs(ctx, opts)
 				if err != nil {
 					t.Fatal(err)
@@ -199,11 +199,11 @@ func testStoreGraphs(t *testing.T, ctx context.Context, s *Store, clock clock) {
 		})
 
 		t.Run("ListGraphs by OwnerOrgID", func(t *testing.T) {
-			for _, c := range graphs {
-				if c.OwnerOrgID == 0 {
+			for _, g := range graphs {
+				if g.OwnerOrgID == 0 {
 					continue
 				}
-				opts := ListGraphsOpts{OwnerOrgID: c.OwnerOrgID}
+				opts := ListGraphsOpts{OwnerOrgID: g.OwnerOrgID}
 				have, _, err := s.ListGraphs(ctx, opts)
 				if err != nil {
 					t.Fatal(err)
@@ -219,26 +219,18 @@ func testStoreGraphs(t *testing.T, ctx context.Context, s *Store, clock clock) {
 	})
 
 	t.Run("Update", func(t *testing.T) {
-		for _, c := range graphs {
-			c.Name += "-updated"
-			description := *c.Description + "-updated"
-			c.Description = &description
-			c.Spec += "-updated"
-
-			if c.OwnerUserID != 0 {
-				c.OwnerUserID++
-			}
-
-			if c.OwnerOrgID != 0 {
-				c.OwnerOrgID++
-			}
+		for _, g := range graphs {
+			g.Name += "-updated"
+			description := *g.Description + "-updated"
+			g.Description = &description
+			g.Spec += "-updated"
 
 			clock.add(1 * time.Second)
 
-			want := c
+			want := g
 			want.UpdatedAt = clock.now()
 
-			have := c.Clone()
+			have := g.Clone()
 			if err := s.UpdateGraph(ctx, have); err != nil {
 				t.Fatal(err)
 			}

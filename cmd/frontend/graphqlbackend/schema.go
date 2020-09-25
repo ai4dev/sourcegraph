@@ -8017,7 +8017,17 @@ interface GraphOwner {
     """
     A list of graphs owned by this graph owner.
     """
-    graphs(first: Int): GraphConnection!
+    graphs(
+        """
+        Returns the first n graphs from the list.
+        """
+        first: Int = 50
+
+        """
+        Opaque pagination cursor.
+        """
+        after: String
+    ): GraphConnection!
 
     """
     The URL to this graph owner.

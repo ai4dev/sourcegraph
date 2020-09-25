@@ -85,7 +85,7 @@ func (s *Store) UpdateGraph(ctx context.Context, g *graphs.Graph) error {
 var updateGraphQueryFmtstr = `
 -- source: enterprise/internal/graphs/store_graphs.go:UpdateGraph
 UPDATE graphs
-SET (%s) = (%s, %s, %s, %s, %s, %s, %s)
+SET (%s) = (%v, %v, %s, %s, %s, %s, %s)
 WHERE id = %s
 RETURNING %s
 `
@@ -96,8 +96,8 @@ func (s *Store) updateGraphQuery(g *graphs.Graph) (*sqlf.Query, error) {
 	return sqlf.Sprintf(
 		updateGraphQueryFmtstr,
 		sqlf.Join(graphInsertColumns, ", "),
-		nullInt32Column(g.OwnerUserID),
-		nullInt32Column(g.OwnerOrgID),
+		sqlf.Sprintf("graphs.owner_user_id"), // don't update this column's value
+		sqlf.Sprintf("graphs.owner_org_id"),  // don't update this column's value
 		g.Name,
 		g.Description,
 		g.Spec,

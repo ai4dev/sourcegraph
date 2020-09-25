@@ -20,7 +20,7 @@ type graphResolver struct {
 
 	// Cache the owner on the resolver, since it's accessed more than once.
 	ownerOnce sync.Once
-	owner     graphqlbackend.GraphOwnerResolver
+	owner     *graphqlbackend.GraphOwnerResolver
 	ownerErr  error
 }
 
@@ -39,12 +39,13 @@ func (r *graphResolver) ID() graphql.ID {
 	return marshalGraphID(r.Graph.ID)
 }
 
-func (r *graphResolver) Owner(ctx context.Context) (graphqlbackend.GraphOwnerResolver, error) {
+func (r *graphResolver) Owner(ctx context.Context) (*graphqlbackend.GraphOwnerResolver, error) {
 	return r.computeOwner(ctx)
 }
 
-func (r *graphResolver) computeOwner(ctx context.Context) (graphqlbackend.GraphOwnerResolver, error) {
+func (r *graphResolver) computeOwner(ctx context.Context) (*graphqlbackend.GraphOwnerResolver, error) {
 	r.ownerOnce.Do(func() {
+		r.owner = &graphqlbackend.GraphOwnerResolver{}
 		if r.Graph.OwnerUserID != 0 {
 			r.owner.GraphOwner, r.ownerErr = graphqlbackend.UserByIDInt32(
 				ctx,

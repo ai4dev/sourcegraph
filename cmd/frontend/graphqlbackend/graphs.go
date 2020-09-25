@@ -22,6 +22,7 @@ type GraphsResolver interface {
 
 type GraphResolver interface {
 	ID() graphql.ID
+	Owner(context.Context) (*GraphOwnerResolver, error)
 	Name() string
 	Description() *string
 	Spec() string
