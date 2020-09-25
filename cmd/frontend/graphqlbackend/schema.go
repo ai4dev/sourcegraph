@@ -685,6 +685,16 @@ type Mutation {
         """
         level: String!
     ): EmptyResponse!
+
+    """
+    Update a graph.
+    """
+    updateGraph(input: UpdateGraphInput!): Graph!
+
+    """
+    Delete a graph.
+    """
+    deleteGraph(id: ID!): EmptyResponse!
 }
 
 """
@@ -5329,7 +5339,7 @@ type UserConnection {
 """
 A user.
 """
-type User implements Node & SettingsSubject & Namespace {
+type User implements Node & SettingsSubject & Namespace & GraphOwner {
     """
     The unique ID for the user.
     """
@@ -5515,6 +5525,11 @@ type User implements Node & SettingsSubject & Namespace {
         """
         viewerCanAdminister: Boolean
     ): CampaignConnection!
+
+    """
+    A list of graphs owned by this user.
+    """
+    graphs(first: Int): GraphConnection!
 }
 
 """
@@ -5785,7 +5800,7 @@ type OrgConnection {
 """
 An organization, which is a group of users.
 """
-type Org implements Node & SettingsSubject & Namespace {
+type Org implements Node & SettingsSubject & Namespace & GraphOwner {
     """
     The unique ID for the organization.
     """
@@ -5872,6 +5887,11 @@ type Org implements Node & SettingsSubject & Namespace {
         """
         viewerCanAdminister: Boolean
     ): CampaignConnection!
+
+    """
+    A list of graphs owned by this organization.
+    """
+    graphs(first: Int): GraphConnection!
 }
 
 """
@@ -7961,5 +7981,72 @@ type EventLogsConnection {
     Pagination information.
     """
     pageInfo: PageInfo!
+}
+
+"""
+A graph owner is an entity that owns graphs, such as a user or organization.
+"""
+interface GraphOwner {
+    id: ID!
+
+    """
+    A list of graphs owned by this graph owner.
+    """
+    graphs(first: Int): GraphConnection!
+
+    """
+    The URL to this graph owner.
+    """
+    url: String!
+}
+
+"""
+A list of graphs.
+"""
+type GraphConnection {
+    """
+    A list of graphs.
+    """
+    nodes: [Graph!]!
+    """
+    The total count of graphs in the connection. This total count may be larger
+    than the number of nodes in this object when the result is paginated.
+    """
+    totalCount: Int!
+    """
+    Pagination information.
+    """
+    pageInfo: PageInfo!
+}
+
+"""
+A graph defines a set of code. Currently the only supported way to define a graph
+is to specify a set of repositories, each at a specific revision. In the future,
+more ways to define graphs will be supported.
+"""
+type Graph implements Node {
+    id: ID!
+
+    name: String!
+    description: String!
+    spec: String!
+
+    url: String!
+
+    """
+    The URL where the graph can be edited, if the viewer has sufficient privileges to edit the graph.
+    """
+    editURL: String
+}
+
+input UpdateGraphInput {
+    """
+    The ID of the graph to update.
+    """
+    id: ID!
+
+    name: String
+    description: String
+    spec: String
 }
 `

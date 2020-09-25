@@ -388,6 +388,19 @@ func (r *NodeResolver) ToExternalChangeset() (ExternalChangesetResolver, bool) {
 	return n.ToExternalChangeset()
 }
 
+func (r *NodeResolver) ToGraph() (Graph, bool) {
+	n, ok := r.Node.(Graph)
+	return n, ok
+}
+
+func (r *NodeResolver) ToGraphOwner() (*GraphOwnerResolver, bool) {
+	n, ok := r.Node.(GraphOwner)
+	if !ok {
+		return nil, false
+	}
+	return &GraphOwnerResolver{n}, true
+}
+
 func (r *NodeResolver) ToHiddenExternalChangeset() (HiddenExternalChangesetResolver, bool) {
 	n, ok := r.Node.(ChangesetResolver)
 	if !ok {
@@ -548,6 +561,8 @@ func (r *schemaResolver) nodeByID(ctx context.Context, id graphql.ID) (Node, err
 		return r.ChangesetSpecByID(ctx, id)
 	case "Changeset":
 		return r.ChangesetByID(ctx, id)
+	case "Graph":
+		return GraphByID(ctx, id)
 	case "ProductLicense":
 		if f := ProductLicenseByID; f != nil {
 			return f(ctx, id)

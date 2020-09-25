@@ -194,6 +194,11 @@ export const routes: readonly LayoutRouteProps<any>[] = [
         render: props => <RepogroupPage {...props} repogroupMetadata={stanford} />,
         condition: props => window.context.sourcegraphDotComMode,
     },
+    /* {
+        path: '/cncf',
+        render: lazyComponent(() => import('./namespaces/profile/NamespaceProfilePage'), 'NamespaceProfilePage'),
+        condition: (): boolean => window.context.sourcegraphDotComMode,
+    }, */
     {
         path: '/:repoRevAndRest+',
         render: lazyComponent(() => import('./repo/RepoContainer'), 'RepoContainer'),
