@@ -37,7 +37,11 @@ func NewSyncWorker(ctx context.Context, db dbutil.DB, handler dbworker.Handler, 
 		opts.WorkerInterval = 10 * time.Second
 	}
 
-	dbHandle := basestore.NewHandleWithDB(db)
+	dbHandle := basestore.NewHandleWithDB(db, sql.TxOptions{
+		// Change the isolation level for every transaction created by the worker
+		// so that multiple workers can modify the same rows without conflicts.
+		Isolation: sql.LevelReadCommitted,
+	})
 
 	syncJobColumns := append(store.DefaultColumnExpressions(), []*sqlf.Query{
 		sqlf.Sprintf("external_service_id"),
