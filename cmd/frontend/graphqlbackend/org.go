@@ -277,8 +277,8 @@ func (*schemaResolver) AddUserToOrganization(ctx context.Context, args *struct {
 	return &EmptyResponse{}, nil
 }
 
-func (o *OrgResolver) Graphs(ctx context.Context, args *GraphConnectionArgs) (*GraphConnection, error) {
-	return GraphsForGraphOwner(ctx, GraphOwnerResolver{o}, *args)
+func (o *OrgResolver) Graphs(ctx context.Context, args *GraphConnectionArgs) (GraphConnectionResolver, error) {
+	id := o.ID()
+	args.Owner = &id
+	return EnterpriseResolvers.graphsResolver.Graphs(ctx, *args)
 }
-
-func (o *OrgResolver) ToNode() (Node, bool) { return o, true }

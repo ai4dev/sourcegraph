@@ -2,80 +2,39 @@ package graphqlbackend
 
 import (
 	"context"
-	"strings"
+	"errors"
+	"fmt"
 
 	"github.com/graph-gophers/graphql-go"
-	"github.com/graph-gophers/graphql-go/relay"
 	"github.com/sourcegraph/sourcegraph/cmd/frontend/graphqlbackend/graphqlutil"
-	"github.com/sourcegraph/sourcegraph/internal/conf"
-	"github.com/sourcegraph/sourcegraph/schema"
 )
 
-// Graph is the GraphQL Graph interface.
-type Graph interface {
+type GraphsResolver interface {
+	// Mutations
+	CreateGraph(ctx context.Context, args *CreateGraphArgs) (GraphResolver, error)
+	UpdateGraph(ctx context.Context, args *UpdateGraphArgs) (GraphResolver, error)
+	DeleteGraph(ctx context.Context, args *DeleteGraphArgs) (*EmptyResponse, error)
+
+	// Helpers
+	GraphByID(ctx context.Context, id graphql.ID) (GraphResolver, error)
+	Graphs(ctx context.Context, args GraphConnectionArgs) (GraphConnectionResolver, error)
+}
+
+type GraphResolver interface {
 	ID() graphql.ID
 	Name() string
 	Description() string
 	Spec() string
-	URL() string
-	EditURL() *string
+	URL(context.Context) (string, error)
+	EditURL(context.Context) (string, error)
+	ViewerCanAdminister(context.Context) (bool, error)
+	CreatedAt() DateTime
+	UpdatedAt() DateTime
 }
 
-// GraphResolver implements the GraphQL Graph interface.
-type GraphResolver struct {
-	vc *schema.VersionContext
-}
-
-func (g *GraphResolver) ID() graphql.ID {
-	// TODO(sqs): pick globally unique
-	return relay.MarshalID("Graph", g.vc.Name)
-}
-
-func (g *GraphResolver) Name() string {
-	return g.vc.Name
-}
-
-func (g *GraphResolver) Description() string {
-	return g.vc.Description
-}
-
-func (g *GraphResolver) Spec() string {
-	var repos []string
-	for _, rev := range g.vc.Revisions {
-		repos = append(repos, rev.Repo)
-	}
-	return strings.Join(repos, "\n")
-}
-
-func (g *GraphResolver) URL() string {
-	// TODO(sqs)
-	return "/users/sqs/graphs/" + string(g.ID())
-}
-
-func (g *GraphResolver) EditURL() *string {
-	urlStr := g.URL() + "/edit"
-	return &urlStr
-}
-
-// GraphByID looks up a graph by ID.
-func GraphByID(ctx context.Context, id graphql.ID) (Graph, error) {
-	var name string
-	if err := relay.UnmarshalSpec(id, &name); err != nil {
-		return nil, err
-	}
-
-	for _, vc := range conf.Get().ExperimentalFeatures.VersionContexts {
-		if vc.Name == name {
-			return &GraphResolver{vc}, nil
-		}
-	}
-	return nil, nil
-}
-
-// GraphOwner is the interface for the GraphQL GraphOwner interface.
 type GraphOwner interface {
 	ID() graphql.ID
-	Graphs(ctx context.Context, args *GraphConnectionArgs) (*GraphConnection, error)
+	Graphs(ctx context.Context, args *GraphConnectionArgs) (GraphConnectionResolver, error)
 	URL() string
 }
 
@@ -98,48 +57,86 @@ func (r *GraphOwnerResolver) ToOrg() (*OrgResolver, bool) {
 	return n, ok
 }
 
-func GraphsForGraphOwner(ctx context.Context, owner GraphOwnerResolver, args GraphConnectionArgs) (*GraphConnection, error) {
-	// TODO(sqs): use version contexts
-	var graphs []Graph
-	for _, vc := range conf.Get().ExperimentalFeatures.VersionContexts {
-		graphs = append(graphs, &GraphResolver{vc})
+// GraphOwner looks up a GraphQL value of type GraphOwner by ID.
+func GraphOwnerByID(ctx context.Context, id graphql.ID) (*GraphOwnerResolver, error) {
+	// Reuse NamespaceByID because both support User and Org.
+	n, err := NamespaceByID(ctx, id)
+	if err != nil {
+		return nil, err
 	}
-	return &GraphConnection{Args: args, Graphs: graphs}, nil
+	switch n := n.(type) {
+	case *UserResolver:
+		return &GraphOwnerResolver{n}, nil
+	case *OrgResolver:
+		return &GraphOwnerResolver{n}, nil
+	default:
+		panic(fmt.Sprintf("unexpected GraphOwner type: %T", n))
+	}
+}
+
+func UnmarshalGraphOwnerID(id graphql.ID, userID *int32, orgID *int32) error {
+	// Reuse UnmarshalNamespaceID because both support User and Org.
+	return UnmarshalNamespaceID(id, userID, orgID)
+}
+
+type GraphConnectionResolver interface {
+	Nodes(ctx context.Context) ([]GraphResolver, error)
+	TotalCount(ctx context.Context) (int32, error)
+	PageInfo(ctx context.Context) (*graphqlutil.PageInfo, error)
 }
 
 type GraphConnectionArgs struct {
-	First *int32
+	First int32
+	After *string
+	Owner *graphql.ID
 }
 
-// GraphConnection implements the GraphQL GraphConnection type.
-type GraphConnection struct {
-	Args   GraphConnectionArgs
-	Graphs []Graph
-}
-
-func (c GraphConnection) Nodes() []Graph {
-	graphs := c.Graphs
-	if first := c.Args.First; first != nil && int(*first) <= len(graphs) {
-		graphs = graphs[:int(*first)]
+type CreateGraphArgs struct {
+	Input struct {
+		Owner       graphql.ID
+		Name        string
+		Description string
+		Spec        string
 	}
-	return graphs
-}
-func (c GraphConnection) TotalCount() int32 { return int32(len(c.Graphs)) }
-func (c GraphConnection) PageInfo() *graphqlutil.PageInfo {
-	return graphqlutil.HasNextPage(len(c.Graphs) > len(c.Nodes()))
 }
 
-type UpdateGraphInput struct {
-	ID          graphql.ID
-	Name        *string
-	Description *string
-	Spec        *string
+type UpdateGraphArgs struct {
+	Input struct {
+		ID          graphql.ID
+		Name        string
+		Description string
+		Spec        string
+	}
 }
 
-func (r *schemaResolver) UpdateGraph(ctx context.Context, args *struct{ Input UpdateGraphInput }) (Graph, error) {
-	panic("TODO(sqs)")
+type DeleteGraphArgs struct {
+	Graph graphql.ID
 }
 
-func (r *schemaResolver) DeleteGraph(ctx context.Context, args *struct{ ID graphql.ID }) (*EmptyResponse, error) {
-	panic("TODO(sqs)")
+var graphsOnlyInEnterprise = errors.New("graphs are only available in enterprise")
+
+type defaultGraphsResolver struct{}
+
+var DefaultGraphsResolver GraphsResolver = defaultGraphsResolver{}
+
+// Mutations
+func (defaultGraphsResolver) CreateGraph(ctx context.Context, args *CreateGraphArgs) (GraphResolver, error) {
+	return nil, graphsOnlyInEnterprise
+}
+
+func (defaultGraphsResolver) UpdateGraph(ctx context.Context, args *UpdateGraphArgs) (GraphResolver, error) {
+	return nil, graphsOnlyInEnterprise
+}
+
+func (defaultGraphsResolver) DeleteGraph(ctx context.Context, args *DeleteGraphArgs) (*EmptyResponse, error) {
+	return nil, graphsOnlyInEnterprise
+}
+
+// Helpers
+func (defaultGraphsResolver) GraphByID(ctx context.Context, id graphql.ID) (GraphResolver, error) {
+	return nil, graphsOnlyInEnterprise
+}
+
+func (defaultGraphsResolver) Graphs(ctx context.Context, args GraphConnectionArgs) (GraphConnectionResolver, error) {
+	return nil, graphsOnlyInEnterprise
 }

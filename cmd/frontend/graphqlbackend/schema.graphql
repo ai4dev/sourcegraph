@@ -680,6 +680,11 @@ type Mutation {
     ): EmptyResponse!
 
     """
+    Create a graph.
+    """
+    createGraph(input: CreateGraphInput!): Graph!
+
+    """
     Update a graph.
     """
     updateGraph(input: UpdateGraphInput!): Graph!
@@ -687,7 +692,7 @@ type Mutation {
     """
     Delete a graph.
     """
-    deleteGraph(id: ID!): EmptyResponse!
+    deleteGraph(graph: ID!): EmptyResponse!
 }
 
 """
@@ -5522,7 +5527,17 @@ type User implements Node & SettingsSubject & Namespace & GraphOwner {
     """
     A list of graphs owned by this user.
     """
-    graphs(first: Int): GraphConnection!
+    graphs(
+        """
+        Returns the first n graphs from the list.
+        """
+        first: Int = 50
+
+        """
+        Opaque pagination cursor.
+        """
+        after: String
+    ): GraphConnection!
 }
 
 """
@@ -5884,7 +5899,17 @@ type Org implements Node & SettingsSubject & Namespace & GraphOwner {
     """
     A list of graphs owned by this organization.
     """
-    graphs(first: Int): GraphConnection!
+    graphs(
+        """
+        Returns the first n graphs from the list.
+        """
+        first: Int = 50
+
+        """
+        Opaque pagination cursor.
+        """
+        after: String
+    ): GraphConnection!
 }
 
 """
@@ -8020,16 +8045,61 @@ more ways to define graphs will be supported.
 type Graph implements Node {
     id: ID!
 
+    """
+    The owner of the graph.
+    """
+    owner: GraphOwner
+
+    """
+    The name of the graph.
+    """
     name: String!
+
+    """
+    A description of the graph.
+    """
     description: String!
+
+    """
+    The specification of the graph. The format is undefined and is subject to change without notice.
+    """
     spec: String!
 
+    """
+    The URL to the graph.
+    """
     url: String!
 
     """
-    The URL where the graph can be edited, if the viewer has sufficient privileges to edit the graph.
+    The URL where the graph can be edited.
     """
-    editURL: String
+    editURL: String!
+
+    """
+    Whether the viewer can update and delete this graph.
+    """
+    viewerCanAdminister: Boolean!
+
+    """
+    The date and time when the graph was created.
+    """
+    createdAt: DateTime!
+
+    """
+    The date and time when the graph was updated.
+    """
+    updatedAt: DateTime!
+}
+
+input CreateGraphInput {
+    """
+    The owner of the graph.
+    """
+    owner: ID!
+
+    name: String
+    description: String
+    spec: String
 }
 
 input UpdateGraphInput {
@@ -8038,7 +8108,7 @@ input UpdateGraphInput {
     """
     id: ID!
 
-    name: String
-    description: String
-    spec: String
+    name: String!
+    description: String!
+    spec: String!
 }

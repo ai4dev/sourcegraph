@@ -334,8 +334,8 @@ func viewerCanChangeUsername(ctx context.Context, userID int32) bool {
 	return backend.CheckCurrentUserIsSiteAdmin(ctx) == nil
 }
 
-func (r *UserResolver) Graphs(ctx context.Context, args *GraphConnectionArgs) (*GraphConnection, error) {
-	return GraphsForGraphOwner(ctx, GraphOwnerResolver{r}, *args)
+func (r *UserResolver) Graphs(ctx context.Context, args *GraphConnectionArgs) (GraphConnectionResolver, error) {
+	id := r.ID()
+	args.Owner = &id
+	return EnterpriseResolvers.graphsResolver.Graphs(ctx, *args)
 }
-
-func (r *UserResolver) ToNode() (Node, bool) { return r, true }
