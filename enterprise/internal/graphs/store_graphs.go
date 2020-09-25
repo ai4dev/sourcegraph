@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/keegancsmith/sqlf"
+	"github.com/sourcegraph/sourcegraph/internal/db/dbutil"
 	"github.com/sourcegraph/sourcegraph/internal/graphs"
 )
 
@@ -44,7 +45,7 @@ func (s *Store) CreateGraph(ctx context.Context, g *graphs.Graph) error {
 var createGraphQueryFmtstr = `
 -- source: enterprise/internal/graphs/store_graphs.go:CreateGraph
 INSERT INTO graphs (%s)
-VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+VALUES (%s, %s, %s, %s, %s, %s, %s)
 RETURNING %s
 `
 
@@ -60,8 +61,8 @@ func (s *Store) createGraphQuery(g *graphs.Graph) (*sqlf.Query, error) {
 	return sqlf.Sprintf(
 		createGraphQueryFmtstr,
 		sqlf.Join(graphInsertColumns, ", "),
-		g.OwnerUserID,
-		g.OwnerOrgID,
+		nullInt32Column(g.OwnerUserID),
+		nullInt32Column(g.OwnerOrgID),
 		g.Name,
 		g.Description,
 		g.Spec,
@@ -95,8 +96,8 @@ func (s *Store) updateGraphQuery(g *graphs.Graph) (*sqlf.Query, error) {
 	return sqlf.Sprintf(
 		updateGraphQueryFmtstr,
 		sqlf.Join(graphInsertColumns, ", "),
-		g.OwnerUserID,
-		g.OwnerOrgID,
+		nullInt32Column(g.OwnerUserID),
+		nullInt32Column(g.OwnerOrgID),
 		g.Name,
 		g.Description,
 		g.Spec,
@@ -254,8 +255,8 @@ func listGraphsQuery(opts *ListGraphsOpts) *sqlf.Query {
 func scanGraph(g *graphs.Graph, sc scanner) error {
 	return sc.Scan(
 		&g.ID,
-		&g.OwnerUserID,
-		&g.OwnerOrgID,
+		&dbutil.NullInt32{N: &g.OwnerUserID},
+		&dbutil.NullInt32{N: &g.OwnerOrgID},
 		&g.Name,
 		&g.Description,
 		&g.Spec,

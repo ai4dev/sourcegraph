@@ -10,7 +10,7 @@ type Graph struct {
 	OwnerOrgID  int32
 
 	Name        string
-	Description string
+	Description *string
 	Spec        string
 
 	CreatedAt time.Time

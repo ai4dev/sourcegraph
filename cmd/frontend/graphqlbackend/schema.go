@@ -8065,7 +8065,7 @@ type Graph implements Node {
     """
     A description of the graph.
     """
-    description: String!
+    description: String
 
     """
     The specification of the graph. The format is undefined and is subject to change without notice.
@@ -8104,9 +8104,9 @@ input CreateGraphInput {
     """
     owner: ID!
 
-    name: String
+    name: String!
     description: String
-    spec: String
+    spec: String!
 }
 
 input UpdateGraphInput {
@@ -8116,7 +8116,7 @@ input UpdateGraphInput {
     id: ID!
 
     name: String!
-    description: String!
+    description: String
     spec: String!
 }
 `

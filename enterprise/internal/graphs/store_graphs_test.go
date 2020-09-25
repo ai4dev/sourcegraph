@@ -18,9 +18,10 @@ func testStoreGraphs(t *testing.T, ctx context.Context, s *Store, clock clock) {
 
 	t.Run("Create", func(t *testing.T) {
 		for i := 0; i < cap(graphs); i++ {
+			description := "my description"
 			c := &graphspkg.Graph{
 				Name:        fmt.Sprintf("test-graph-%d", i),
-				Description: "All the Javascripts are belong to us",
+				Description: &description,
 				Spec:        "repo1\nrepo2",
 			}
 
@@ -220,7 +221,8 @@ func testStoreGraphs(t *testing.T, ctx context.Context, s *Store, clock clock) {
 	t.Run("Update", func(t *testing.T) {
 		for _, c := range graphs {
 			c.Name += "-updated"
-			c.Description += "-updated"
+			description := *c.Description + "-updated"
+			c.Description = &description
 			c.Spec += "-updated"
 
 			if c.OwnerUserID != 0 {

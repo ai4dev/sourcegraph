@@ -69,7 +69,7 @@ func (r *graphResolver) Name() string {
 	return r.Graph.Name
 }
 
-func (r *graphResolver) Description() string {
+func (r *graphResolver) Description() *string {
 	return r.Graph.Description
 }
 

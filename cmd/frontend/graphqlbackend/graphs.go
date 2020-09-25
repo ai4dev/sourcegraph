@@ -23,7 +23,7 @@ type GraphsResolver interface {
 type GraphResolver interface {
 	ID() graphql.ID
 	Name() string
-	Description() string
+	Description() *string
 	Spec() string
 	URL(context.Context) (string, error)
 	EditURL(context.Context) (string, error)
@@ -95,7 +95,7 @@ type CreateGraphArgs struct {
 	Input struct {
 		Owner       graphql.ID
 		Name        string
-		Description string
+		Description *string
 		Spec        string
 	}
 }
@@ -104,7 +104,7 @@ type UpdateGraphArgs struct {
 	Input struct {
 		ID          graphql.ID
 		Name        string
-		Description string
+		Description *string
 		Spec        string
 	}
 }

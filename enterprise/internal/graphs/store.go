@@ -73,6 +73,13 @@ func scanAll(rows *sql.Rows, scan scanFunc) (err error) {
 	return rows.Err()
 }
 
+func nullInt32Column(n int32) *int32 {
+	if n == 0 {
+		return nil
+	}
+	return &n
+}
+
 type LimitOpts struct {
 	Limit int
 }
