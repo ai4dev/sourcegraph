@@ -7,19 +7,20 @@ import { ListGraphsResult, ListGraphsVariables } from '../../../graphql-operatio
 import { map } from 'rxjs/operators'
 import { Link } from 'react-router-dom'
 import { GraphIcon } from '../icons'
+import PlusIcon from 'mdi-react/PlusIcon'
 
 interface Props extends NamespaceAreaContext {}
 
-export const GraphOwnerGraphListPage: React.FunctionComponent<Props> = ({ namespace }) => {
+export const GraphOwnerListGraphsPage: React.FunctionComponent<Props> = ({ namespace }) => {
     const graphs = useObservable(
         useMemo(
             () =>
                 requestGraphQL<ListGraphsResult, ListGraphsVariables>(
                     gql`
-                        query ListGraphs($graphOwner: ID!, $first: Int) {
+                        query ListGraphs($graphOwner: ID!) {
                             node(id: $graphOwner) {
                                 ... on GraphOwner {
-                                    graphs(first: $first) {
+                                    graphs {
                                         nodes {
                                             id
                                             name
@@ -33,7 +34,8 @@ export const GraphOwnerGraphListPage: React.FunctionComponent<Props> = ({ namesp
                             }
                         }
                     `,
-                    { graphOwner: namespace.id, first: null }
+                    // TODO(sqs): paginate with `first`
+                    { graphOwner: namespace.id }
                 ).pipe(
                     map(dataOrThrowErrors),
                     map(data => data.node?.graphs)
@@ -44,20 +46,31 @@ export const GraphOwnerGraphListPage: React.FunctionComponent<Props> = ({ namesp
 
     return (
         <div className="container">
-            <ul className="list-group">
-                {graphs?.nodes.map(g => (
-                    <li key={g.id} className="list-group-item d-flex align-items-start">
-                        <GraphIcon className="mt-1 mr-2 icon-inline text-muted" />
-                        <header className="flex-1 mr-3">
-                            <h3 className="mb-0">{g.name}</h3>
-                            {g.description && <small className="text-muted">{g.description}</small>}
-                        </header>
-                        <Link to={g.editURL} className="btn btn-secondary">
-                            Edit
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+            <div className="d-flex justify-content-end mb-2">
+                <Link to={`${namespace.url}/graphs/new`} className="btn btn-secondary">
+                    <PlusIcon className="icon-inline" /> New graph
+                </Link>
+            </div>
+            {graphs && graphs.nodes.length > 0 ? (
+                <ul className="list-group">
+                    {graphs.nodes.map(graph => (
+                        <li key={graph.id} className="list-group-item d-flex align-items-start">
+                            <GraphIcon className="mt-1 mr-2 icon-inline text-muted" />
+                            <header className="flex-1 mr-3">
+                                <h3 className="mb-0">{graph.name}</h3>
+                                {graph.description && <small className="text-muted">{graph.description}</small>}
+                            </header>
+                            <Link to={graph.editURL} className="btn btn-secondary">
+                                Edit
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <div className="card">
+                    <p className="card-body mb-0 text-muted">No graphs.</p>
+                </div>
+            )}
         </div>
     )
 }

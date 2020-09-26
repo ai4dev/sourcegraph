@@ -7,12 +7,22 @@ export const graphOwnerAreaRoutes: readonly NamespaceAreaRoute[] = [
     {
         path: '/graphs',
         exact: true,
-        render: lazyComponent(() => import('./GraphOwnerGraphListPage'), 'GraphOwnerGraphListPage'),
+        render: lazyComponent(() => import('./GraphOwnerListGraphsPage'), 'GraphOwnerListGraphsPage'),
+    },
+    {
+        path: '/graphs/new',
+        exact: true,
+        render: lazyComponent(() => import('./GraphOwnerNewGraphPage'), 'GraphOwnerNewGraphPage'),
+    },
+    {
+        path: '/graphs/:id',
+        exact: true,
+        render: lazyComponent(() => import('./GraphOwnerGraphPage'), 'GraphOwnerGraphPage'),
     },
     {
         path: '/graphs/:id/edit',
         exact: true,
-        render: lazyComponent(() => import('./GraphOwnerGraphEditPage'), 'GraphOwnerGraphEditPage'),
+        render: lazyComponent(() => import('./GraphOwnerEditGraphPage'), 'GraphOwnerEditGraphPage'),
     },
 ]
 

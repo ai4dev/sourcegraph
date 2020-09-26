@@ -307,6 +307,7 @@ func AndOrQueryEnabled() bool {
 }
 
 func GraphsEnabled() bool {
+	return true // TODO(sqs)
 	v := ExperimentalFeatures().Graphs
 	return v != nil && *v // default to disabled
 }
