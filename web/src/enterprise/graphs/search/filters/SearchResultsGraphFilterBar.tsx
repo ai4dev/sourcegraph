@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react'
 import { FilterChip } from '../../../../search/FilterChip'
-import { GraphSelectionProps } from '../../selector/graphSelectionProps'
+import { GraphSelectionProps, SelectableGraph } from '../../selector/graphSelectionProps'
 import { useGraphs } from '../../selector/useGraphs'
+import { GraphFilterChip } from './GraphFilterChip'
 
 interface Props extends GraphSelectionProps {
     className?: string
@@ -11,7 +12,7 @@ interface Props extends GraphSelectionProps {
 
 const NULL_GRAPH_ID = 'null'
 
-export const SearchResultsGraphFilter: React.FunctionComponent<Props> = ({
+export const SearchResultsGraphFilterBar: React.FunctionComponent<Props> = ({
     selectedGraph,
     setSelectedGraph,
     className = '',
@@ -21,22 +22,18 @@ export const SearchResultsGraphFilter: React.FunctionComponent<Props> = ({
 }) => {
     const graphs = useGraphs(props)
 
-    const onFilterChosen = useCallback(
-        (value: string): void => setSelectedGraph(value === NULL_GRAPH_ID ? null : value),
-        []
-    )
+    const onGraphSelect = useCallback((graph: SelectableGraph): void => setSelectedGraph(graph.id), [])
 
     return (
         <div className={className} data-testid={dataTestId}>
             Graphs:
             <div className={listClassName}>
                 {graphs.map(graph => (
-                    <FilterChip
+                    <GraphFilterChip
                         key={graph.id === null ? NULL_GRAPH_ID : graph.id}
-                        name={graph.name}
-                        query={selectedGraph === null ? NULL_GRAPH_ID : selectedGraph} // hack to show selected graph
-                        value={graph.id === null ? NULL_GRAPH_ID : graph.id}
-                        onFilterChosen={onFilterChosen}
+                        graph={graph}
+                        isSelected={selectedGraph === graph.id}
+                        onSelect={onGraphSelect}
                     />
                 ))}
             </div>

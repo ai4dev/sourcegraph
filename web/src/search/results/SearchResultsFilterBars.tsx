@@ -1,7 +1,7 @@
 import React from 'react'
 import { SearchFilters } from '../../../../shared/src/api/protocol'
 import * as GQL from '../../../../shared/src/graphql/schema'
-import { SearchResultsGraphFilter } from '../../enterprise/graphs/search/filters/SearchResultsGraphFilter'
+import { SearchResultsGraphFilterBar } from '../../enterprise/graphs/search/filters/SearchResultsGraphFilterBar'
 import { GraphSelectionProps } from '../../enterprise/graphs/selector/graphSelectionProps'
 import { QuickLink } from '../../schema/settings.schema'
 import { FilterChip } from '../FilterChip'
@@ -37,7 +37,7 @@ export const SearchResultsFilterBars: React.FunctionComponent<
 }) => (
     <div className="search-results-filter-bars">
         {window.context?.graphsEnabled && (
-            <SearchResultsGraphFilter
+            <SearchResultsGraphFilterBar
                 {...props}
                 className="search-results-filter-bars__row"
                 listClassName="search-results-filter-bars__filters"
