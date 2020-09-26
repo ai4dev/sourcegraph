@@ -6,6 +6,7 @@ interface Props extends Pick<GraphSelectionProps, 'setSelectedGraph'> {
     graph: SelectableGraph
     query?: string
     className?: string
+    buttonClassName?: string
 }
 
 export const SearchInThisGraphButton: React.FunctionComponent<Props> = ({
@@ -13,6 +14,7 @@ export const SearchInThisGraphButton: React.FunctionComponent<Props> = ({
     query,
     setSelectedGraph,
     className = '',
+    buttonClassName = '',
     children,
 }) => {
     const onClick = useCallback<React.MouseEventHandler>(
@@ -33,9 +35,16 @@ export const SearchInThisGraphButton: React.FunctionComponent<Props> = ({
     )
 
     return window.context?.graphsEnabled ? (
-        <div>
-            <button type="button" className={`btn btn-outline-secondary ${className}`} onClick={onClick}>
-                <SearchIcon className="icon-inline" /> {children}
+        <div className={`d-flex align-items-center ${className}`}>
+            <span className="mr-2 text-muted">Search in:</span>
+            <button type="button" className={`btn btn-outline-secondary mr-2 ${buttonClassName}`} onClick={onClick}>
+                <SearchIcon className="icon-inline" /> This repository
+            </button>
+            <button type="button" className={`btn btn-outline-secondary mr-2 ${buttonClassName}`} onClick={onClick}>
+                <SearchIcon className="icon-inline" /> This repository + dependencies
+            </button>
+            <button type="button" className={`btn btn-outline-secondary mr-2 ${buttonClassName}`} onClick={onClick}>
+                <SearchIcon className="icon-inline" /> This repository + dependents
             </button>
         </div>
     ) : null
