@@ -31,6 +31,7 @@ import { VersionContext } from '../schema/site.schema'
 import { TelemetryProps } from '../../../shared/src/telemetry/telemetryService'
 import { BrandLogo } from '../components/branding/BrandLogo'
 import { LinkOrSpan } from '../../../shared/src/components/LinkOrSpan'
+import { GraphSelector } from '../enterprise/graphs/selector/GraphSelector'
 
 interface Props
     extends SettingsCascadeProps,
@@ -203,6 +204,7 @@ export const GlobalNavbar: React.FunctionComponent<Props> = ({
                             {splitSearchModes && (
                                 <SearchModeToggle {...props} interactiveSearchMode={interactiveSearchMode} />
                             )}
+                            <GraphSelector />
                             <VersionContextDropdown
                                 history={history}
                                 navbarSearchQuery={navbarSearchQueryState.query}

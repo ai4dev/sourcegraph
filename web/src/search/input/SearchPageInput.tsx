@@ -40,6 +40,7 @@ import { useLocalStorage } from '../../util/useLocalStorage'
 import Shepherd from 'shepherd.js'
 import { AuthenticatedUser } from '../../auth'
 import { TelemetryProps } from '../../../../shared/src/telemetry/telemetryService'
+import { GraphSelector } from '../../enterprise/graphs/selector/GraphSelector'
 
 interface Props
     extends SettingsCascadeProps<Settings>,
@@ -255,6 +256,7 @@ export const SearchPageInput: React.FunctionComponent<Props> = (props: Props) =>
                             {props.splitSearchModes && (
                                 <SearchModeToggle {...props} interactiveSearchMode={props.interactiveSearchMode} />
                             )}
+                            <GraphSelector />
                             <VersionContextDropdown
                                 history={props.history}
                                 caseSensitive={props.caseSensitive}
