@@ -857,14 +857,12 @@ func resolveRepositories(ctx context.Context, op resolveRepoOp) (resolvedReposit
 
 	// If a graph is specified, scope the search to these repositories.
 	if op.graph != nil {
-		graph, err := EnterpriseResolvers.graphsResolver.GraphByID(ctx, *op.graph)
+		repos, err := EnterpriseResolvers.graphsResolver.RepositoriesForGraph(ctx, *op.graph)
 		if err != nil {
 			return resolvedRepositories{}, err
 		}
-		graphRepos := strings.Split(graph.Spec(), "\n")
-
-		patterns := make([]string, len(graphRepos))
-		for i, repo := range graphRepos {
+		patterns := make([]string, len(repos))
+		for i, repo := range repos {
 			patterns[i] = regexp.QuoteMeta(repo)
 		}
 		includePatterns = append(includePatterns, "^("+strings.Join(patterns, "|")+")$")

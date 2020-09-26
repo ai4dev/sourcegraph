@@ -21,6 +21,7 @@ type GraphsResolver interface {
 
 	// Helpers
 	GraphByID(ctx context.Context, id graphql.ID) (GraphResolver, error)
+	RepositoriesForGraph(ctx context.Context, id graphql.ID) ([]string, error)
 }
 
 type GraphResolver interface {
@@ -156,5 +157,9 @@ func (defaultGraphsResolver) Graphs(ctx context.Context, args GraphConnectionArg
 
 // Helpers
 func (defaultGraphsResolver) GraphByID(ctx context.Context, id graphql.ID) (GraphResolver, error) {
+	return nil, graphsOnlyInEnterprise
+}
+
+func (defaultGraphsResolver) RepositoriesForGraph(ctx context.Context, id graphql.ID) ([]string, error) {
 	return nil, graphsOnlyInEnterprise
 }

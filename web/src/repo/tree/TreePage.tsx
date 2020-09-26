@@ -46,6 +46,9 @@ import { FilePathBreadcrumbs } from '../FilePathBreadcrumbs'
 import { TelemetryProps } from '../../../../shared/src/telemetry/telemetryService'
 import { TreeEntriesSection } from './TreeEntriesSection'
 import { GitCommitFields } from '../../graphql-operations'
+import { SearchInThisGraphButton } from '../../enterprise/graphs/search/SearchInThisGraphButton'
+import { GraphSelectionProps, SelectableGraph } from '../../enterprise/graphs/selector/graphSelectionProps'
+import { escapeRegExp } from 'lodash'
 
 const fetchTreeCommits = memoizeObservable(
     (args: {
@@ -106,6 +109,7 @@ interface Props
         CaseSensitivityProps,
         CopyQueryButtonProps,
         VersionContextProps,
+        GraphSelectionProps,
         BreadcrumbSetters {
     repoName: string
     repoID: GQL.ID
@@ -117,6 +121,11 @@ interface Props
     location: H.Location
     history: H.History
     globbing: boolean
+
+    /**
+     * The contextual graph that consists of this repository.
+     */
+    repositoryContextualGraph: SelectableGraph
 }
 
 export const TreePage: React.FunctionComponent<Props> = ({
@@ -130,6 +139,7 @@ export const TreePage: React.FunctionComponent<Props> = ({
     caseSensitive,
     settingsCascade,
     useBreadcrumb,
+    repositoryContextualGraph,
     ...props
 }) => {
     useEffect(() => {
@@ -307,7 +317,7 @@ export const TreePage: React.FunctionComponent<Props> = ({
                                     <SourceRepositoryIcon className="icon-inline" /> {displayRepoName(repoName)}
                                 </h2>
                                 {repoDescription && <p>{repoDescription}</p>}
-                                <div className="btn-group mb-3">
+                                <div className="btn-group mb-3 mr-3">
                                     <Link className="btn btn-secondary" to={`${treeOrError.url}/-/commits`}>
                                         <SourceCommitIcon className="icon-inline" /> Commits
                                     </Link>
@@ -337,6 +347,15 @@ export const TreePage: React.FunctionComponent<Props> = ({
                                 <FolderIcon className="icon-inline" /> {filePath}
                             </h2>
                         )}
+                        <SearchInThisGraphButton
+                            {...props}
+                            graph={repositoryContextualGraph}
+                            // TODO(sqs): escapeRegExp doesn't work with paths with spaces
+                            query={treeOrError.isRoot ? undefined : `file:^${escapeRegExp(filePath)}/`}
+                            className="mb-3"
+                        >
+                            Search in this {treeOrError.isRoot ? 'repository' : 'directory'}
+                        </SearchInThisGraphButton>
                     </header>
                     {views && (
                         <ViewGrid

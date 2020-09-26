@@ -55,7 +55,7 @@ import { displayRepoName, splitPath } from '../../../shared/src/components/RepoF
 import { AuthenticatedUser } from '../auth'
 import { TelemetryProps } from '../../../shared/src/telemetry/telemetryService'
 import { ExternalLinkFields } from '../graphql-operations'
-import { GraphSelectionProps } from '../enterprise/graphs/selector/graphSelectionProps'
+import { GraphSelectionProps, GraphWithName, SelectableGraph } from '../enterprise/graphs/selector/graphSelectionProps'
 
 /**
  * Props passed to sub-routes of {@link RepoContainer}.
@@ -86,6 +86,11 @@ export interface RepoContainerContext
     onDidUpdateExternalLinks: (externalLinks: ExternalLinkFields[] | undefined) => void
 
     globbing: boolean
+
+    /**
+     * The contextual graph that consists of this repository.
+     */
+    repositoryContextualGraph: SelectableGraph
 }
 
 /** A sub-route of {@link RepoContainer}. */
@@ -265,7 +270,7 @@ export const RepoContainer: React.FunctionComponent<RepoContainerProps> = props 
     }, [props.extensionsController.services.workspace.roots, repoName, resolvedRevisionOrError, revision])
 
     // Update the navbar query to reflect the current repo / revision
-    const { splitSearchModes, interactiveSearchMode, globbing, onFiltersInQueryChange, onNavbarQueryChange } = props
+    /* const { splitSearchModes, interactiveSearchMode, globbing, onFiltersInQueryChange, onNavbarQueryChange } = props
     useEffect(() => {
         if (splitSearchModes && interactiveSearchMode) {
             const filters: FiltersToTypeAndValue = {
@@ -306,19 +311,23 @@ export const RepoContainer: React.FunctionComponent<RepoContainerProps> = props 
         splitSearchModes,
         globbing,
         interactiveSearchMode,
-    ])
+    ])*/
 
     // Contribute contextual graphs that search this repository and variants thereof.
     const { contributeContextualGraphs } = props
+    const repositoryContextualGraph = useMemo<GraphWithName>(
+        () => ({ id: 'X0', name: 'This repository', description: null }),
+        []
+    )
     useEffect(
         () =>
             repoOrError && !isErrorLike(repoOrError)
                 ? contributeContextualGraphs([
-                      { id: 'X0', name: 'This repository', description: null },
+                      repositoryContextualGraph,
                       { id: 'X1', name: 'This repository + deps', description: null },
                   ])
                 : undefined,
-        [contributeContextualGraphs, repoOrError]
+        [contributeContextualGraphs, repoOrError, repositoryContextualGraph]
     )
 
     if (!repoOrError) {
@@ -352,6 +361,7 @@ export const RepoContainer: React.FunctionComponent<RepoContainerProps> = props 
         routePrefix: repoMatchURL,
         onDidUpdateExternalLinks: setExternalLinks,
         onDidUpdateRepository: nextRepoOrErrorUpdate,
+        repositoryContextualGraph,
     }
 
     return (
