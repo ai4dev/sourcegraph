@@ -64,6 +64,7 @@ import { AuthenticatedUser, authRequired as authRequiredObservable } from './aut
 import { SearchPatternType } from './graphql-operations'
 import { TelemetryProps } from '../../shared/src/telemetry/telemetryService'
 import { useObservable } from '../../shared/src/util/useObservable'
+import { useGraphSelectionFromLocalStorage } from './enterprise/graphs/selector/graphSelectionProps'
 
 export interface LayoutProps
     extends RouteComponentProps<{}>,
@@ -165,6 +166,8 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
 
     const breadcrumbProps = useBreadcrumbs()
 
+    const graphSelectionProps = useGraphSelectionFromLocalStorage()
+
     useScrollToLocationHash(props.location)
     // Remove trailing slash (which is never valid in any of our URLs).
     if (props.location.pathname !== '/' && props.location.pathname.endsWith('/')) {
@@ -174,6 +177,7 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
     const context = {
         ...props,
         ...breadcrumbProps,
+        ...graphSelectionProps,
     }
 
     return (
@@ -194,6 +198,7 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
             {!isSiteInit && !isSignInOrUp && (
                 <GlobalNavbar
                     {...props}
+                    {...graphSelectionProps}
                     authRequired={!!authRequired}
                     isSearchRelatedPage={isSearchRelatedPage}
                     variant={

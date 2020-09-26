@@ -2419,14 +2419,6 @@
     "@reach/utils" "^0.10.2"
     tslib "^1.11.2"
 
-"@reach/auto-id@^0.11.2":
-  version "0.11.2"
-  resolved "https://registry.npmjs.org/@reach/auto-id/-/auto-id-0.11.2.tgz#c66a905c5401d1ac3da8d26165b8d27d6e778fa6"
-  integrity sha512-YZ21b0Kb88wJ0t7QjSznWOYskARQMnmXY9Y2XZ5RyYcZ2krT4s3+ghghpfaPs6BKcrZDonZCrU65OFDJPa1jAw==
-  dependencies:
-    "@reach/utils" "0.11.2"
-    tslib "^2.0.0"
-
 "@reach/descendants@^0.10.1", "@reach/descendants@^0.10.2":
   version "0.10.2"
   resolved "https://registry.npmjs.org/@reach/descendants/-/descendants-0.10.2.tgz#551c9f767a16bcad6d1abc41449bb46a12cd3ee3"
@@ -2512,15 +2504,6 @@
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
     warning "^3.0.0"
-
-"@reach/utils@0.11.2":
-  version "0.11.2"
-  resolved "https://registry.npmjs.org/@reach/utils/-/utils-0.11.2.tgz#be1f03650db56fd67a16d3fc70e5262cdb139cec"
-  integrity sha512-fBTolYj+rKTROXmf0zHO0rCWSvw7J0ALmYj5QxW4DmITMOH5uyRuWDWOfqohIGFbOtF/sum50WTB3tvx76d+Aw==
-  dependencies:
-    "@types/warning" "^3.0.0"
-    tslib "^2.0.0"
-    warning "^4.0.3"
 
 "@reach/utils@^0.10.1", "@reach/utils@^0.10.2":
   version "0.10.2"
@@ -4108,11 +4091,6 @@
   version "1.2.2"
   resolved "https://registry.npmjs.org/@types/range-parser/-/range-parser-1.2.2.tgz#fa8e1ad1d474688a757140c91de6dace6f4abc8d"
   integrity sha512-HtKGu+qG1NPvYe1z7ezLsyIaXYyi8SoAVqWDZgDQ8dLrsZvSzUNCwZyfX33uhWxL/SU0ZDQZ3nwZ0nimt507Kw==
-
-"@types/reach__auto-id@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.npmjs.org/@types/reach__auto-id/-/reach__auto-id-0.2.1.tgz#4705a055d50904b9a612f6e240e93db393843622"
-  integrity sha512-z2MR3fPtfNiv1lWgosYWxeYA3DZsl36i6oHlc98HuBZ6FOjoqaOZDH2FutJ1DyPzHuBdEoF2UZtIkLGKaHU5bQ==
 
 "@types/reach__router@^1.2.3":
   version "1.2.5"

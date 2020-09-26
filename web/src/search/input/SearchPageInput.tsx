@@ -41,6 +41,7 @@ import Shepherd from 'shepherd.js'
 import { AuthenticatedUser } from '../../auth'
 import { TelemetryProps } from '../../../../shared/src/telemetry/telemetryService'
 import { GraphSelector } from '../../enterprise/graphs/selector/GraphSelector'
+import { GraphSelectionProps } from '../../enterprise/graphs/selector/graphSelectionProps'
 
 interface Props
     extends SettingsCascadeProps<Settings>,
@@ -57,6 +58,7 @@ interface Props
         CopyQueryButtonProps,
         Pick<SubmitSearchParams, 'source'>,
         VersionContextProps,
+        GraphSelectionProps,
         OnboardingTourProps {
     authenticatedUser: AuthenticatedUser | null
     location: H.Location
@@ -71,7 +73,11 @@ interface Props
     autoFocus?: boolean
 }
 
-export const SearchPageInput: React.FunctionComponent<Props> = (props: Props) => {
+export const SearchPageInput: React.FunctionComponent<Props> = ({
+    selectedGraph,
+    setSelectedGraph,
+    ...props
+}: Props) => {
     /** The query cursor position and value entered by the user in the query input */
     const [userQueryState, setUserQueryState] = useState({
         query: props.queryPrefix ? props.queryPrefix : '',
@@ -256,7 +262,7 @@ export const SearchPageInput: React.FunctionComponent<Props> = (props: Props) =>
                             {props.splitSearchModes && (
                                 <SearchModeToggle {...props} interactiveSearchMode={props.interactiveSearchMode} />
                             )}
-                            <GraphSelector />
+                            <GraphSelector selectedGraph={selectedGraph} setSelectedGraph={setSelectedGraph} />
                             <VersionContextDropdown
                                 history={props.history}
                                 caseSensitive={props.caseSensitive}

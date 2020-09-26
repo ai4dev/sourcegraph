@@ -87,9 +87,10 @@ type GraphConnectionResolver interface {
 }
 
 type GraphConnectionArgs struct {
-	First int32
-	After *string
-	Owner *graphql.ID
+	First      int32
+	After      *string
+	Owner      *graphql.ID
+	Affiliated bool
 }
 
 type CreateGraphArgs struct {

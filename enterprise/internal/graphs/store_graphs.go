@@ -195,6 +195,8 @@ type ListGraphsOpts struct {
 
 	OwnerUserID int32
 	OwnerOrgID  int32
+
+	AffiliatedWithUserID int32
 }
 
 // ListGraphs lists graphs with the given filters.
@@ -239,6 +241,10 @@ func listGraphsQuery(opts *ListGraphsOpts) *sqlf.Query {
 
 	if opts.OwnerOrgID != 0 {
 		preds = append(preds, sqlf.Sprintf("graphs.owner_org_id = %s", opts.OwnerOrgID))
+	}
+
+	if opts.AffiliatedWithUserID != 0 {
+		preds = append(preds, sqlf.Sprintf("(graphs.owner_user_id = %s OR graphs.owner_org_id IN (SELECT org_members.org_id FROM org_members JOIN orgs ON orgs.id = org_members.org_id WHERE org_members.user_id = %s AND orgs.deleted_at IS NULL))", opts.AffiliatedWithUserID, opts.AffiliatedWithUserID))
 	}
 
 	if len(preds) == 0 {

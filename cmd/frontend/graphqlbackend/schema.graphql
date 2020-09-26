@@ -2410,6 +2410,26 @@ type Query {
         """
         after: String
     ): LSIFIndexConnection!
+
+    """
+    A list of graphs.
+    """
+    graphs(
+        """
+        Returns the first n graphs from the list.
+        """
+        first: Int = 50
+
+        """
+        Opaque pagination cursor.
+        """
+        after: String
+
+        """
+        Only return graphs that the viewer is affiliated with.
+        """
+        affiliated: Boolean = false
+    ): GraphConnection!
 }
 
 """

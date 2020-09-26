@@ -8,6 +8,7 @@ import (
 
 	"github.com/graph-gophers/graphql-go"
 	"github.com/sourcegraph/sourcegraph/cmd/frontend/graphqlbackend"
+	"github.com/sourcegraph/sourcegraph/internal/actor"
 	"github.com/sourcegraph/sourcegraph/internal/conf"
 	"github.com/sourcegraph/sourcegraph/internal/graphs"
 	"github.com/sourcegraph/sourcegraph/internal/trace"
@@ -170,6 +171,15 @@ func (r *Resolver) Graphs(ctx context.Context, args graphqlbackend.GraphConnecti
 		err := graphqlbackend.UnmarshalNamespaceID(*args.Owner, &opts.OwnerUserID, &opts.OwnerOrgID)
 		if err != nil {
 			return nil, err
+		}
+	}
+
+	if args.Affiliated {
+		// TODO(sqs): handle anonymous viewers
+		//
+		// TODO(sqs): include user's orgs?
+		if actor := actor.FromContext(ctx); actor.IsAuthenticated() {
+			opts.AffiliatedWithUserID = actor.UID
 		}
 	}
 

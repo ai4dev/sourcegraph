@@ -1,4 +1,3 @@
-import { useId } from '@reach/auto-id'
 import {
     ListboxButton,
     ListboxGroupLabel,
@@ -8,30 +7,105 @@ import {
     ListboxPopover,
 } from '@reach/listbox'
 import VisuallyHidden from '@reach/visually-hidden'
-import React from 'react'
+import { uniqueId } from 'lodash'
+import React, { useCallback, useMemo } from 'react'
+import { cold } from 'react-hot-loader'
+import { map } from 'rxjs/operators'
+import { dataOrThrowErrors, gql } from '../../../../../shared/src/graphql/graphql'
+import { useObservable } from '../../../../../shared/src/util/useObservable'
+import { requestGraphQL } from '../../../backend/graphql'
+import { ViewerGraphsResult, ViewerGraphsVariables } from '../../../graphql-operations'
 import { SourcegraphContext } from '../../../jscontext'
 import { GraphIcon } from '../icons'
+import { GraphSelectionProps } from './graphSelectionProps'
 
-interface Props extends Partial<Pick<SourcegraphContext, 'graphsEnabled'>> {}
+interface Props extends GraphSelectionProps, Partial<Pick<SourcegraphContext, 'graphsEnabled'>> {}
 
-export const GraphSelector: React.FunctionComponent<Props> = ({
-    graphsEnabled = window.context && window.context.graphsEnabled,
-}) => {
-    const labelId = `GraphSelector--${useId()}`
-    return graphsEnabled ? (
-        <div>
-            <VisuallyHidden id={labelId}>Select graph</VisuallyHidden>
-            <ListboxInput value="foo" onChange={() => console.log('2TODO')} aria-labelledby={labelId}>
-                <ListboxButton className="btn btn-secondary d-inline-flex" arrow={true}>
-                    <GraphIcon className="icon-inline" aria-hidden={true} />
-                </ListboxButton>
-                <ListboxPopover portal={false}>
-                    <ListboxList>
-                        <ListboxGroupLabel disabled={true}>Title</ListboxGroupLabel>
-                        <ListboxOption value="foo">Foo</ListboxOption>
-                    </ListboxList>
-                </ListboxPopover>
-            </ListboxInput>
-        </div>
-    ) : null
-}
+export const GraphSelector: React.FunctionComponent<Props> =
+    // Wrap in cold(...) to work around https://github.com/reach/reach-ui/issues/629.
+    cold(
+        ({
+            selectedGraph,
+            setSelectedGraph,
+
+            // If this uses an optional chain, there is an error `_window$context is not defined`.
+            //
+            // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
+            graphsEnabled = window.context && window.context.graphsEnabled,
+        }) => {
+            const graphs = useObservable(
+                useMemo(
+                    () =>
+                        requestGraphQL<ViewerGraphsResult, ViewerGraphsVariables>(
+                            gql`
+                                query ViewerGraphs {
+                                    graphs(affiliated: true) {
+                                        nodes {
+                                            id
+                                            name
+                                            description
+                                        }
+                                    }
+                                }
+                            `,
+                            {}
+                        ).pipe(
+                            map(dataOrThrowErrors),
+                            map(data => data.graphs.nodes)
+                        ),
+                    []
+                )
+            )
+
+            const NO_SELECTION_ID = 'no-selection'
+
+            const onChange = useCallback(
+                (graphID: string) => {
+                    setSelectedGraph(graphID === NO_SELECTION_ID ? null : { id: graphID })
+                },
+                [setSelectedGraph]
+            )
+
+            const labelId = `GraphSelector--${useMemo(() => uniqueId(), [])}`
+            return graphsEnabled ? (
+                <>
+                    <VisuallyHidden id={labelId}>Select graph</VisuallyHidden>
+                    <ListboxInput
+                        value={selectedGraph ? selectedGraph.id : NO_SELECTION_ID}
+                        onChange={onChange}
+                        aria-labelledby={labelId}
+                    >
+                        <ListboxButton
+                            className="btn btn-secondary btn-sm d-inline-flex text-nowrap h-100"
+                            arrow={true}
+                        >
+                            {selectedGraph !== null ? (
+                                graphs?.find(graph => graph.id === selectedGraph.id)?.name
+                            ) : (
+                                <GraphIcon className="icon-inline" aria-hidden={true} />
+                            )}
+                        </ListboxButton>
+                        <ListboxPopover>
+                            <ListboxList>
+                                {graphs === undefined ? (
+                                    <ListboxGroupLabel disabled={true}>Loading...</ListboxGroupLabel>
+                                ) : (
+                                    <>
+                                        <ListboxGroupLabel disabled={true}>
+                                            <div className="text-muted small">Select graph:</div>
+                                        </ListboxGroupLabel>
+                                        <ListboxOption value={NO_SELECTION_ID}>Everything</ListboxOption>
+                                        {graphs.map(graph => (
+                                            <ListboxOption key={graph.id} value={graph.id} title={graph.description}>
+                                                {graph.name}
+                                            </ListboxOption>
+                                        ))}
+                                    </>
+                                )}
+                            </ListboxList>
+                        </ListboxPopover>
+                    </ListboxInput>
+                </>
+            ) : null
+        }
+    )
