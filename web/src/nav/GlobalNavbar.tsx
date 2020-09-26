@@ -225,6 +225,7 @@ export const GlobalNavbar: React.FunctionComponent<Props> = ({
                                 location={location}
                                 history={history}
                                 versionContext={versionContext}
+                                selectedGraph={selectedGraph}
                                 isLightTheme={isLightTheme}
                                 patternType={patternType}
                                 caseSensitive={caseSensitive}

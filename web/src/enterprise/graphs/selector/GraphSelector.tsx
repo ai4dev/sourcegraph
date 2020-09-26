@@ -10,6 +10,7 @@ import VisuallyHidden from '@reach/visually-hidden'
 import { uniqueId } from 'lodash'
 import React, { useCallback, useMemo } from 'react'
 import { cold } from 'react-hot-loader'
+import { Link } from 'react-router-dom'
 import { map } from 'rxjs/operators'
 import { dataOrThrowErrors, gql } from '../../../../../shared/src/graphql/graphql'
 import { useObservable } from '../../../../../shared/src/util/useObservable'
@@ -85,21 +86,29 @@ export const GraphSelector: React.FunctionComponent<Props> =
                                 <GraphIcon className="icon-inline" aria-hidden={true} />
                             )}
                         </ListboxButton>
-                        <ListboxPopover>
+                        <ListboxPopover style={{ maxWidth: '10rem' }}>
                             <ListboxList>
                                 {graphs === undefined ? (
-                                    <ListboxGroupLabel disabled={true}>Loading...</ListboxGroupLabel>
+                                    <ListboxGroupLabel>Loading...</ListboxGroupLabel>
                                 ) : (
                                     <>
-                                        <ListboxGroupLabel disabled={true}>
-                                            <div className="text-muted small">Select graph:</div>
-                                        </ListboxGroupLabel>
                                         <ListboxOption value={NO_SELECTION_ID}>Everything</ListboxOption>
                                         {graphs.map(graph => (
                                             <ListboxOption key={graph.id} value={graph.id} title={graph.description}>
                                                 {graph.name}
                                             </ListboxOption>
                                         ))}
+                                        <ListboxGroupLabel
+                                            className="border-top small mt-2 pt-2"
+                                            style={{ whiteSpace: 'unset', minWidth: '10rem' }}
+                                        >
+                                            <p className="text-muted mb-0">
+                                                A graph defines the scope of search and code navigation.
+                                            </p>
+                                            <Link className="btn btn-secondary btn-sm mt-1" to="TODO">
+                                                Manage graphs
+                                            </Link>
+                                        </ListboxGroupLabel>
                                     </>
                                 )}
                             </ListboxList>
