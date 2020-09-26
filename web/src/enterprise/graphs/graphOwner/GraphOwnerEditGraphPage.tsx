@@ -7,39 +7,47 @@ import { NamespaceAreaContext } from '../../../namespaces/NamespaceArea'
 import { map } from 'rxjs/operators'
 import { RouteComponentProps } from 'react-router'
 import { LoadingSpinner } from '@sourcegraph/react-loading-spinner'
-import { GraphToEditResult, GraphToEditVariables } from '../../../graphql-operations'
+import { GraphOwnerGraphToEditResult, GraphOwnerGraphToEditVariables } from '../../../graphql-operations'
 import { EditGraphForm } from '../form/EditGraphForm'
+import { GraphSelectionProps } from '../selector/graphSelectionProps'
 
-interface Props extends RouteComponentProps<{ id: string }>, NamespaceAreaContext {}
+interface Props
+    extends RouteComponentProps<{ name: string }>,
+        NamespaceAreaContext,
+        Pick<GraphSelectionProps, 'reloadGraphs'> {}
 
 export const GraphOwnerEditGraphPage: React.FunctionComponent<Props> = ({
     match: {
-        params: { id },
+        params: { name: graphName },
     },
+    namespace,
     history,
+    reloadGraphs,
 }) => {
     const graph = useObservable(
         useMemo(
             () =>
-                requestGraphQL<GraphToEditResult, GraphToEditVariables>(
+                requestGraphQL<GraphOwnerGraphToEditResult, GraphOwnerGraphToEditVariables>(
                     gql`
-                        query GraphToEdit($id: ID!) {
-                            node(id: $id) {
-                                ... on Graph {
-                                    id
-                                    name
-                                    description
-                                    spec
+                        query GraphOwnerGraphToEdit($owner: ID!, $name: String!) {
+                            node(id: $owner) {
+                                ... on GraphOwner {
+                                    graph(name: $name) {
+                                        id
+                                        name
+                                        description
+                                        spec
+                                    }
                                 }
                             }
                         }
                     `,
-                    { id }
+                    { owner: namespace.id, name: graphName }
                 ).pipe(
                     map(dataOrThrowErrors),
-                    map(data => data.node)
+                    map(data => data.node?.graph)
                 ),
-            [id]
+            [graphName]
         )
     )
     const onUpdate = useCallback((graph: Pick<GQL.IGraph, 'url'>) => history.push(graph.url), [history])
@@ -50,7 +58,7 @@ export const GraphOwnerEditGraphPage: React.FunctionComponent<Props> = ({
             {graph === null || graph === undefined ? (
                 <LoadingSpinner />
             ) : (
-                <EditGraphForm initialValue={graph} onUpdate={onUpdate} />
+                <EditGraphForm initialValue={graph} onUpdate={onUpdate} reloadGraphs={reloadGraphs} />
             )}
         </div>
     )

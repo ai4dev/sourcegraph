@@ -25,6 +25,8 @@ import { AuthenticatedUser } from '../../auth'
 import { BreadcrumbsProps, BreadcrumbSetters } from '../../components/Breadcrumbs'
 import { OrganizationResult, OrganizationVariables, OrgAreaOrganizationFields } from '../../graphql-operations'
 import { requestGraphQL } from '../../backend/graphql'
+import { NamespaceAreaContext } from '../../namespaces/NamespaceArea'
+import { GraphSelectionProps } from '../../enterprise/graphs/selector/graphSelectionProps'
 
 function queryOrganization(args: { name: string }): Observable<OrgAreaOrganizationFields> {
     return requestGraphQL<OrganizationResult, OrganizationVariables>(
@@ -83,6 +85,7 @@ interface Props
         TelemetryProps,
         BreadcrumbsProps,
         BreadcrumbSetters,
+        Pick<GraphSelectionProps, 'reloadGraphs'>,
         ExtensionsControllerProps,
         Omit<PatternTypeProps, 'setPatternType'> {
     orgAreaRoutes: readonly OrgAreaRoute[]
@@ -115,6 +118,7 @@ export interface OrgAreaPageProps
         NamespaceProps,
         BreadcrumbsProps,
         BreadcrumbSetters,
+        NamespaceAreaContext,
         Omit<PatternTypeProps, 'setPatternType'> {
     /** The org that is the subject of the page. */
     org: OrgAreaOrganizationFields
@@ -230,6 +234,7 @@ export class OrgArea extends React.Component<Props> {
             breadcrumbs: this.props.breadcrumbs,
             setBreadcrumb: this.state.setBreadcrumb,
             useBreadcrumb: this.state.useBreadcrumb,
+            reloadGraphs: this.props.reloadGraphs,
         }
 
         if (this.props.location.pathname === `${this.props.match.url}/invitation`) {

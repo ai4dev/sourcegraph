@@ -27,6 +27,8 @@ import { AuthenticatedUser } from '../../auth'
 import { UserAreaUserFields } from '../../graphql-operations'
 import { BreadcrumbsProps, BreadcrumbSetters } from '../../components/Breadcrumbs'
 import { queryGraphQL } from '../../backend/graphql'
+import { NamespaceAreaContext } from '../../namespaces/NamespaceArea'
+import { GraphSelectionProps } from '../../enterprise/graphs/selector/graphSelectionProps'
 
 const fetchUser = (args: { username: string; siteAdmin: boolean }): Observable<UserAreaUserFields> =>
     queryGraphQL(
@@ -95,6 +97,7 @@ interface UserAreaProps
         OnboardingTourProps,
         BreadcrumbsProps,
         BreadcrumbSetters,
+        Pick<GraphSelectionProps, 'reloadGraphs'>,
         Omit<PatternTypeProps, 'setPatternType'> {
     userAreaRoutes: readonly UserAreaRoute[]
     userAreaHeaderNavItems: readonly UserAreaHeaderNavItem[]
@@ -132,6 +135,7 @@ export interface UserAreaRouteContext
         OnboardingTourProps,
         BreadcrumbsProps,
         BreadcrumbSetters,
+        NamespaceAreaContext,
         Omit<PatternTypeProps, 'setPatternType'> {
     /** The user area main URL. */
     url: string
@@ -268,6 +272,7 @@ export class UserArea extends React.Component<UserAreaProps, UserAreaState> {
             breadcrumbs: this.props.breadcrumbs,
             useBreadcrumb: this.state.useBreadcrumb,
             setBreadcrumb: this.state.setBreadcrumb,
+            reloadGraphs: this.props.reloadGraphs,
         }
 
         const routeMatch = this.props.userAreaRoutes.find(({ path, exact }) =>

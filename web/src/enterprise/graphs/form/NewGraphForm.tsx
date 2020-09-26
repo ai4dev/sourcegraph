@@ -7,19 +7,29 @@ import { CreateGraphResult, CreateGraphVariables } from '../../../graphql-operat
 import { isErrorLike } from '../../../../../shared/src/util/errors'
 import * as GQL from '../../../../../shared/src/graphql/schema'
 import { GraphFormFields, GraphFormValue } from './GraphFormFields'
+import { GraphSelectionProps } from '../selector/graphSelectionProps'
 
 type FormValue = CreateGraphVariables['input']
 
-interface Props {
+interface Props extends Pick<GraphSelectionProps, 'reloadGraphs'> {
     initialValue: FormValue
 
     /** Called when the graph is successfully created. */
     onCreate: (graph: Pick<GQL.IGraph, 'url'>) => void
 }
 
-export const NewGraphForm: React.FunctionComponent<Props> = ({ initialValue, onCreate }) => {
+export const NewGraphForm: React.FunctionComponent<Props> = ({
+    initialValue,
+    onCreate: parentOnCreate,
+    reloadGraphs,
+}) => {
     const [value, setValue] = useState<FormValue>(initialValue)
     const onChange = useCallback((newValue: GraphFormValue) => setValue(previous => ({ ...previous, ...newValue })), [])
+
+    const onCreate = useCallback<typeof parentOnCreate>(graph => {
+        reloadGraphs()
+        parentOnCreate(graph)
+    }, [])
 
     const [opState, setOpState] = useState<boolean | Error>(false)
     const onSubmit = useCallback<React.FormEventHandler>(

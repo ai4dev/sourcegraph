@@ -15,12 +15,12 @@ export const graphOwnerAreaRoutes: readonly NamespaceAreaRoute[] = [
         render: lazyComponent(() => import('./GraphOwnerNewGraphPage'), 'GraphOwnerNewGraphPage'),
     },
     {
-        path: '/graphs/:id',
+        path: '/graphs/:name',
         exact: true,
         render: lazyComponent(() => import('./GraphOwnerGraphPage'), 'GraphOwnerGraphPage'),
     },
     {
-        path: '/graphs/:id/edit',
+        path: '/graphs/:name/edit',
         exact: true,
         render: lazyComponent(() => import('./GraphOwnerEditGraphPage'), 'GraphOwnerEditGraphPage'),
     },

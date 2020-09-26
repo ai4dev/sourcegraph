@@ -7,19 +7,29 @@ import { UpdateGraphResult, UpdateGraphVariables } from '../../../graphql-operat
 import { isErrorLike } from '../../../../../shared/src/util/errors'
 import * as GQL from '../../../../../shared/src/graphql/schema'
 import { GraphFormFields, GraphFormValue } from '../form/GraphFormFields'
+import { GraphSelectionProps } from '../selector/graphSelectionProps'
 
 type FormValue = UpdateGraphVariables['input']
 
-interface Props {
+interface Props extends Pick<GraphSelectionProps, 'reloadGraphs'> {
     initialValue: FormValue
 
     /** Called when the graph is successfully updated. */
     onUpdate: (graph: Pick<GQL.IGraph, 'url'>) => void
 }
 
-export const EditGraphForm: React.FunctionComponent<Props> = ({ initialValue, onUpdate }) => {
+export const EditGraphForm: React.FunctionComponent<Props> = ({
+    initialValue,
+    onUpdate: parentOnUpdate,
+    reloadGraphs,
+}) => {
     const [value, setValue] = useState<FormValue>(initialValue)
     const onChange = useCallback((newValue: GraphFormValue) => setValue(previous => ({ ...previous, ...newValue })), [])
+
+    const onUpdate = useCallback<typeof parentOnUpdate>(graph => {
+        reloadGraphs()
+        parentOnUpdate(graph)
+    }, [])
 
     const [opState, setOpState] = useState<boolean | Error>(false)
     const onSubmit = useCallback<React.FormEventHandler>(

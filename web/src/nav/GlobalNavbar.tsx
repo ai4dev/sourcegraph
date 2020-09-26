@@ -94,9 +94,6 @@ export const GlobalNavbar: React.FunctionComponent<Props> = ({
     versionContext,
     setVersionContext,
     availableVersionContexts,
-    selectedGraph,
-    setSelectedGraph,
-    contextualGraphs,
     caseSensitive,
     patternType,
     onNavbarQueryChange,
@@ -209,11 +206,7 @@ export const GlobalNavbar: React.FunctionComponent<Props> = ({
                             {splitSearchModes && (
                                 <SearchModeToggle {...props} interactiveSearchMode={interactiveSearchMode} />
                             )}
-                            <GraphSelector
-                                selectedGraph={selectedGraph}
-                                setSelectedGraph={setSelectedGraph}
-                                contextualGraphs={contextualGraphs}
-                            />
+                            <GraphSelector {...props} />
                             <VersionContextDropdown
                                 history={history}
                                 navbarSearchQuery={navbarSearchQueryState.query}
@@ -230,7 +223,6 @@ export const GlobalNavbar: React.FunctionComponent<Props> = ({
                                 location={location}
                                 history={history}
                                 versionContext={versionContext}
-                                selectedGraph={selectedGraph}
                                 isLightTheme={isLightTheme}
                                 patternType={patternType}
                                 caseSensitive={caseSensitive}

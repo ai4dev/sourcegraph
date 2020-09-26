@@ -11,6 +11,13 @@ export interface GraphSelectionProps {
     setSelectedGraph: (graph: GraphWithID | null) => void
 
     /**
+     * Reload the graphs loaded from the remote server. Call this when a component might have
+     * modified any of the graphs that would be shown in the graph selector.
+     */
+    reloadGraphs: () => void
+    reloadGraphsSeq: number
+
+    /**
      * Contribute graphs to the list from any React component.
      *
      * @returns A destructor function that removes the contributed graphs. Tip: Use this as the
@@ -32,6 +39,9 @@ export const useGraphSelectionFromLocalStorage = (): GraphSelectionProps => {
         null
     )
 
+    const [reloadGraphsSeq, setReloadGraphsSeq] = useState(0)
+    const reloadGraphs = useCallback((): void => setReloadGraphsSeq(previous => previous + 1), [])
+
     const [contextualGraphs, setContextualGraphs] = useState<GraphWithName[]>()
     const contributeContextualGraphs = useCallback<GraphSelectionProps['contributeContextualGraphs']>(graphs => {
         setContextualGraphs(previous => (previous ? [...previous, ...graphs] : graphs))
@@ -48,6 +58,8 @@ export const useGraphSelectionFromLocalStorage = (): GraphSelectionProps => {
         () => ({
             selectedGraph: selectedGraphID === null ? null : { id: selectedGraphID },
             setSelectedGraph: graph => setSelectedGraphID(graph === null ? null : graph.id),
+            reloadGraphs,
+            reloadGraphsSeq,
             contributeContextualGraphs,
             contextualGraphs,
         }),

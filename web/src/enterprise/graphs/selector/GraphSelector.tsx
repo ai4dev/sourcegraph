@@ -8,6 +8,7 @@ import {
 } from '@reach/listbox'
 import VisuallyHidden from '@reach/visually-hidden'
 import { uniqueId } from 'lodash'
+import DotsHorizontalIcon from 'mdi-react/DotsHorizontalIcon'
 import React, { useCallback, useMemo } from 'react'
 import { cold } from 'react-hot-loader'
 import { Link } from 'react-router-dom'
@@ -29,6 +30,7 @@ export const GraphSelector: React.FunctionComponent<Props> =
         ({
             selectedGraph,
             setSelectedGraph,
+            reloadGraphsSeq,
             contextualGraphs,
 
             // If this uses an optional chain, there is an error `_window$context is not defined`.
@@ -56,7 +58,7 @@ export const GraphSelector: React.FunctionComponent<Props> =
                             map(dataOrThrowErrors),
                             map(data => data.graphs.nodes)
                         ),
-                    []
+                    [reloadGraphsSeq] // reload when GraphSelectorProps#reloadGraph is called
                 )
             )
 
@@ -91,9 +93,13 @@ export const GraphSelector: React.FunctionComponent<Props> =
                             className="btn btn-secondary btn-sm d-inline-flex text-nowrap h-100"
                             arrow={true}
                         >
-                            {selectedGraph !== null
-                                ? allGraphs?.find(graph => graph.id === selectedGraph.id)?.name
-                                : NO_SELECTION_LABEL}
+                            {allGraphs === undefined ? (
+                                <DotsHorizontalIcon className="icon-inline" />
+                            ) : selectedGraph !== null ? (
+                                allGraphs?.find(graph => graph.id === selectedGraph.id)?.name
+                            ) : (
+                                NO_SELECTION_LABEL
+                            )}
                         </ListboxButton>
                         <ListboxPopover style={{ maxWidth: '10rem' }}>
                             <ListboxList>
