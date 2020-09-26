@@ -51,14 +51,22 @@ export const GraphOwnerEditGraphPage: React.FunctionComponent<Props> = ({
         )
     )
     const onUpdate = useCallback((graph: Pick<GQL.IGraph, 'url'>) => history.push(graph.url), [history])
+    const onDelete = useCallback(() => history.push(`${namespace.url}/graphs`), [history])
 
     return (
         <div className="container">
             <h2>Edit graph</h2>
-            {graph === null || graph === undefined ? (
+            {graph === undefined ? (
                 <LoadingSpinner />
+            ) : graph === null ? (
+                <div className="alert alert-danger">Graph not found</div>
             ) : (
-                <EditGraphForm initialValue={graph} onUpdate={onUpdate} reloadGraphs={reloadGraphs} />
+                <EditGraphForm
+                    initialValue={graph}
+                    onUpdate={onUpdate}
+                    onDelete={onDelete}
+                    reloadGraphs={reloadGraphs}
+                />
             )}
         </div>
     )

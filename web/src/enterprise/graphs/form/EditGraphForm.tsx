@@ -3,7 +3,12 @@ import { dataOrThrowErrors, gql } from '../../../../../shared/src/graphql/graphq
 import { requestGraphQL } from '../../../backend/graphql'
 import { map } from 'rxjs/operators'
 import { Form } from '../../../components/Form'
-import { UpdateGraphResult, UpdateGraphVariables } from '../../../graphql-operations'
+import {
+    UpdateGraphResult,
+    UpdateGraphVariables,
+    DeleteGraphResult,
+    DeleteGraphVariables,
+} from '../../../graphql-operations'
 import { isErrorLike } from '../../../../../shared/src/util/errors'
 import * as GQL from '../../../../../shared/src/graphql/schema'
 import { GraphFormFields, GraphFormValue } from '../form/GraphFormFields'
@@ -16,11 +21,15 @@ interface Props extends Pick<GraphSelectionProps, 'reloadGraphs'> {
 
     /** Called when the graph is successfully updated. */
     onUpdate: (graph: Pick<GQL.IGraph, 'url'>) => void
+
+    /** Called when the graph is successfully deleted. */
+    onDelete: () => void
 }
 
 export const EditGraphForm: React.FunctionComponent<Props> = ({
     initialValue,
     onUpdate: parentOnUpdate,
+    onDelete: parentOnDelete,
     reloadGraphs,
 }) => {
     const [value, setValue] = useState<FormValue>(initialValue)
@@ -60,6 +69,40 @@ export const EditGraphForm: React.FunctionComponent<Props> = ({
         [onUpdate, value]
     )
 
+    const onDelete = useCallback<typeof parentOnDelete>(() => {
+        reloadGraphs()
+        parentOnDelete()
+    }, [])
+
+    const onDeleteClick = useCallback<React.MouseEventHandler>(async event => {
+        event.preventDefault()
+
+        setOpState(true)
+
+        if (!confirm('Really delete this graph?')) {
+            setOpState(false)
+            return
+        }
+
+        try {
+            await requestGraphQL<DeleteGraphResult, DeleteGraphVariables>(
+                gql`
+                    mutation DeleteGraph($graph: ID!) {
+                        deleteGraph(graph: $graph) {
+                            alwaysNil
+                        }
+                    }
+                `,
+                { graph: initialValue.id }
+            )
+                .pipe(map(dataOrThrowErrors))
+                .toPromise()
+            onDelete()
+        } catch (error) {
+            setOpState(error)
+        }
+    }, [])
+
     return (
         <Form className="w-100" onSubmit={onSubmit}>
             <GraphFormFields value={value} onChange={onChange} />
@@ -67,6 +110,10 @@ export const EditGraphForm: React.FunctionComponent<Props> = ({
                 Save
             </button>
             {isErrorLike(opState) && <div className="mt-3 alert alert-danger">Error: {opState.message}</div>}
+            <hr className="my-4" />
+            <button type="button" className="btn btn-danger" disabled={opState === true} onClick={onDeleteClick}>
+                Delete graph
+            </button>
         </Form>
     )
 }
