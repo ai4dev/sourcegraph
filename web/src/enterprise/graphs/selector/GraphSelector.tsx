@@ -20,7 +20,9 @@ import { SourcegraphContext } from '../../../jscontext'
 import { GraphIcon } from '../icons'
 import { GraphSelectionProps } from './graphSelectionProps'
 
-interface Props extends GraphSelectionProps, Partial<Pick<SourcegraphContext, 'graphsEnabled'>> {}
+interface Props
+    extends Omit<GraphSelectionProps, 'contributeContextualGraphs'>,
+        Partial<Pick<SourcegraphContext, 'graphsEnabled'>> {}
 
 export const GraphSelector: React.FunctionComponent<Props> =
     // Wrap in cold(...) to work around https://github.com/reach/reach-ui/issues/629.
@@ -28,13 +30,14 @@ export const GraphSelector: React.FunctionComponent<Props> =
         ({
             selectedGraph,
             setSelectedGraph,
+            contextualGraphs,
 
             // If this uses an optional chain, there is an error `_window$context is not defined`.
             //
             // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
             graphsEnabled = window.context && window.context.graphsEnabled,
         }) => {
-            const graphs = useObservable(
+            const viewerGraphs = useObservable(
                 useMemo(
                     () =>
                         requestGraphQL<ViewerGraphsResult, ViewerGraphsVariables>(
@@ -58,13 +61,22 @@ export const GraphSelector: React.FunctionComponent<Props> =
                 )
             )
 
-            const NO_SELECTION_ID = 'no-selection'
+            const NO_SELECTION_ID = 'everything'
+            const NO_SELECTION_LABEL = 'Everything'
 
             const onChange = useCallback(
                 (graphID: string) => {
                     setSelectedGraph(graphID === NO_SELECTION_ID ? null : { id: graphID })
                 },
                 [setSelectedGraph]
+            )
+
+            const allGraphs = useMemo(
+                () =>
+                    viewerGraphs !== undefined && contextualGraphs !== undefined
+                        ? [...contextualGraphs, ...viewerGraphs]
+                        : viewerGraphs,
+                [contextualGraphs, viewerGraphs]
             )
 
             const labelId = `GraphSelector--${useMemo(() => uniqueId(), [])}`
@@ -80,20 +92,18 @@ export const GraphSelector: React.FunctionComponent<Props> =
                             className="btn btn-secondary btn-sm d-inline-flex text-nowrap h-100"
                             arrow={true}
                         >
-                            {selectedGraph !== null ? (
-                                graphs?.find(graph => graph.id === selectedGraph.id)?.name
-                            ) : (
-                                <GraphIcon className="icon-inline" aria-hidden={true} />
-                            )}
+                            {selectedGraph !== null
+                                ? allGraphs?.find(graph => graph.id === selectedGraph.id)?.name
+                                : NO_SELECTION_LABEL}
                         </ListboxButton>
                         <ListboxPopover style={{ maxWidth: '10rem' }}>
                             <ListboxList>
-                                {graphs === undefined ? (
+                                {allGraphs === undefined ? (
                                     <ListboxGroupLabel>Loading...</ListboxGroupLabel>
                                 ) : (
                                     <>
-                                        <ListboxOption value={NO_SELECTION_ID}>Everything</ListboxOption>
-                                        {graphs.map(graph => (
+                                        <ListboxOption value={NO_SELECTION_ID}>{NO_SELECTION_LABEL}</ListboxOption>
+                                        {allGraphs.map(graph => (
                                             <ListboxOption key={graph.id} value={graph.id} title={graph.description}>
                                                 {graph.name}
                                             </ListboxOption>

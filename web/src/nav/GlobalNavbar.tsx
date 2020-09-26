@@ -48,7 +48,7 @@ interface Props
         InteractiveSearchProps,
         CopyQueryButtonProps,
         VersionContextProps,
-        GraphSelectionProps,
+        Omit<GraphSelectionProps, 'contributeContextualGraphs'>,
         OnboardingTourProps {
     history: H.History
     location: H.Location<{ query: string }>
@@ -96,6 +96,7 @@ export const GlobalNavbar: React.FunctionComponent<Props> = ({
     availableVersionContexts,
     selectedGraph,
     setSelectedGraph,
+    contextualGraphs,
     caseSensitive,
     patternType,
     onNavbarQueryChange,
@@ -208,7 +209,11 @@ export const GlobalNavbar: React.FunctionComponent<Props> = ({
                             {splitSearchModes && (
                                 <SearchModeToggle {...props} interactiveSearchMode={interactiveSearchMode} />
                             )}
-                            <GraphSelector selectedGraph={selectedGraph} setSelectedGraph={setSelectedGraph} />
+                            <GraphSelector
+                                selectedGraph={selectedGraph}
+                                setSelectedGraph={setSelectedGraph}
+                                contextualGraphs={contextualGraphs}
+                            />
                             <VersionContextDropdown
                                 history={history}
                                 navbarSearchQuery={navbarSearchQueryState.query}

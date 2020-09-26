@@ -55,6 +55,7 @@ import { displayRepoName, splitPath } from '../../../shared/src/components/RepoF
 import { AuthenticatedUser } from '../auth'
 import { TelemetryProps } from '../../../shared/src/telemetry/telemetryService'
 import { ExternalLinkFields } from '../graphql-operations'
+import { GraphSelectionProps } from '../enterprise/graphs/selector/graphSelectionProps'
 
 /**
  * Props passed to sub-routes of {@link RepoContainer}.
@@ -71,6 +72,7 @@ export interface RepoContainerContext
         CaseSensitivityProps,
         CopyQueryButtonProps,
         VersionContextProps,
+        GraphSelectionProps,
         BreadcrumbSetters {
     repo: GQL.IRepository
     authenticatedUser: AuthenticatedUser | null
@@ -106,6 +108,7 @@ interface RepoContainerProps
         InteractiveSearchProps,
         CopyQueryButtonProps,
         VersionContextProps,
+        GraphSelectionProps,
         BreadcrumbSetters,
         BreadcrumbsProps {
     repoContainerRoutes: readonly RepoContainerRoute[]
@@ -304,6 +307,19 @@ export const RepoContainer: React.FunctionComponent<RepoContainerProps> = props 
         globbing,
         interactiveSearchMode,
     ])
+
+    // Contribute contextual graphs that search this repository and variants thereof.
+    const { contributeContextualGraphs } = props
+    useEffect(
+        () =>
+            repoOrError && !isErrorLike(repoOrError)
+                ? contributeContextualGraphs([
+                      { id: 'X0', name: 'This repository', description: null },
+                      { id: 'X1', name: 'This repository + deps', description: null },
+                  ])
+                : undefined,
+        [contributeContextualGraphs, repoOrError]
+    )
 
     if (!repoOrError) {
         // Render nothing while loading

@@ -67,6 +67,9 @@ export class UserNavItem extends React.PureComponent<UserNavItemProps, State> {
                     <Link to={this.props.authenticatedUser.settingsURL!} className="dropdown-item">
                         Settings
                     </Link>
+                    <Link to={`/users/${this.props.authenticatedUser.username}/graphs`} className="dropdown-item">
+                        Graphs
+                    </Link>
                     {this.props.showCampaigns && (
                         <Link to="/campaigns" className="dropdown-item">
                             Campaigns
