@@ -15,9 +15,12 @@ type GraphsResolver interface {
 	UpdateGraph(ctx context.Context, args *UpdateGraphArgs) (GraphResolver, error)
 	DeleteGraph(ctx context.Context, args *DeleteGraphArgs) (*EmptyResponse, error)
 
+	// Queries
+	Graph(ctx context.Context, args GraphArgs) (GraphResolver, error)
+	Graphs(ctx context.Context, args GraphConnectionArgs) (GraphConnectionResolver, error)
+
 	// Helpers
 	GraphByID(ctx context.Context, id graphql.ID) (GraphResolver, error)
-	Graphs(ctx context.Context, args GraphConnectionArgs) (GraphConnectionResolver, error)
 }
 
 type GraphResolver interface {
@@ -35,6 +38,7 @@ type GraphResolver interface {
 
 type GraphOwner interface {
 	ID() graphql.ID
+	Graph(ctx context.Context, args *GraphArgs) (GraphResolver, error)
 	Graphs(ctx context.Context, args *GraphConnectionArgs) (GraphConnectionResolver, error)
 	URL() string
 }
@@ -78,6 +82,13 @@ func GraphOwnerByID(ctx context.Context, id graphql.ID) (*GraphOwnerResolver, er
 func UnmarshalGraphOwnerID(id graphql.ID, userID *int32, orgID *int32) error {
 	// Reuse UnmarshalNamespaceID because both support User and Org.
 	return UnmarshalNamespaceID(id, userID, orgID)
+}
+
+type GraphArgs struct {
+	Owner   string
+	OwnerID graphql.ID
+
+	Name string
 }
 
 type GraphConnectionResolver interface {
@@ -134,11 +145,16 @@ func (defaultGraphsResolver) DeleteGraph(ctx context.Context, args *DeleteGraphA
 	return nil, graphsOnlyInEnterprise
 }
 
-// Helpers
-func (defaultGraphsResolver) GraphByID(ctx context.Context, id graphql.ID) (GraphResolver, error) {
+// Queries
+func (defaultGraphsResolver) Graph(ctx context.Context, args GraphArgs) (GraphResolver, error) {
 	return nil, graphsOnlyInEnterprise
 }
 
 func (defaultGraphsResolver) Graphs(ctx context.Context, args GraphConnectionArgs) (GraphConnectionResolver, error) {
+	return nil, graphsOnlyInEnterprise
+}
+
+// Helpers
+func (defaultGraphsResolver) GraphByID(ctx context.Context, id graphql.ID) (GraphResolver, error) {
 	return nil, graphsOnlyInEnterprise
 }

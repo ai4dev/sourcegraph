@@ -2419,6 +2419,11 @@ type Query {
     ): LSIFIndexConnection!
 
     """
+    Look up a graph by owner and name.
+    """
+    graph(owner: String!, name: String!): Graph
+
+    """
     A list of graphs.
     """
     graphs(
@@ -5552,6 +5557,11 @@ type User implements Node & SettingsSubject & Namespace & GraphOwner {
     ): CampaignConnection!
 
     """
+    Look up a graph (owned by this user) by name.
+    """
+    graph(name: String!): Graph
+
+    """
     A list of graphs owned by this user.
     """
     graphs(
@@ -5922,6 +5932,11 @@ type Org implements Node & SettingsSubject & Namespace & GraphOwner {
         """
         viewerCanAdminister: Boolean
     ): CampaignConnection!
+
+    """
+    Look up a graph (owned by this organization) by name.
+    """
+    graph(name: String!): Graph
 
     """
     A list of graphs owned by this organization.
@@ -8033,6 +8048,11 @@ A graph owner is an entity that owns graphs, such as a user or organization.
 """
 interface GraphOwner {
     id: ID!
+
+    """
+    Look up a graph (owned by this graph owner) by name.
+    """
+    graph(name: String!): Graph
 
     """
     A list of graphs owned by this graph owner.

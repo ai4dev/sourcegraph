@@ -245,7 +245,7 @@ func testStoreGraphs(t *testing.T, ctx context.Context, s *Store, clock clock) {
 		t.Run("ByID", func(t *testing.T) {
 			want := graphs[0]
 
-			have, err := s.GetGraph(ctx, want.ID)
+			have, err := s.GetGraph(ctx, GetGraphOpts{ID: want.ID})
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -255,8 +255,48 @@ func testStoreGraphs(t *testing.T, ctx context.Context, s *Store, clock clock) {
 			}
 		})
 
+		t.Run("ByOwnerUserID", func(t *testing.T) {
+			for _, g := range graphs {
+				if g.OwnerUserID == 0 {
+					continue
+				}
+
+				want := g
+				opts := GetGraphOpts{OwnerUserID: g.OwnerUserID, Name: g.Name}
+
+				have, err := s.GetGraph(ctx, opts)
+				if err != nil {
+					t.Fatal(err)
+				}
+
+				if diff := cmp.Diff(have, want); diff != "" {
+					t.Fatal(diff)
+				}
+			}
+		})
+
+		t.Run("ByOwnerOrgID", func(t *testing.T) {
+			for _, g := range graphs {
+				if g.OwnerOrgID == 0 {
+					continue
+				}
+
+				want := g
+				opts := GetGraphOpts{OwnerOrgID: g.OwnerOrgID, Name: g.Name}
+
+				have, err := s.GetGraph(ctx, opts)
+				if err != nil {
+					t.Fatal(err)
+				}
+
+				if diff := cmp.Diff(have, want); diff != "" {
+					t.Fatal(diff)
+				}
+			}
+		})
+
 		t.Run("NoResults", func(t *testing.T) {
-			_, have := s.GetGraph(ctx, 0xdeadbeef)
+			_, have := s.GetGraph(ctx, GetGraphOpts{ID: 0xdeadbeef})
 			want := ErrNoResults
 
 			if have != want {

@@ -154,9 +154,18 @@ func countGraphsQuery(opts *CountGraphsOpts) *sqlf.Query {
 	return sqlf.Sprintf(countGraphsQueryFmtstr, sqlf.Join(preds, "\n AND "))
 }
 
+// GetGraphOpts captures the query options needed for getting a graph.
+type GetGraphOpts struct {
+	ID int64
+
+	OwnerUserID int32
+	OwnerOrgID  int32
+	Name        string
+}
+
 // GetGraph gets a graph matching the given options.
-func (s *Store) GetGraph(ctx context.Context, id int64) (*graphs.Graph, error) {
-	q := getGraphQuery(id)
+func (s *Store) GetGraph(ctx context.Context, opts GetGraphOpts) (*graphs.Graph, error) {
+	q := getGraphQuery(opts)
 
 	var g graphs.Graph
 	err := s.query(ctx, q, func(sc scanner) error {
@@ -176,15 +185,40 @@ func (s *Store) GetGraph(ctx context.Context, id int64) (*graphs.Graph, error) {
 var getGraphQueryFmtstr = `
 -- source: enterprise/internal/graphs/store_graphs.go:GetGraph
 SELECT %s FROM graphs
-WHERE id=%s
+WHERE %s
 LIMIT 1
 `
 
-func getGraphQuery(id int64) *sqlf.Query {
+func getGraphQuery(opts GetGraphOpts) *sqlf.Query {
+	// TODO(sqs): validate, with eg `if opts.ID == 0 && (opts.OwnerUserID == 0 && opts.OwnerOrgID == 0) || (owner but no name) ... { ... }`
+
+	var preds []*sqlf.Query
+
+	if opts.ID != 0 {
+		preds = append(preds, sqlf.Sprintf("graphs.id = %s", opts.ID))
+	}
+
+	if opts.OwnerUserID != 0 {
+		preds = append(preds, sqlf.Sprintf("graphs.owner_user_id = %s", opts.OwnerUserID))
+	}
+
+	if opts.OwnerOrgID != 0 {
+		preds = append(preds, sqlf.Sprintf("graphs.owner_org_id = %s", opts.OwnerOrgID))
+	}
+
+	if opts.Name != "" {
+		preds = append(preds, sqlf.Sprintf("graphs.name = %s", opts.Name))
+
+	}
+
+	if len(preds) == 0 {
+		preds = append(preds, sqlf.Sprintf("TRUE"))
+	}
+
 	return sqlf.Sprintf(
 		getGraphQueryFmtstr,
 		sqlf.Join(graphColumns, ", "),
-		id,
+		sqlf.Join(preds, "\n AND "),
 	)
 }
 
@@ -201,7 +235,7 @@ type ListGraphsOpts struct {
 
 // ListGraphs lists graphs with the given filters.
 func (s *Store) ListGraphs(ctx context.Context, opts ListGraphsOpts) (gs []*graphs.Graph, next int64, err error) {
-	q := listGraphsQuery(&opts)
+	q := listGraphsQuery(opts)
 
 	gs = make([]*graphs.Graph, 0, opts.DBLimit())
 	err = s.query(ctx, q, func(sc scanner) error {
@@ -228,7 +262,7 @@ WHERE %s
 ORDER BY id DESC
 `
 
-func listGraphsQuery(opts *ListGraphsOpts) *sqlf.Query {
+func listGraphsQuery(opts ListGraphsOpts) *sqlf.Query {
 	preds := []*sqlf.Query{}
 
 	if opts.Cursor != 0 {

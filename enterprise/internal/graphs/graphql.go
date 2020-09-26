@@ -10,6 +10,7 @@ import (
 	"github.com/sourcegraph/sourcegraph/cmd/frontend/graphqlbackend"
 	"github.com/sourcegraph/sourcegraph/internal/actor"
 	"github.com/sourcegraph/sourcegraph/internal/conf"
+	"github.com/sourcegraph/sourcegraph/internal/db"
 	"github.com/sourcegraph/sourcegraph/internal/graphs"
 	"github.com/sourcegraph/sourcegraph/internal/trace"
 )
@@ -134,7 +135,48 @@ func (r *Resolver) GraphByID(ctx context.Context, id graphql.ID) (graphqlbackend
 		return nil, nil
 	}
 
-	graph, err := r.store.GetGraph(ctx, graphID)
+	graph, err := r.store.GetGraph(ctx, GetGraphOpts{ID: graphID})
+	if err != nil {
+		if err == ErrNoResults {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &graphResolver{Graph: graph}, nil
+}
+
+func (r *Resolver) Graph(ctx context.Context, args graphqlbackend.GraphArgs) (graphqlbackend.GraphResolver, error) {
+	if err := graphsEnabled(); err != nil {
+		return nil, err
+	}
+
+	opts := GetGraphOpts{}
+
+	if args.Owner != "" {
+		// TODO(sqs): also support looking up repos?
+		namespace, err := db.Namespaces.GetByName(ctx, args.Owner)
+		if err != nil {
+			return nil, err
+		}
+		switch {
+		case namespace.User != 0:
+			opts.OwnerUserID = namespace.User
+		case namespace.Organization != 0:
+			opts.OwnerOrgID = namespace.Organization
+		default:
+			return nil, errors.New("unhandled namespace type")
+		}
+	}
+
+	if args.OwnerID != "" {
+		err := graphqlbackend.UnmarshalGraphOwnerID(args.OwnerID, &opts.OwnerUserID, &opts.OwnerOrgID)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	graph, err := r.store.GetGraph(ctx, opts)
 	if err != nil {
 		if err == ErrNoResults {
 			return nil, nil
@@ -168,7 +210,7 @@ func (r *Resolver) Graphs(ctx context.Context, args graphqlbackend.GraphConnecti
 	// TODO(sqs): security
 
 	if args.Owner != nil {
-		err := graphqlbackend.UnmarshalNamespaceID(*args.Owner, &opts.OwnerUserID, &opts.OwnerOrgID)
+		err := graphqlbackend.UnmarshalGraphOwnerID(*args.Owner, &opts.OwnerUserID, &opts.OwnerOrgID)
 		if err != nil {
 			return nil, err
 		}
