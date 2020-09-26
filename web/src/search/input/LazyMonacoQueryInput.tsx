@@ -39,11 +39,16 @@ export const PlainQueryInput: React.FunctionComponent<MonacoQueryInputProps> = (
     )
 }
 
+const USE_PLAIN_QUERY = true
+
 /**
  * A lazily-loaded {@link MonacoQueryInput}, displaying a read-only query field as a fallback during loading.
  */
-export const LazyMonacoQueryInput: React.FunctionComponent<MonacoQueryInputProps> = props => (
-    <Suspense fallback={<PlainQueryInput {...props} />}>
-        <MonacoQueryInput {...props} />
-    </Suspense>
-)
+export const LazyMonacoQueryInput: React.FunctionComponent<MonacoQueryInputProps> = props =>
+    USE_PLAIN_QUERY ? (
+        <PlainQueryInput {...props} />
+    ) : (
+        <Suspense fallback={<PlainQueryInput {...props} />}>
+            <MonacoQueryInput {...props} />
+        </Suspense>
+    )

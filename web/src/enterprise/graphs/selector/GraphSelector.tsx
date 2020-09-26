@@ -17,7 +17,6 @@ import { useObservable } from '../../../../../shared/src/util/useObservable'
 import { requestGraphQL } from '../../../backend/graphql'
 import { ViewerGraphsResult, ViewerGraphsVariables } from '../../../graphql-operations'
 import { SourcegraphContext } from '../../../jscontext'
-import { GraphIcon } from '../icons'
 import { GraphSelectionProps } from './graphSelectionProps'
 
 interface Props

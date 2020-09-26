@@ -1,5 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
-import * as GQL from '../../../../../shared/src/graphql/schema'
+import React, { useMemo } from 'react'
 import { dataOrThrowErrors, gql } from '../../../../../shared/src/graphql/graphql'
 import { useObservable } from '../../../../../shared/src/util/useObservable'
 import { requestGraphQL } from '../../../backend/graphql'
@@ -8,7 +7,6 @@ import { map } from 'rxjs/operators'
 import { RouteComponentProps } from 'react-router'
 import { LoadingSpinner } from '@sourcegraph/react-loading-spinner'
 import { GraphOwnerGraphResult, GraphOwnerGraphVariables } from '../../../graphql-operations'
-import { EditGraphForm } from '../form/EditGraphForm'
 import { Link } from 'react-router-dom'
 
 interface Props extends RouteComponentProps<{ id: string }>, NamespaceAreaContext {}
