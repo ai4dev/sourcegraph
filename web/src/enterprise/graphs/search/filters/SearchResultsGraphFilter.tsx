@@ -12,6 +12,7 @@ interface Props extends GraphSelectionProps {
 const NULL_GRAPH_ID = 'null'
 
 export const SearchResultsGraphFilter: React.FunctionComponent<Props> = ({
+    selectedGraph,
     setSelectedGraph,
     className = '',
     listClassName = '',
@@ -33,7 +34,7 @@ export const SearchResultsGraphFilter: React.FunctionComponent<Props> = ({
                     <FilterChip
                         key={graph.id === null ? NULL_GRAPH_ID : graph.id}
                         name={graph.name}
-                        query=""
+                        query={selectedGraph === null ? NULL_GRAPH_ID : selectedGraph} // hack to show selected graph
                         value={graph.id === null ? NULL_GRAPH_ID : graph.id}
                         onFilterChosen={onFilterChosen}
                     />
