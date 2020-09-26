@@ -33,8 +33,10 @@ export const SearchInThisGraphButton: React.FunctionComponent<Props> = ({
     )
 
     return window.context?.graphsEnabled ? (
-        <button type="button" className={`btn btn-outline-secondary ${className}`} onClick={onClick}>
-            <SearchIcon className="icon-inline" /> {children}
-        </button>
+        <div>
+            <button type="button" className={`btn btn-outline-secondary ${className}`} onClick={onClick}>
+                <SearchIcon className="icon-inline" /> {children}
+            </button>
+        </div>
     ) : null
 }
