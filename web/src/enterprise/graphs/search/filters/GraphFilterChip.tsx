@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { FilterChip } from '../../../../search/FilterChip'
 import { SelectableGraph } from '../../selector/graphSelectionProps'
 
@@ -9,15 +9,19 @@ interface Props {
 }
 
 export const GraphFilterChip: React.FunctionComponent<Props> = ({ graph, isSelected, onSelect }) => {
+    // TODO(sqs): hacky
+    const count = useMemo(() => Math.floor(Math.random() * 7 * graph.name.length), [])
+
     const onFilterChosen = useCallback(() => onSelect(graph), [])
     return (
         <FilterChip
             name={graph.name}
             onFilterChosen={onFilterChosen}
+            count={count}
             //
             // hack to show selected graph
-            query={isSelected ? 'x' : ''}
-            value="x"
+            query={isSelected ? ' ' : ''}
+            value=" "
         />
     )
 }
