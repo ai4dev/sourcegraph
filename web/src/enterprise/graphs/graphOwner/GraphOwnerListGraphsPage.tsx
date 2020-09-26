@@ -9,10 +9,11 @@ import { Link } from 'react-router-dom'
 import PlusIcon from 'mdi-react/PlusIcon'
 import { GraphList } from '../shared/graphList/GraphList'
 import { GraphListItemFragmentGQL } from '../shared/graphList/GraphListItem'
+import { GraphSelectionProps } from '../selector/graphSelectionProps'
 
-interface Props extends NamespaceAreaContext {}
+interface Props extends NamespaceAreaContext, GraphSelectionProps {}
 
-export const GraphOwnerListGraphsPage: React.FunctionComponent<Props> = ({ namespace }) => {
+export const GraphOwnerListGraphsPage: React.FunctionComponent<Props> = ({ namespace, ...props }) => {
     const graphs = useObservable(
         useMemo(
             () =>
@@ -49,7 +50,7 @@ export const GraphOwnerListGraphsPage: React.FunctionComponent<Props> = ({ names
                     <PlusIcon className="icon-inline" /> New graph
                 </Link>
             </div>
-            <GraphList graphs={graphs} />
+            <GraphList {...props} graphs={graphs} />
         </div>
     )
 }

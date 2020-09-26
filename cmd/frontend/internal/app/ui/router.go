@@ -66,6 +66,7 @@ const (
 	routeSubscriptions  = "subscriptions"
 	routeStats          = "stats"
 	routeViews          = "views"
+	routeGraphs         = "graphs"
 
 	routeSearchQueryBuilder = "search.query-builder"
 	routeSearchStream       = "search.stream"
@@ -133,6 +134,7 @@ func newRouter() *mux.Router {
 	r.PathPrefix("/subscriptions").Methods("GET").Name(routeSubscriptions)
 	r.PathPrefix("/stats").Methods("GET").Name(routeStats)
 	r.PathPrefix("/views").Methods("GET").Name(routeViews)
+	r.PathPrefix("/graphs").Methods("GET").Name(routeGraphs)
 
 	// Repogroup pages. Must mirror web/src/Layout.tsx
 	if envvar.SourcegraphDotComMode() {
@@ -218,6 +220,7 @@ func initRouter() {
 	router.Get(routeSubscriptions).Handler(handler(serveBrandedPageString("Subscriptions")))
 	router.Get(routeStats).Handler(handler(serveBrandedPageString("Stats")))
 	router.Get(routeViews).Handler(handler(serveBrandedPageString("View")))
+	router.Get(routeGraphs).Handler(handler(serveBrandedPageString("Graphs")))
 
 	router.Get(routeUserSettings).Handler(handler(serveBrandedPageString("User settings")))
 	router.Get(routeUserRedirect).Handler(handler(serveBrandedPageString("User")))

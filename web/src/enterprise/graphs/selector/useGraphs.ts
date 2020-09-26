@@ -24,6 +24,8 @@ export const useGraphs = ({
                                     id
                                     name
                                     description
+                                    url
+                                    editURL
                                 }
                             }
                         }

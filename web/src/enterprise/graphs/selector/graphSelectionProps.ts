@@ -6,7 +6,9 @@ import { useLocalStorage } from '../../../util/useLocalStorage'
 /**
  * A graph that the user can select.
  */
-export interface SelectableGraph extends Pick<GQL.IGraph, 'name' | 'description'> {
+export interface SelectableGraph
+    extends Pick<GQL.IGraph, 'name' | 'description'>,
+        Partial<Pick<GQL.IGraph, 'url' | 'editURL'>> {
     /** The graph ID, or null if this is the "Everything" graph. */
     id: GQL.IGraph['id'] | null
 }

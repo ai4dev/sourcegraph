@@ -82,7 +82,7 @@ export const GraphSelector: React.FunctionComponent<Props> =
                                             <p className="text-muted mb-0">
                                                 A graph defines the scope of search and code navigation.
                                             </p>
-                                            <Link className="btn btn-secondary btn-sm mt-1" to="TODO">
+                                            <Link className="btn btn-secondary btn-sm mt-1" to="/graphs">
                                                 Manage graphs
                                             </Link>
                                         </ListboxGroupLabel>
