@@ -322,44 +322,42 @@ export const TreePage: React.FunctionComponent<Props> = ({
                                 </>
                             )}
                         </h2>
-                        {treeOrError.isRoot && (
-                            <>
-                                {repoDescription && <p>{repoDescription}</p>}
-                                <div className="btn-group mb-3 mr-3">
-                                    <Link className="btn btn-secondary" to={`${treeOrError.url}/-/commits`}>
-                                        <SourceCommitIcon className="icon-inline" /> Commits
-                                    </Link>
-                                    <Link className="btn btn-secondary" to={`/${repoName}/-/branches`}>
-                                        <SourceBranchIcon className="icon-inline" /> Branches
-                                    </Link>
-                                    <Link className="btn btn-secondary" to={`/${repoName}/-/tags`}>
-                                        <TagIcon className="icon-inline" /> Tags
-                                    </Link>
-                                    <Link
-                                        className="btn btn-secondary"
-                                        to={
-                                            revision
-                                                ? `/${repoName}/-/compare/...${encodeURIComponent(revision)}`
-                                                : `/${repoName}/-/compare`
-                                        }
-                                    >
-                                        <HistoryIcon className="icon-inline" /> Compare
-                                    </Link>
-                                    <Link className="btn btn-secondary" to={`/${repoName}/-/stats/contributors`}>
-                                        <UserIcon className="icon-inline" /> Contributors
-                                    </Link>
-                                </div>
-                            </>
-                        )}
+                        {treeOrError.isRoot && repoDescription && <p className="mb-0">{repoDescription}</p>}
                         <SearchInThisGraphButton
                             {...props}
                             graph={repositoryContextualGraph}
                             // TODO(sqs): escapeRegExp doesn't work with paths with spaces
                             query={treeOrError.isRoot ? undefined : `file:^${escapeRegExp(filePath)}/`}
-                            className="mb-3"
+                            className="mt-3"
                         >
                             Search in this {treeOrError.isRoot ? 'repository' : 'directory'}
                         </SearchInThisGraphButton>
+                        {treeOrError.isRoot && (
+                            <div className="btn-group mt-3">
+                                <Link className="btn btn-secondary" to={`${treeOrError.url}/-/commits`}>
+                                    <SourceCommitIcon className="icon-inline" /> Commits
+                                </Link>
+                                <Link className="btn btn-secondary" to={`/${repoName}/-/branches`}>
+                                    <SourceBranchIcon className="icon-inline" /> Branches
+                                </Link>
+                                <Link className="btn btn-secondary" to={`/${repoName}/-/tags`}>
+                                    <TagIcon className="icon-inline" /> Tags
+                                </Link>
+                                <Link
+                                    className="btn btn-secondary"
+                                    to={
+                                        revision
+                                            ? `/${repoName}/-/compare/...${encodeURIComponent(revision)}`
+                                            : `/${repoName}/-/compare`
+                                    }
+                                >
+                                    <HistoryIcon className="icon-inline" /> Compare
+                                </Link>
+                                <Link className="btn btn-secondary" to={`/${repoName}/-/stats/contributors`}>
+                                    <UserIcon className="icon-inline" /> Contributors
+                                </Link>
+                            </div>
+                        )}
                     </header>
                     {views && (
                         <ViewGrid
