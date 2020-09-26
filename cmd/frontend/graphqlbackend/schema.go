@@ -2218,6 +2218,11 @@ type Query {
         versionContext: String
 
         """
+        (experimental) The graph in which to search. If not specified, the search is scoped to all repositories visible to the user.
+        """
+        graph: ID
+
+        """
         (experimental) Sourcegraph 3.9 added support for cursor-based paginated
         search requests when this field is specified. For details, see
         https://docs.sourcegraph.com/api/graphql/search

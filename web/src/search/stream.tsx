@@ -113,7 +113,8 @@ export function search(
     query: string,
     version: string,
     patternType: SearchPatternType,
-    versionContext: string | undefined
+    versionContext: string | undefined,
+    graph: string | undefined
 ): Observable<SearchEvent> {
     return new Observable<SearchEvent>(observer => {
         const parameters = [
@@ -123,6 +124,9 @@ export function search(
         ]
         if (versionContext) {
             parameters.push(['vc', versionContext])
+        }
+        if (graph) {
+            parameters.push(['g', graph])
         }
         const parameterEncoded = parameters.map(([k, v]) => k + '=' + encodeURIComponent(v)).join('&')
 

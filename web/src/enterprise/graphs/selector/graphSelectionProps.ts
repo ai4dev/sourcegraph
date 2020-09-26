@@ -33,6 +33,7 @@ export interface GraphSelectionProps {
     contextualGraphs: GraphWithName[] | undefined
 }
 
+// TODO(sqs): parse out of 'g' in location
 export const useGraphSelectionFromLocalStorage = (): GraphSelectionProps => {
     const [selectedGraphID, setSelectedGraphID] = useLocalStorage<Scalars['ID'] | null>(
         'sourcegraph-selected-graph',

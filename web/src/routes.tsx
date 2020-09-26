@@ -12,6 +12,7 @@ import { reactHooks } from './repogroups/ReactHooks'
 import { android } from './repogroups/Android'
 import { stanford } from './repogroups/Stanford'
 import { BreadcrumbsProps, BreadcrumbSetters } from './components/Breadcrumbs'
+import { GraphSelectionProps } from './enterprise/graphs/selector/graphSelectionProps'
 
 const SearchPage = lazyComponent(() => import('./search/input/SearchPage'), 'SearchPage')
 const SearchResults = lazyComponent(() => import('./search/results/SearchResults'), 'SearchResults')
@@ -21,6 +22,7 @@ const ExtensionsArea = lazyComponent(() => import('./extensions/ExtensionsArea')
 interface LayoutRouteComponentProps<Params extends { [K in keyof Params]?: string }>
     extends RouteComponentProps<Params>,
         Omit<LayoutProps, 'match'>,
+        GraphSelectionProps,
         BreadcrumbsProps,
         BreadcrumbSetters {}
 

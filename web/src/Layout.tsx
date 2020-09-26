@@ -121,6 +121,7 @@ export interface LayoutProps
         version: string,
         patternType: SearchPatternType,
         versionContext: string | undefined,
+        selectedGraph: string | undefined,
         extensionHostPromise: Promise<Remote<FlatExtHostAPI>>
     ) => Observable<GQL.ISearchResults | ErrorLike>
     setVersionContext: (versionContext: string | undefined) => void
