@@ -7,8 +7,8 @@ import { ListGraphsResult, ListGraphsVariables } from '../../../graphql-operatio
 import { map } from 'rxjs/operators'
 import { Link } from 'react-router-dom'
 import PlusIcon from 'mdi-react/PlusIcon'
-import { GraphList } from '../list/GraphList'
-import { GraphListItemFragmentGQL } from '../list/GraphListItem'
+import { GraphList } from '../shared/graphList/GraphList'
+import { GraphListItemFragmentGQL } from '../shared/graphList/GraphListItem'
 
 interface Props extends NamespaceAreaContext {}
 

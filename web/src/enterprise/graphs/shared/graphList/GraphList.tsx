@@ -1,6 +1,6 @@
 import { LoadingSpinner } from '@sourcegraph/react-loading-spinner'
 import React from 'react'
-import { GraphListItem as GraphListItemFragment } from '../../../graphql-operations'
+import { GraphListItem as GraphListItemFragment } from '../../../../graphql-operations'
 import { GraphListItem } from './GraphListItem'
 
 interface Props {

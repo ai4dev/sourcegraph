@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { GraphListItem as GraphListItemFragment } from '../../../graphql-operations'
-import { GraphIcon } from '../icons'
-import { gql } from '../../../../../shared/src/graphql/graphql'
+import { GraphListItem as GraphListItemFragment } from '../../../../graphql-operations'
+import { GraphIcon } from '../../icons'
+import { gql } from '../../../../../../shared/src/graphql/graphql'
 
 export const GraphListItemFragmentGQL = gql`
     fragment GraphListItem on Graph {

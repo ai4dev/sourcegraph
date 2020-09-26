@@ -68,7 +68,7 @@ export const GraphSelector: React.FunctionComponent<Props> =
                                     <>
                                         {graphs.map(graph => (
                                             <ListboxOption
-                                                key={graph.id}
+                                                key={graph.id === null ? NULL_GRAPH_ID : graph.id}
                                                 value={graph.id === null ? NULL_GRAPH_ID : graph.id}
                                                 title={graph.description}
                                             >
