@@ -3,12 +3,19 @@ import * as GQL from '../../../../../shared/src/graphql/schema'
 import { Scalars } from '../../../graphql-operations'
 import { useLocalStorage } from '../../../util/useLocalStorage'
 
-type GraphWithID = Pick<GQL.IGraph, 'id'>
-type GraphWithName = Pick<GQL.IGraph, 'id' | 'name' | 'description'>
+/**
+ * A graph that the user can select.
+ */
+export interface SelectableGraph extends Pick<GQL.IGraph, 'name' | 'description'> {
+    /** The graph ID, or null if this is the "Everything" graph. */
+    id: GQL.IGraph['id'] | null
+}
+
+export type GraphWithName = Pick<GQL.IGraph, 'id' | 'name' | 'description'>
 
 export interface GraphSelectionProps {
-    selectedGraph: GraphWithID | null
-    setSelectedGraph: (graph: GraphWithID | null) => void
+    selectedGraph: GQL.IGraph['id'] | null
+    setSelectedGraph: (graph: GQL.IGraph['id'] | null) => void
 
     /**
      * Reload the graphs loaded from the remote server. Call this when a component might have
@@ -57,13 +64,20 @@ export const useGraphSelectionFromLocalStorage = (): GraphSelectionProps => {
 
     return useMemo<GraphSelectionProps>(
         () => ({
-            selectedGraph: selectedGraphID === null ? null : { id: selectedGraphID },
-            setSelectedGraph: graph => setSelectedGraphID(graph === null ? null : graph.id),
+            selectedGraph: selectedGraphID,
+            setSelectedGraph: graph => setSelectedGraphID(graph),
             reloadGraphs,
             reloadGraphsSeq,
             contributeContextualGraphs,
             contextualGraphs,
         }),
-        [contextualGraphs, contributeContextualGraphs, selectedGraphID, setSelectedGraphID]
+        [
+            contextualGraphs,
+            contributeContextualGraphs,
+            reloadGraphs,
+            reloadGraphsSeq,
+            selectedGraphID,
+            setSelectedGraphID,
+        ]
     )
 }

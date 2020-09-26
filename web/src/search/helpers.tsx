@@ -49,7 +49,7 @@ export function submitSearch({
         versionContext,
         filtersInQuery,
         searchParameters,
-        selectedGraph?.id
+        selectedGraph
     )
 
     // Go to search results page

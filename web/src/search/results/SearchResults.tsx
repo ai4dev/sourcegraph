@@ -50,7 +50,7 @@ export interface SearchResultsProps
         PatternTypeProps,
         CaseSensitivityProps,
         InteractiveSearchProps,
-        Pick<GraphSelectionProps, 'selectedGraph'>,
+        GraphSelectionProps,
         VersionContextProps {
     authenticatedUser: AuthenticatedUser | null
     location: H.Location
@@ -262,7 +262,7 @@ export class SearchResults extends React.Component<SearchResultsProps, SearchRes
         this.subscriptions.add(
             this.componentUpdates
                 .pipe(
-                    distinctUntilChanged((a, b) => a.selectedGraph?.id === b.selectedGraph?.id),
+                    distinctUntilChanged((a, b) => a.selectedGraph === b.selectedGraph),
                     skip(1)
                 )
                 .subscribe(props => {
@@ -317,6 +317,7 @@ export class SearchResults extends React.Component<SearchResultsProps, SearchRes
                 <PageTitle key="page-title" title={query} />
                 {!this.props.interactiveSearchMode && (
                     <SearchResultsFilterBars
+                        {...this.props}
                         navbarSearchQuery={this.props.navbarSearchQueryState.query}
                         results={this.state.resultsOrError}
                         filters={filters}

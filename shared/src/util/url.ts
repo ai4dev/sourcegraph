@@ -579,7 +579,7 @@ export function buildSearchURLQuery(
     versionContext?: string,
     filtersInQuery?: FiltersToTypeAndValue,
     searchParametersList?: { key: string; value: string }[],
-    selectedGraph?: string
+    selectedGraph?: string | null
 ): string {
     const searchParameters = new URLSearchParams()
     let fullQuery = query
