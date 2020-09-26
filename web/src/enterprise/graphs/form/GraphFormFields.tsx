@@ -1,7 +1,11 @@
 import React, { useCallback } from 'react'
 import { UpdateGraphVariables } from '../../../graphql-operations'
+import { VALID_USERNAME_REGEXP } from '../../../user'
 
 export type GraphFormValue = Pick<UpdateGraphVariables['input'], 'name' | 'description' | 'spec'>
+
+const VALID_NAME_REGEXP = VALID_USERNAME_REGEXP // same format as for username (graphs_name_valid_chars PostgreSQL constraint)
+const NAME_MAX_LENGTH = 255 // graphs_name_max_length PostgreSQL constraint
 
 interface Props {
     value: GraphFormValue
@@ -33,6 +37,10 @@ export const GraphFormFields: React.FunctionComponent<Props> = ({ value, onChang
                     value={value.name}
                     onChange={onNameChange}
                     required={true}
+                    spellCheck={false}
+                    pattern={VALID_NAME_REGEXP}
+                    maxLength={NAME_MAX_LENGTH}
+                    autoCapitalize="off"
                 />
             </div>
             <div className="form-group">
