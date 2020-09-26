@@ -10,7 +10,9 @@ import { DeepReplace, isNot, isExactly, property, isTaggedUnionMember, allOf, is
 /**
  * A view is a page or partial page.
  */
-export interface View extends ExtensionView {}
+export interface View extends Omit<ExtensionView, 'content'> {
+    content: (ExtensionView['content'][0] | { reactComponent: React.FunctionComponent })[]
+}
 
 /**
  * A map from type of container names to the internal type of the context parameter provided by the container.
