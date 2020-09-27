@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { isErrorLike } from '../../../../shared/src/util/errors'
 import classNames from 'classnames'
 import { LoadingSpinner } from '@sourcegraph/react-loading-spinner'
@@ -7,6 +7,7 @@ import { ViewContent, ViewContentProps } from '../../views/ViewContent'
 import * as H from 'history'
 import { WidthProvider, Responsive, Layout as ReactGridLayout, Layouts as ReactGridLayouts } from 'react-grid-layout'
 import { ViewProviderResult } from '../../../../shared/src/api/client/services/viewService'
+import { useLocalStorage } from '../../util/useLocalStorage'
 
 // TODO use a method to get width that also triggers when file explorer is closed
 // (WidthProvider only listens to window resize events)
@@ -55,7 +56,7 @@ const viewsToReactGridLayouts = (views: ViewProviderResult[]): ReactGridLayouts 
                                 x: (index * width) % columns[breakpointName],
                                 y: Math.floor((index * width) / columns[breakpointName]),
                                 minW: minWidths[breakpointName],
-                                minH: 2,
+                                minH: 1,
                             }
                         }
                     ),
@@ -65,38 +66,69 @@ const viewsToReactGridLayouts = (views: ViewProviderResult[]): ReactGridLayouts 
     return reactGridLayouts
 }
 
-export const ViewGrid: React.FunctionComponent<ViewGridProps> = props => (
-    <div className={classNames(props.className, 'view-grid')}>
-        <ResponsiveGridLayout
-            breakpoints={breakpoints}
-            layouts={viewsToReactGridLayouts(props.views)}
-            cols={columns}
-            autoSize={true}
-            rowHeight={6 * 16}
-            containerPadding={[0, 0]}
-            margin={[12, 12]}
-        >
-            {props.views.map(({ id, view }) => (
-                <div key={id} className={classNames('card view-grid__item')}>
-                    {view === undefined ? (
-                        <div className="flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-                            <LoadingSpinner /> Loading
-                        </div>
-                    ) : isErrorLike(view) ? (
-                        <ErrorAlert className="m-0" error={view} history={props.history} />
-                    ) : (
-                        <>
-                            {view.title && <h3 className="view-grid__view-title">{view.title}</h3>}
-                            {view.subtitle && <div className="view-grid__view-subtitle">{view.subtitle}</div>}
-                            <ViewContent
-                                {...props}
-                                settingsCascade={props.settingsCascade}
-                                viewContent={view.content}
-                            />
-                        </>
-                    )}
-                </div>
-            ))}
-        </ResponsiveGridLayout>
-    </div>
-)
+export const ViewGrid: React.FunctionComponent<ViewGridProps> = props => {
+    const allDefaultLayouts = useMemo(() => viewsToReactGridLayouts(props.views), [props.views])
+    const [allSavedLayouts, setAllSavedLayouts] = useLocalStorage<ReactGridLayouts>(
+        'sourcegraph-view-grid',
+        allDefaultLayouts
+    )
+
+    // Keep the positions of the saved layouts but ignore minW, minH, and other things that can change.
+    const layouts = useMemo<ReactGridLayouts>(() => {
+        for (const [breakpointName, defaultLayouts] of Object.entries(allDefaultLayouts)) {
+            const savedLayouts = allSavedLayouts[breakpointName] || (allSavedLayouts[breakpointName] = defaultLayouts)
+            for (const defaultLayout of defaultLayouts) {
+                let savedLayout = savedLayouts.find(({ i }) => i === defaultLayout.i)
+                if (!savedLayout) {
+                    savedLayouts.push(defaultLayout)
+                    savedLayout = defaultLayout
+                }
+
+                savedLayout.minW = defaultLayout.minW
+                savedLayout.minH = defaultLayout.minH
+            }
+        }
+        return allSavedLayouts
+    }, [allSavedLayouts, allDefaultLayouts])
+
+    const onLayoutChange = useCallback<
+        NonNullable<React.ComponentProps<typeof ResponsiveGridLayout>['onLayoutChange']>
+    >((_layout, allLayouts) => setAllSavedLayouts(allLayouts), [setAllSavedLayouts])
+
+    return (
+        <div className={classNames(props.className, 'view-grid')}>
+            <ResponsiveGridLayout
+                breakpoints={breakpoints}
+                layouts={layouts}
+                onLayoutChange={onLayoutChange}
+                cols={columns}
+                autoSize={true}
+                rowHeight={6 * 16}
+                containerPadding={[0, 0]}
+                margin={[12, 12]}
+            >
+                {props.views.map(({ id, view }) => (
+                    <div key={id} className={classNames('card view-grid__item')}>
+                        {view === undefined ? (
+                            <div className="flex-grow-1 d-flex flex-column align-items-center justify-content-center">
+                                <LoadingSpinner /> Loading
+                            </div>
+                        ) : isErrorLike(view) ? (
+                            <ErrorAlert className="m-0" error={view} history={props.history} />
+                        ) : (
+                            <>
+                                {view.title && <h3 className="view-grid__view-title">{view.title}</h3>}
+                                {view.subtitle && <div className="view-grid__view-subtitle">{view.subtitle}</div>}
+                                <ViewContent
+                                    {...props}
+                                    settingsCascade={props.settingsCascade}
+                                    viewContent={view.content}
+                                />
+                            </>
+                        )}
+                    </div>
+                ))}
+            </ResponsiveGridLayout>
+        </div>
+    )
+}
