@@ -6,6 +6,7 @@ import { treeReadme } from './treeReadme'
 import { treeCommits } from './treeCommits'
 import { repoBranches } from './repoBranches'
 import { repoTags } from './repoTags'
+import { treeDependencies } from './treeDependencies'
 
 export const registerTreeViews = ({
     extensionsController: { services },
@@ -26,6 +27,12 @@ export const registerTreeViews = ({
     subscription.add(
         services.view.register('treeView.commits', ContributableViewContainer.Directory, context =>
             treeCommits(context)
+        )
+    )
+
+    subscription.add(
+        services.view.register('treeView.dependencies', ContributableViewContainer.Directory, context =>
+            treeDependencies(context)
         )
     )
 

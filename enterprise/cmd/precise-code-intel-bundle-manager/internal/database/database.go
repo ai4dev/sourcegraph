@@ -50,6 +50,9 @@ type Database interface {
 
 	// PackageInformation looks up package information data by identifier.
 	PackageInformation(ctx context.Context, path string, packageInformationID string) (bundles.PackageInformationData, bool, error)
+
+	// PackageInformations returns a list of all package information data.
+	PackageInformations(ctx context.Context) ([]bundles.PackageInformationData, int, error)
 }
 
 type databaseImpl struct {
@@ -367,6 +370,66 @@ func (db *databaseImpl) MonikerResults(ctx context.Context, tableName, scheme, i
 
 // PackageInformation looks up package information data by identifier.
 func (db *databaseImpl) PackageInformation(ctx context.Context, path, packageInformationID string) (bundles.PackageInformationData, bool, error) {
+	documentData, exists, err := db.getDocumentData(ctx, path)
+	if err != nil {
+		return bundles.PackageInformationData{}, false, pkgerrors.Wrap(err, "db.getDocumentData")
+	}
+	if !exists {
+		return bundles.PackageInformationData{}, false, nil
+	}
+
+	packageInformationData, exists := documentData.PackageInformation[types.ID(packageInformationID)]
+	if exists {
+		return bundles.PackageInformationData{
+			Name:    packageInformationData.Name,
+			Version: packageInformationData.Version,
+		}, true, nil
+	}
+
+	return bundles.PackageInformationData{}, false, nil
+}
+
+// PackageInformations returns a list of all package information data.
+func (db *databaseImpl) PackageInformations(ctx context.Context) ([]bundles.PackageInformationData, error) {
+	paths, err := db.getPathsWithPrefix(ctx, "")
+	if err != nil {
+		return nil, 0, pkgerrors.Wrap(err, "db.getPathsWithPrefix")
+	}
+
+	totalCount := 0
+	var packageInformations []bundles.PackageInformationData
+	for _, path := range paths {
+		documentData, exists, err := db.getDocumentData(ctx, path)
+		if err != nil {
+			return nil, 0, pkgerrors.Wrap(err, "db.getDocumentData")
+		}
+		if !exists {
+			return nil, 0, nil
+		}
+
+		totalCount += len(documentData.Diagnostics)
+
+		for _, diagnostic := range documentData.Diagnostics {
+			skip--
+			if skip < 0 && len(diagnostics) < take {
+				diagnostics = append(diagnostics, bundles.Diagnostic{
+					Path:           path,
+					Severity:       diagnostic.Severity,
+					Code:           diagnostic.Code,
+					Message:        diagnostic.Message,
+					Source:         diagnostic.Source,
+					StartLine:      diagnostic.StartLine,
+					StartCharacter: diagnostic.StartCharacter,
+					EndLine:        diagnostic.EndLine,
+					EndCharacter:   diagnostic.EndCharacter,
+				})
+			}
+		}
+	}
+
+	return diagnostics, totalCount, nil
+
+	// TODO(sqs) X2
 	documentData, exists, err := db.getDocumentData(ctx, path)
 	if err != nil {
 		return bundles.PackageInformationData{}, false, pkgerrors.Wrap(err, "db.getDocumentData")

@@ -39,8 +39,8 @@ type AdjustedCodeIntelligenceRange struct {
 // AdjustedDependency is similar to a codeintelapi.ResolvedDependency, but with fields denoting the
 // commit and range adjusted for the target commit (when the requested commit is not indexed).
 type AdjustedDependency struct {
-	bundles.Dependency
-	Dump store.Dump
+	Dependency bundles.PackageInformationData
+	Dump       store.Dump
 }
 
 // QueryResolver is the main interface to bundle-related operations exposed to the GraphQL API. This
@@ -332,7 +332,41 @@ func (r *queryResolver) Diagnostics(ctx context.Context, limit int) ([]AdjustedD
 }
 
 func (r *queryResolver) Dependencies(ctx context.Context, limit int) ([]AdjustedDependency, int, error) {
-	panic("TODO")
+	totalCount := 0
+	var allDependencies []codeintelapi.ResolvedDependency
+	for i := range r.uploads {
+		adjustedPath, ok, err := r.positionAdjuster.AdjustPath(ctx, r.uploads[i].Commit, r.path, false)
+		if err != nil {
+			return nil, 0, err
+		}
+		if !ok {
+			continue
+		}
+
+		l := limit - len(allDependencies)
+		if l < 0 {
+			l = 0
+		}
+
+		dependencies, count, err := r.codeIntelAPI.Dependencies(ctx, adjustedPath, r.uploads[i].ID, l, 0)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		totalCount += count
+		allDependencies = append(allDependencies, dependencies...)
+	}
+
+	adjustedDependencies := make([]AdjustedDependency, 0, len(allDependencies))
+	for i := range allDependencies {
+		// TODO(sqs): adjust? see how it's done for dependencies
+		adjustedDependencies = append(adjustedDependencies, AdjustedDependency{
+			Dependency: allDependencies[i].Dependency,
+			Dump:       allDependencies[i].Dump,
+		})
+	}
+
+	return adjustedDependencies, totalCount, nil
 }
 
 // adjustLocations translates a list of resolved locations (relative to the indexed commit) into a list of

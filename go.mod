@@ -12,6 +12,7 @@ require (
 	github.com/anmitsu/go-shlex v0.0.0-20200514113438-38f4b401e2be // indirect
 	github.com/aphistic/sweet-junit v0.2.0 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20200907205600-7a23bdc65eef // indirect
+	github.com/atotto/clipboard v0.1.2 // indirect
 	github.com/avelino/slugify v0.0.0-20180501145920-855f152bd774
 	github.com/aws/aws-sdk-go-v2 v0.20.0
 	github.com/beevik/etree v1.1.0
@@ -27,6 +28,7 @@ require (
 	github.com/dghubble/gologin v2.2.0+incompatible
 	github.com/dgraph-io/ristretto v0.0.3
 	github.com/dgryski/go-farm v0.0.0-20200201041132-a6ae2369ad13 // indirect
+	github.com/die-net/lrucache v0.0.0-20190707192454-883874fe3947 // indirect
 	github.com/dineshappavoo/basex v0.0.0-20170425072625-481a6f6dc663
 	github.com/dnaeon/go-vcr v1.0.1
 	github.com/efritz/glock v0.0.0-20181228234553-f184d69dff2c
@@ -44,6 +46,7 @@ require (
 	github.com/ghodss/yaml v1.0.0
 	github.com/gin-gonic/gin v1.6.3 // indirect
 	github.com/gitchander/permutation v0.0.0-20181107151852-9e56b92e9909
+	github.com/github/hub v2.11.2+incompatible // indirect
 	github.com/gliderlabs/ssh v0.3.0 // indirect
 	github.com/glycerine/go-unsnap-stream v0.0.0-20190901134440-81cf024a9e0a // indirect
 	github.com/go-git/go-git/v5 v5.1.0 // indirect
@@ -97,6 +100,7 @@ require (
 	github.com/karlseguin/expect v1.0.7 // indirect
 	github.com/karlseguin/typed v1.1.7 // indirect
 	github.com/karrick/godirwalk v1.16.1
+	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/keegancsmith/rpc v1.3.0
 	github.com/keegancsmith/sqlf v1.1.0
 	github.com/keegancsmith/tmpfriend v0.0.0-20180423180255-86e88902a513
@@ -148,16 +152,24 @@ require (
 	github.com/shurcooL/octicon v0.0.0-20191102190552-cbb32d6a785c // indirect
 	github.com/shurcooL/vfsgen v0.0.0-20200824052919-0d455de96546
 	github.com/sirupsen/logrus v1.6.0 // indirect
+	github.com/slimsag/godocmd v0.0.0-20161025000126-a1005ad29fe3 // indirect
 	github.com/sourcegraph/annotate v0.0.0-20160123013949-f4cad6c6324d // indirect
+	github.com/sourcegraph/code-intel-extensions v0.0.0-20200917150930-282caa906a8f // indirect
 	github.com/sourcegraph/codeintelutils v0.0.0-20200824140252-1db3aed5cf58
 	github.com/sourcegraph/ctxvfs v0.0.0-20180418081416-2b65f1b1ea81
+	github.com/sourcegraph/deploy-sourcegraph-docker v3.20.1+incompatible // indirect
+	github.com/sourcegraph/docsite v1.5.0 // indirect
 	github.com/sourcegraph/go-ctags v0.0.0-20200922223002-071e508aa451
-	github.com/sourcegraph/go-diff v0.5.3
+	github.com/sourcegraph/go-diff v0.6.0
 	github.com/sourcegraph/go-jsonschema v0.0.0-20200907102109-d14e9f2f3a28
 	github.com/sourcegraph/go-langserver v2.0.1-0.20181108233942-4a51fa2e1238+incompatible
 	github.com/sourcegraph/go-lsp v0.0.0-20200429204803-219e11d77f5d
+	github.com/sourcegraph/godockerize v0.0.0-20200716215806-39c35b0c6e52 // indirect
 	github.com/sourcegraph/gosyntect v0.0.0-20200429204402-842ed26129d0
+	github.com/sourcegraph/jsonrpc2 v0.0.0-20200429184054-15c2290dcb37 // indirect
 	github.com/sourcegraph/jsonx v0.0.0-20200629203448-1a936bd500cf
+	github.com/sourcegraph/sourcegraph-basic-code-intel v0.0.0-20200917150930-282caa906a8f // indirect
+	github.com/sourcegraph/src-cli v0.0.0-20200924053131-a868f2d6f897 // indirect
 	github.com/sourcegraph/syntaxhighlight v0.0.0-20170531221838-bd320f5d308e // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
 	github.com/src-d/enry/v2 v2.1.0
