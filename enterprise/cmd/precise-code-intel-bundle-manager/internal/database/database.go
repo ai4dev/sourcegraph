@@ -400,8 +400,7 @@ func (db *databaseImpl) PackageInformations(ctx context.Context, prefix string, 
 		return nil, 0, pkgerrors.Wrap(err, "db.getPathsWithPrefix")
 	}
 
-	totalCount := 0
-	var packageInformations []bundles.PackageInformationData
+	uniquePackageInformations := map[types.PackageInformationData]struct{}{}
 	for _, path := range paths {
 		documentData, exists, err := db.getDocumentData(ctx, path)
 		if err != nil {
@@ -411,17 +410,21 @@ func (db *databaseImpl) PackageInformations(ctx context.Context, prefix string, 
 			return nil, 0, nil
 		}
 
-		totalCount += len(documentData.PackageInformation)
-
 		for _, packageInformationData := range documentData.PackageInformation {
-			skip--
-			if skip < 0 && len(packageInformations) < take {
-				packageInformations = append(packageInformations, bundles.PackageInformationData{
-					Name:    packageInformationData.Name,
-					Version: packageInformationData.Version,
-					Manager: packageInformationData.Manager,
-				})
-			}
+			uniquePackageInformations[packageInformationData] = struct{}{}
+		}
+	}
+
+	totalCount := len(uniquePackageInformations)
+	packageInformations := make([]bundles.PackageInformationData, 0, len(uniquePackageInformations))
+	for packageInformationData := range uniquePackageInformations {
+		skip--
+		if skip < 0 && len(packageInformations) < take {
+			packageInformations = append(packageInformations, bundles.PackageInformationData{
+				Name:    packageInformationData.Name,
+				Version: packageInformationData.Version,
+				Manager: packageInformationData.Manager,
+			})
 		}
 	}
 

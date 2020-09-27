@@ -359,7 +359,7 @@ func (r *queryResolver) Dependencies(ctx context.Context, limit int) ([]Adjusted
 
 	adjustedDependencies := make([]AdjustedDependency, 0, len(allDependencies))
 	for i := range allDependencies {
-		// TODO(sqs): adjust? see how it's done for dependencies
+		// TODO(sqs): adjust? see how it's done for diagnostics
 		adjustedDependencies = append(adjustedDependencies, AdjustedDependency{
 			Dependency: allDependencies[i].Dependency,
 			Dump:       allDependencies[i].Dump,
