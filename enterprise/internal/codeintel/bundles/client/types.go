@@ -31,6 +31,7 @@ type MonikerData struct {
 type PackageInformationData struct {
 	Name    string `json:"name"`
 	Version string `json:"version"`
+	Manager string `json:"manager"`
 }
 
 // Diagnostic describes diagnostic information attached to a location within a
@@ -54,4 +55,12 @@ type CodeIntelligenceRange struct {
 	Definitions []Location `json:"definitions"`
 	References  []Location `json:"references"`
 	HoverText   string     `json:"hoverText"`
+}
+
+// Dependency describes dependency information attached to a location within a
+// particular dump.
+type Dependency struct {
+	DumpID            int
+	DependentPackage  PackageInformationData
+	DependencyPackage PackageInformationData
 }

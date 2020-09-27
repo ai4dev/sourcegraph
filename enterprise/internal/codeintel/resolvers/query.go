@@ -36,6 +36,13 @@ type AdjustedCodeIntelligenceRange struct {
 	HoverText   string
 }
 
+// AdjustedDependency is similar to a codeintelapi.ResolvedDependency, but with fields denoting the
+// commit and range adjusted for the target commit (when the requested commit is not indexed).
+type AdjustedDependency struct {
+	bundles.Dependency
+	Dump store.Dump
+}
+
 // QueryResolver is the main interface to bundle-related operations exposed to the GraphQL API. This
 // resolver consolidates the logic for bundle operations and is not itself concerned with GraphQL/API
 // specifics (auth, validation, marshaling, etc.). This resolver is wrapped by a symmetrics resolver
@@ -46,6 +53,7 @@ type QueryResolver interface {
 	References(ctx context.Context, line, character, limit int, rawCursor string) ([]AdjustedLocation, string, error)
 	Hover(ctx context.Context, line, character int) (string, bundles.Range, bool, error)
 	Diagnostics(ctx context.Context, limit int) ([]AdjustedDiagnostic, int, error)
+	Dependencies(ctx context.Context, limit int) ([]AdjustedDependency, int, error)
 }
 
 type queryResolver struct {
@@ -321,6 +329,10 @@ func (r *queryResolver) Diagnostics(ctx context.Context, limit int) ([]AdjustedD
 	}
 
 	return adjustedDiagnostics, totalCount, nil
+}
+
+func (r *queryResolver) Dependencies(ctx context.Context, limit int) ([]AdjustedDependency, int, error) {
+	panic("TODO")
 }
 
 // adjustLocations translates a list of resolved locations (relative to the indexed commit) into a list of
