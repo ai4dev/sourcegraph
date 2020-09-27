@@ -57,7 +57,7 @@ export const treeCommits = (context: DeepReplace<DirectoryViewContext, URI, stri
                                               key={commit.id}
                                               node={commit}
                                               compact={true}
-                                              className="py-0 pr-1"
+                                              className="pt-0 pb-1 pr-1"
                                           />
                                       ))}
                                   </div>

@@ -8,7 +8,8 @@ import { requestGraphQL } from '../../../backend/graphql'
 import { RepoTagsResult, RepoTagsVariables } from '../../../graphql-operations'
 import { DirectoryViewContext, URI } from 'sourcegraph'
 import { DeepReplace } from '../../../../../shared/src/util/types'
-import { gitReferenceFragments } from '../../GitReference'
+import { gitReferenceFragments, GitReferenceNode } from '../../GitReference'
+import { pluralize } from '../../../../../shared/src/util/strings'
 
 export const repoTags = (context: DeepReplace<DirectoryViewContext, URI, string>): Observable<View | null> => {
     const { repoName } = parseRepoURI(context.viewer.directory.uri)
@@ -29,7 +30,7 @@ export const repoTags = (context: DeepReplace<DirectoryViewContext, URI, string>
             }
             ${gitReferenceFragments}
         `,
-        { repoName, first: 5, withBehindAhead: false }
+        { repoName, first: 10, withBehindAhead: false }
     ).pipe(
         map(dataOrThrowErrors),
         map(data => data.repository?.tags)
@@ -39,12 +40,14 @@ export const repoTags = (context: DeepReplace<DirectoryViewContext, URI, string>
         map(tags =>
             tags
                 ? {
-                      title: 'Tags',
+                      title: `${tags.totalCount} ${pluralize('tag', tags.totalCount)}`,
                       content: [
                           {
                               reactComponent: () => (
                                   <div>
-                                      {tags.totalCount} tags: {tags.nodes.map(tag => tag.displayName)}
+                                      {tags.nodes.map(tag => (
+                                          <GitReferenceNode key={tag.id} node={tag} className="border-0 pt-0 pb-1" />
+                                      ))}
                                   </div>
                               ),
                           },

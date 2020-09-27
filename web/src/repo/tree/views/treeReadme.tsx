@@ -50,7 +50,7 @@ export const treeReadme = (
                           {
                               reactComponent: () => (
                                   <Markdown
-                                      className="view-content__markdown mb-1"
+                                      className="view-content__markdown mb-1 pr-3"
                                       dangerousInnerHTML={readme}
                                       history={history}
                                   />
