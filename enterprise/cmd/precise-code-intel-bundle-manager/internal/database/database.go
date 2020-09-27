@@ -385,6 +385,7 @@ func (db *databaseImpl) PackageInformation(ctx context.Context, path, packageInf
 		return bundles.PackageInformationData{
 			Name:    packageInformationData.Name,
 			Version: packageInformationData.Version,
+			Manager: packageInformationData.Manager,
 		}, true, nil
 	}
 
@@ -414,10 +415,19 @@ func (db *databaseImpl) PackageInformations(ctx context.Context, prefix string, 
 			uniquePackageInformations[packageInformationData] = struct{}{}
 		}
 	}
-
-	totalCount := len(uniquePackageInformations)
-	packageInformations := make([]bundles.PackageInformationData, 0, len(uniquePackageInformations))
+	uniquePackageInformationList := make([]types.PackageInformationData, 0, len(uniquePackageInformations))
 	for packageInformationData := range uniquePackageInformations {
+		uniquePackageInformationList = append(uniquePackageInformationList, packageInformationData)
+	}
+	sort.Slice(uniquePackageInformationList, func(i, j int) bool {
+		a := uniquePackageInformationList[i]
+		b := uniquePackageInformationList[j]
+		return a.Manager < b.Manager || (a.Manager == b.Manager && a.Name < b.Name) || (a.Manager == b.Manager && a.Name == b.Name && a.Version < b.Version)
+	})
+
+	totalCount := len(uniquePackageInformationList)
+	packageInformations := make([]bundles.PackageInformationData, 0, len(uniquePackageInformationList))
+	for _, packageInformationData := range uniquePackageInformationList {
 		skip--
 		if skip < 0 && len(packageInformations) < take {
 			packageInformations = append(packageInformations, bundles.PackageInformationData{

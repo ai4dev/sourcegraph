@@ -17,4 +17,6 @@ func NewDependencyResolver(dependency resolvers.AdjustedDependency) gql.Dependen
 	}
 }
 
-func (r *DependencyResolver) Foo() string { return fmt.Sprintf("%+v", r.dependency) }
+func (r *DependencyResolver) Foo() string {
+	return fmt.Sprintf("%s@%s (%s)", r.dependency.Dependency.Name, r.dependency.Dependency.Version, r.dependency.Dependency.Manager)
+}
