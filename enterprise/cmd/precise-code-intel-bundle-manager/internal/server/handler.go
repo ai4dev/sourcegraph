@@ -303,7 +303,7 @@ func (s *Server) handlePackageInformations(w http.ResponseWriter, r *http.Reques
 			return nil, errors.New("illegal take supplied")
 		}
 
-		packageInformations, err := db.PackageInformations(ctx, getQuery(r, "prefix"), skip, take)
+		packageInformations, count, err := db.PackageInformations(ctx, getQuery(r, "prefix"), skip, take)
 		if err != nil {
 			return nil, pkgerrors.Wrap(err, "db.PackageInformations")
 		}

@@ -51,8 +51,10 @@ type Database interface {
 	// PackageInformation looks up package information data by identifier.
 	PackageInformation(ctx context.Context, path string, packageInformationID string) (bundles.PackageInformationData, bool, error)
 
-	// PackageInformations returns a list of all package information data.
-	PackageInformations(ctx context.Context) ([]bundles.PackageInformationData, int, error)
+	// PackageInformations returns all package information data for the documents that have the
+	// given path prefix. This method also returns the size of the complete result set to aid in
+	// pagination (along with skip and take).
+	PackageInformations(ctx context.Context, prefix string, skip, take int) ([]bundles.PackageInformationData, int, error)
 }
 
 type databaseImpl struct {
@@ -389,9 +391,11 @@ func (db *databaseImpl) PackageInformation(ctx context.Context, path, packageInf
 	return bundles.PackageInformationData{}, false, nil
 }
 
-// PackageInformations returns a list of all package information data.
-func (db *databaseImpl) PackageInformations(ctx context.Context) ([]bundles.PackageInformationData, error) {
-	paths, err := db.getPathsWithPrefix(ctx, "")
+// PackageInformations returns all package information data for the documents that have the given
+// path prefix. This method also returns the size of the complete result set to aid in pagination
+// (along with skip and take).
+func (db *databaseImpl) PackageInformations(ctx context.Context, prefix string, skip, take int) ([]bundles.PackageInformationData, int, error) {
+	paths, err := db.getPathsWithPrefix(ctx, prefix)
 	if err != nil {
 		return nil, 0, pkgerrors.Wrap(err, "db.getPathsWithPrefix")
 	}
@@ -407,46 +411,21 @@ func (db *databaseImpl) PackageInformations(ctx context.Context) ([]bundles.Pack
 			return nil, 0, nil
 		}
 
-		totalCount += len(documentData.Diagnostics)
+		totalCount += len(documentData.PackageInformation)
 
-		for _, diagnostic := range documentData.Diagnostics {
+		for _, packageInformationData := range documentData.PackageInformation {
 			skip--
-			if skip < 0 && len(diagnostics) < take {
-				diagnostics = append(diagnostics, bundles.Diagnostic{
-					Path:           path,
-					Severity:       diagnostic.Severity,
-					Code:           diagnostic.Code,
-					Message:        diagnostic.Message,
-					Source:         diagnostic.Source,
-					StartLine:      diagnostic.StartLine,
-					StartCharacter: diagnostic.StartCharacter,
-					EndLine:        diagnostic.EndLine,
-					EndCharacter:   diagnostic.EndCharacter,
+			if skip < 0 && len(packageInformations) < take {
+				packageInformations = append(packageInformations, bundles.PackageInformationData{
+					Name:    packageInformationData.Name,
+					Version: packageInformationData.Version,
+					Manager: packageInformationData.Manager,
 				})
 			}
 		}
 	}
 
-	return diagnostics, totalCount, nil
-
-	// TODO(sqs) X2
-	documentData, exists, err := db.getDocumentData(ctx, path)
-	if err != nil {
-		return bundles.PackageInformationData{}, false, pkgerrors.Wrap(err, "db.getDocumentData")
-	}
-	if !exists {
-		return bundles.PackageInformationData{}, false, nil
-	}
-
-	packageInformationData, exists := documentData.PackageInformation[types.ID(packageInformationID)]
-	if exists {
-		return bundles.PackageInformationData{
-			Name:    packageInformationData.Name,
-			Version: packageInformationData.Version,
-		}, true, nil
-	}
-
-	return bundles.PackageInformationData{}, false, nil
+	return packageInformations, totalCount, nil
 }
 
 // hover returns the hover text locations for the given range.

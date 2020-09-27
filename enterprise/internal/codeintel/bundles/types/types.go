@@ -48,6 +48,9 @@ type PackageInformationData struct {
 
 	// Version of the package.
 	Version string
+
+	// Package manager in which the package is defined.
+	Manager string
 }
 
 // DiagnosticData carries diagnostic information attached to a range within its
