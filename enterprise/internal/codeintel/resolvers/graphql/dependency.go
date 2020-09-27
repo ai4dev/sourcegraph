@@ -1,8 +1,6 @@
 package graphql
 
 import (
-	"fmt"
-
 	gql "github.com/sourcegraph/sourcegraph/cmd/frontend/graphqlbackend"
 	"github.com/sourcegraph/sourcegraph/enterprise/internal/codeintel/resolvers"
 )
@@ -17,6 +15,14 @@ func NewDependencyResolver(dependency resolvers.AdjustedDependency) gql.Dependen
 	}
 }
 
-func (r *DependencyResolver) Foo() string {
-	return fmt.Sprintf("%s@%s (%s)", r.dependency.Dependency.Name, r.dependency.Dependency.Version, r.dependency.Dependency.Manager)
+func (r *DependencyResolver) LSIFName() string {
+	return r.dependency.Dependency.Name
+}
+
+func (r *DependencyResolver) LSIFVersion() string {
+	return r.dependency.Dependency.Version
+}
+
+func (r *DependencyResolver) LSIFManager() string {
+	return r.dependency.Dependency.Manager
 }

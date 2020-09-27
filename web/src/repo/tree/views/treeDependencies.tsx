@@ -8,8 +8,8 @@ import { requestGraphQL } from '../../../backend/graphql'
 import { TreeDependenciesResult, TreeDependenciesVariables } from '../../../graphql-operations'
 import { DirectoryViewContext, URI } from 'sourcegraph'
 import { DeepReplace } from '../../../../../shared/src/util/types'
-import { gitReferenceFragments, GitReferenceNode } from '../../GitReference'
 import { pluralize } from '../../../../../shared/src/util/strings'
+import { RepoLink } from '../../../../../shared/src/components/RepoLink'
 
 export const treeDependencies = (context: DeepReplace<DirectoryViewContext, URI, string>): Observable<View | null> => {
     const { repoName, filePath } = parseRepoURI(context.viewer.directory.uri)
@@ -27,7 +27,9 @@ export const treeDependencies = (context: DeepReplace<DirectoryViewContext, URI,
                                     lsif {
                                         dependencies(first: $first) {
                                             nodes {
-                                                foo
+                                                lsifName
+                                                lsifVersion
+                                                lsifManager
                                             }
                                             totalCount
                                         }
@@ -39,7 +41,7 @@ export const treeDependencies = (context: DeepReplace<DirectoryViewContext, URI,
                 }
             }
         `,
-        { repoName, path: filePath || '', first: 10 }
+        { repoName, path: filePath || '', first: 25 }
     ).pipe(
         map(dataOrThrowErrors),
         map(data => data.repository?.defaultBranch?.target.commit?.tree?.lsif?.dependencies)
@@ -57,7 +59,29 @@ export const treeDependencies = (context: DeepReplace<DirectoryViewContext, URI,
                       content: [
                           {
                               reactComponent: () => (
-                                  <pre>{dependencies.nodes.map(dependency => `Dep ${dependency.foo}`).join('\n')}</pre>
+                                  <div>
+                                      <ul className="list-unstyled">
+                                          {dependencies.nodes
+                                              .filter(dependency => dependency.lsifName !== repoName)
+                                              .map(dependency => (
+                                                  <li
+                                                      key={`${dependency.lsifManager}:${dependency.lsifName}@${dependency.lsifVersion}`}
+                                                      className="pb-1"
+                                                  >
+                                                      <RepoLink
+                                                          repoName={dependency.lsifName}
+                                                          to={`/${dependency.lsifName}`}
+                                                      />
+                                                      {dependency.lsifVersion && (
+                                                          <span className="text-muted">
+                                                              {' '}
+                                                              @ {dependency.lsifVersion}
+                                                          </span>
+                                                      )}
+                                                  </li>
+                                              ))}
+                                      </ul>
+                                  </div>
                               ),
                           },
                       ],

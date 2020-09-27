@@ -234,5 +234,7 @@ type DependencyConnectionResolver interface {
 }
 
 type DependencyResolver interface {
-	Foo() string
+	LSIFName() string
+	LSIFVersion() string
+	LSIFManager() string
 }

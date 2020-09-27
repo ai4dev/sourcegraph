@@ -5147,7 +5147,9 @@ type DependencyConnection {
 }
 
 type Dependency {
-    foo: String!
+    lsifName: String!
+    lsifVersion: String!
+    lsifManager: String!
 }
 
 """
