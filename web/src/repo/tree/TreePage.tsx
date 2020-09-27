@@ -246,7 +246,7 @@ export const TreePage: React.FunctionComponent<Props> = ({
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="btn-group mt-2">
+                                    <div className="btn-group mt-2 d-none">
                                         <Link className="btn btn-secondary" to={`/${repoName}/-/packages`}>
                                             <PackageVariantClosedIcon className="icon-inline" /> 17 packages
                                         </Link>
@@ -256,7 +256,7 @@ export const TreePage: React.FunctionComponent<Props> = ({
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="btn-group mt-2">
+                                    <div className="btn-group mt-2 d-none">
                                         <Link className="btn btn-secondary" to={`/${repoName}/-/packages`}>
                                             <SourceBranchIcon className="icon-inline" /> 51 dependencies
                                         </Link>
@@ -271,7 +271,7 @@ export const TreePage: React.FunctionComponent<Props> = ({
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="btn-group mt-2">
+                                    <div className="btn-group mt-2 d-none">
                                         <Link
                                             className="btn btn-secondary"
                                             to={
