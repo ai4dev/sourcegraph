@@ -53,8 +53,9 @@ export const GraphSelector: React.FunctionComponent<Props> =
                     <VisuallyHidden id={labelId}>Select graph</VisuallyHidden>
                     <ListboxInput value={selectedGraphValue} onChange={onChange} aria-labelledby={labelId}>
                         <ListboxButton
-                            className="btn btn-secondary btn-sm d-inline-flex text-nowrap h-100"
+                            className="btn btn-outline-secondary border-right-0 btn-sm d-inline-flex text-nowrap h-100"
                             arrow={true}
+                            style={{ backgroundColor: 'var(--body-bg)' }}
                         >
                             {graphs?.find(graph => graph.id === selectedGraph)?.name || (
                                 <DotsHorizontalIcon className="icon-inline" />
