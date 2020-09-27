@@ -290,7 +290,7 @@ export const TreePage: React.FunctionComponent<Props> = ({
                     {views && (
                         <ViewGrid
                             {...props}
-                            className="tree-page__section"
+                            className="tree-page__section mb-5"
                             views={views}
                             patternType={patternType}
                             settingsCascade={settingsCascade}

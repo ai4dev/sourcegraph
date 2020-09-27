@@ -10,7 +10,11 @@ import { DeepReplace, isNot, isExactly, property, isTaggedUnionMember, allOf, is
 /**
  * A view is a page or partial page.
  */
-export interface View extends Omit<ExtensionView, 'content'> {
+export interface View extends Omit<ExtensionView, 'title' | 'content'> {
+    /** Allow empty titles. */
+    title: string | null
+
+    /** Allow React components. */
     content: (ExtensionView['content'][0] | { reactComponent: React.FunctionComponent })[]
 }
 

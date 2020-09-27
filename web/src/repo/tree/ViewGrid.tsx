@@ -37,6 +37,17 @@ const viewsToReactGridLayouts = (views: ViewProviderResult[]): ReactGridLayouts 
                     views.map(
                         ({ id }, index): ReactGridLayout => {
                             const width = columns[breakpointName] / defaultItemsPerRow[breakpointName]
+                            if (id === 'treeView.readme') {
+                                return {
+                                    i: id,
+                                    h: 5 * defaultHeight,
+                                    w: columns[breakpointName],
+                                    x: (index * width) % columns[breakpointName],
+                                    y: Math.floor((index * width) / columns[breakpointName]),
+                                    minW: minWidths[breakpointName],
+                                    minH: 2,
+                                }
+                            }
                             return {
                                 i: id,
                                 h: defaultHeight,
@@ -69,13 +80,13 @@ export const ViewGrid: React.FunctionComponent<ViewGridProps> = props => (
                 <div key={id} className={classNames('card view-grid__item')}>
                     {view === undefined ? (
                         <div className="flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-                            <LoadingSpinner /> Loading code insight
+                            <LoadingSpinner /> Loading
                         </div>
                     ) : isErrorLike(view) ? (
                         <ErrorAlert className="m-0" error={view} history={props.history} />
                     ) : (
                         <>
-                            <h3 className="view-grid__view-title">{view.title}</h3>
+                            {view.title && <h3 className="view-grid__view-title">{view.title}</h3>}
                             {view.subtitle && <div className="view-grid__view-subtitle">{view.subtitle}</div>}
                             <ViewContent
                                 {...props}

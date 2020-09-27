@@ -61,7 +61,7 @@ export const ViewContent: React.FunctionComponent<ViewContentProps> = ({ viewCon
                     />
                 ) : null
             ) : 'reactComponent' in content ? (
-                React.createElement(content.reactComponent)
+                React.createElement(content.reactComponent, { key: index })
             ) : null
         )}
     </div>

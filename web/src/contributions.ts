@@ -25,7 +25,7 @@ export class GlobalContributions extends React.Component<Props> {
             registerHoverContributions({ ...this.props, locationAssign: location.assign.bind(location) })
         )
         this.subscriptions.add(registerSearchStatsContributions(this.props))
-        this.subscriptions.add(registerTreeViews(this.props.extensionsController))
+        this.subscriptions.add(registerTreeViews(this.props))
     }
 
     public componentWillUnmount(): void {
