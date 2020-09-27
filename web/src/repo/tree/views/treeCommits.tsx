@@ -7,16 +7,12 @@ import { dataOrThrowErrors, gql } from '../../../../../shared/src/graphql/graphq
 import { parseRepoURI } from '../../../../../shared/src/util/url'
 import { requestGraphQL } from '../../../backend/graphql'
 import { TreeCommitsResult, TreeCommitsVariables } from '../../../graphql-operations'
-import H from 'history'
 import { DirectoryViewContext, URI } from 'sourcegraph'
 import { DeepReplace } from '../../../../../shared/src/util/types'
 import { gitCommitFragment } from '../../commits/RepositoryCommitsPage'
 import { GitCommitNode } from '../../commits/GitCommitNode'
 
-export const treeCommits = (
-    context: DeepReplace<DirectoryViewContext, URI, string>,
-    history: H.History
-): Observable<View | null> => {
+export const treeCommits = (context: DeepReplace<DirectoryViewContext, URI, string>): Observable<View | null> => {
     const u = parseRepoURI(context.viewer.directory.uri)
     // TODO(sqs): add rev to TreeCommits query
     //
@@ -41,7 +37,7 @@ export const treeCommits = (
             }
             ${gitCommitFragment}
         `,
-        { repoName: u.repoName, path: u.filePath || '', first: 1, after: '1 year ago' }
+        { repoName: u.repoName, path: u.filePath || '', first: 10, after: '1 year ago' }
     ).pipe(
         map(dataOrThrowErrors),
         map(data => data.repository?.defaultBranch?.target.commit?.ancestors)
@@ -56,7 +52,14 @@ export const treeCommits = (
                           {
                               reactComponent: () => (
                                   <div>
-                                      <GitCommitNode node={commits.nodes[0]} compact={true} className="py-0" />{' '}
+                                      {commits.nodes.map(commit => (
+                                          <GitCommitNode
+                                              key={commit.id}
+                                              node={commit}
+                                              compact={true}
+                                              className="py-0 pr-1"
+                                          />
+                                      ))}
                                   </div>
                               ),
                           },
