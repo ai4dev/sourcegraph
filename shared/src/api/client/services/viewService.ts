@@ -14,6 +14,9 @@ export interface View extends Omit<ExtensionView, 'title' | 'content'> {
     /** Allow empty titles. */
     title: string | null
 
+    /** Optional link destination URL for the title. */
+    titleLink?: string
+
     /** Allow React components. */
     content: (ExtensionView['content'][0] | { reactComponent: React.FunctionComponent })[]
 }

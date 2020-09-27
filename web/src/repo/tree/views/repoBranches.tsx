@@ -48,6 +48,7 @@ export const repoBranches = (context: DeepReplace<DirectoryViewContext, URI, str
         filter(isDefined),
         map(({ defaultBranch, branches }) => ({
             title: `${branches.totalCount} ${pluralize('branch', branches.totalCount, 'branches')}`,
+            titleLink: `/${repoName}/-/branches`,
             content: [
                 {
                     reactComponent: () => (
@@ -62,7 +63,7 @@ export const repoBranches = (context: DeepReplace<DirectoryViewContext, URI, str
                                 </GitReferenceNode>
                             )}
                             {branches.nodes
-                                .filter(branch => branch.id !== defaultBranch.id)
+                                .filter(branch => branch.id !== defaultBranch?.id)
                                 .map(branch => (
                                     <GitReferenceNode key={branch.id} node={branch} className="border-0 pt-0 pb-1" />
                                 ))}

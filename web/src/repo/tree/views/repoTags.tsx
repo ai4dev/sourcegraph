@@ -41,6 +41,7 @@ export const repoTags = (context: DeepReplace<DirectoryViewContext, URI, string>
             tags
                 ? {
                       title: `${tags.totalCount} ${pluralize('tag', tags.totalCount)}`,
+                      titleLink: `/${repoName}/-/tags`,
                       content: [
                           {
                               reactComponent: () => (

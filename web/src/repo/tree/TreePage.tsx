@@ -210,7 +210,8 @@ export const TreePage: React.FunctionComponent<Props> = ({
                         {treeOrError.isRoot && (
                             <>
                                 <div>
-                                    <div className="btn-group mt-2">
+                                    <div className="btn-group mt-2 d-none">
+                                        {/* TODO(sqs) */}
                                         <Link className="btn btn-secondary" to={`${treeOrError.url}/-/commits`}>
                                             <SourceCommitIcon className="icon-inline" /> 173 commits
                                         </Link>
@@ -225,7 +226,9 @@ export const TreePage: React.FunctionComponent<Props> = ({
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="btn-group mt-2">
+                                    <div className="btn-group mt-2 d-none">
+                                        {' '}
+                                        {/* TODO(sqs) */}
                                         <Link className="btn btn-secondary" to={`/${repoName}/-/branches`}>
                                             <SourceBranchIcon className="icon-inline" /> 35 branches
                                         </Link>

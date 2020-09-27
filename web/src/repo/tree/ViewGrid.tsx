@@ -8,6 +8,7 @@ import * as H from 'history'
 import { WidthProvider, Responsive, Layout as ReactGridLayout, Layouts as ReactGridLayouts } from 'react-grid-layout'
 import { ViewProviderResult } from '../../../../shared/src/api/client/services/viewService'
 import { useLocalStorage } from '../../util/useLocalStorage'
+import { LinkOrSpan } from '../../../../shared/src/components/LinkOrSpan'
 
 // TODO use a method to get width that also triggers when file explorer is closed
 // (WidthProvider only listens to window resize events)
@@ -117,7 +118,13 @@ export const ViewGrid: React.FunctionComponent<ViewGridProps> = props => {
                             <ErrorAlert className="m-0" error={view} history={props.history} />
                         ) : (
                             <>
-                                {view.title && <h3 className="view-grid__view-title">{view.title}</h3>}
+                                {view.title && (
+                                    <h3 className="view-grid__view-title">
+                                        <LinkOrSpan to={view.titleLink} style={{ color: 'var(--body-color)' }}>
+                                            {view.title}
+                                        </LinkOrSpan>
+                                    </h3>
+                                )}
                                 {view.subtitle && <div className="view-grid__view-subtitle">{view.subtitle}</div>}
                                 <ViewContent
                                     {...props}

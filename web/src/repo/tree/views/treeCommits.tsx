@@ -13,7 +13,7 @@ import { gitCommitFragment } from '../../commits/RepositoryCommitsPage'
 import { GitCommitNode } from '../../commits/GitCommitNode'
 
 export const treeCommits = (context: DeepReplace<DirectoryViewContext, URI, string>): Observable<View | null> => {
-    const u = parseRepoURI(context.viewer.directory.uri)
+    const { repoName, filePath } = parseRepoURI(context.viewer.directory.uri)
     // TODO(sqs): add rev to TreeCommits query
     //
     // TODO(sqs): support commits older than 1y ago
@@ -37,7 +37,7 @@ export const treeCommits = (context: DeepReplace<DirectoryViewContext, URI, stri
             }
             ${gitCommitFragment}
         `,
-        { repoName: u.repoName, path: u.filePath || '', first: 10, after: '1 year ago' }
+        { repoName, path: filePath || '', first: 10, after: '1 year ago' }
     ).pipe(
         map(dataOrThrowErrors),
         map(data => data.repository?.defaultBranch?.target.commit?.ancestors)
@@ -48,6 +48,8 @@ export const treeCommits = (context: DeepReplace<DirectoryViewContext, URI, stri
             commits && commits.nodes.length > 0
                 ? {
                       title: 'Commits',
+                      // There's no commit URL for a path, so only show the link on the root.
+                      titleLink: filePath ? undefined : `/${repoName}/-/commits`,
                       content: [
                           {
                               reactComponent: () => (
